@@ -13,6 +13,7 @@
     "sta",
     "systemverilog",
     "verilog",
-    "imp"
+    "imp",
+    "icboslla"
   ]
 }
