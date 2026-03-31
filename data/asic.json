@@ -1,0 +1,9 @@
+{
+  "id": "asic",
+  "name": "ASIC",
+  "fullName": "Application-Specific Integrated Circuit",
+  "description": "ASIC design flow, synthesis, and implementation",
+  "color": "#7ee787",
+  "icon": "◈",
+  "items": []
+}

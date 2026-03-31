@@ -1,0 +1,9 @@
+{
+  "id": "projects",
+  "name": "Projects",
+  "fullName": "VLSI Projects",
+  "description": "VLSI design projects and implementations",
+  "color": "#e3b341",
+  "icon": "◧",
+  "items": []
+}

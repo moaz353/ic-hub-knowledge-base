@@ -1,0 +1,9 @@
+{
+  "id": "sta",
+  "name": "STA",
+  "fullName": "Static Timing Analysis",
+  "description": "Timing constraints, SDC, setup/hold analysis",
+  "color": "#f78166",
+  "icon": "◑",
+  "items": []
+}

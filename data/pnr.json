@@ -1,0 +1,9 @@
+{
+  "id": "pnr",
+  "name": "PnR",
+  "fullName": "Place and Route",
+  "description": "Placement, routing, and physical design",
+  "color": "#ff7b72",
+  "icon": "⊟",
+  "items": []
+}

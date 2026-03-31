@@ -1,0 +1,9 @@
+{
+  "id": "verilog",
+  "name": "Verilog",
+  "fullName": "Verilog HDL",
+  "description": "Verilog HDL language and design patterns",
+  "color": "#ffa657",
+  "icon": "⟨/⟩",
+  "items": []
+}

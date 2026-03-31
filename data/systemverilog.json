@@ -1,0 +1,9 @@
+{
+  "id": "systemverilog",
+  "name": "SystemVerilog",
+  "fullName": "SystemVerilog",
+  "description": "SystemVerilog language and UVM",
+  "color": "#7ee787",
+  "icon": "◇",
+  "items": []
+}

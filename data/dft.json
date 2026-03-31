@@ -1,0 +1,9 @@
+{
+  "id": "dft",
+  "name": "DFT",
+  "fullName": "Design for Testability",
+  "description": "Design for testability, scan chains, BIST",
+  "color": "#ffa657",
+  "icon": "⊞",
+  "items": []
+}
