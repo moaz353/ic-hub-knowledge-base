@@ -1,6 +1,7 @@
 import { CONFIG } from '@/config';
 import type { TopicData, TopicIndex, ICItem } from '@/types/ichub';
 import { getGitHubHeaders, throwGitHubResponseError } from '@/services/github-auth';
+import { getToken } from '@/services/auth';
 
 const API_BASE = 'https://api.github.com';
 
@@ -31,7 +32,10 @@ function invalidateCache(path: string): void {
 }
 
 export async function getFile(path: string): Promise<{ content: string; sha: string }> {
-  const res = await fetch(repoUrl(path));
+  const token = getToken();
+  const res = await fetch(repoUrl(path), {
+    headers: getGitHubHeaders(token || undefined),
+  });
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   const json = await res.json();
   const content = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
