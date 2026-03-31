@@ -1,6 +1,6 @@
 export const CONFIG = {
-  owner: 'YOUR_GITHUB_USERNAME',
-  repo: 'ic-hub',
+  owner: 'moaz353',
+  repo: 'ic-hub-knowledge-base',
   branch: 'main',
   dataPath: 'data/',
 };
