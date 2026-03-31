@@ -32,7 +32,10 @@ function invalidateCache(path: string): void {
 }
 
 export async function getFile(path: string): Promise<{ content: string; sha: string }> {
-  const res = await fetch(repoUrl(path));
+  const token = getToken();
+  const res = await fetch(repoUrl(path), {
+    headers: getGitHubHeaders(token || undefined),
+  });
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   const json = await res.json();
   const content = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
