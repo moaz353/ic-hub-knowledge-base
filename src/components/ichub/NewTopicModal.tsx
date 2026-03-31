@@ -1,22 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+interface TopicFormData {
+  id: string;
+  name: string;
+  fullName: string;
+  description: string;
+  icon: string;
+  color: string;
+}
 
 interface NewTopicModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (topic: { id: string; name: string; fullName: string; description: string; icon: string; color: string }) => void;
+  onSubmit: (topic: TopicFormData) => void;
+  editTopic?: TopicFormData | null;
 }
 
-export default function NewTopicModal({ open, onClose, onSubmit }: NewTopicModalProps) {
+export default function NewTopicModal({ open, onClose, onSubmit, editTopic }: NewTopicModalProps) {
   const [form, setForm] = useState({
     name: '', fullName: '', description: '', icon: '◈', color: '#58a6ff'
   });
+
+  useEffect(() => {
+    if (editTopic) {
+      setForm({
+        name: editTopic.name,
+        fullName: editTopic.fullName,
+        description: editTopic.description,
+        icon: editTopic.icon,
+        color: editTopic.color,
+      });
+    } else {
+      setForm({ name: '', fullName: '', description: '', icon: '◈', color: '#58a6ff' });
+    }
+  }, [editTopic, open]);
 
   if (!open) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim()) return;
-    const id = form.name.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const id = editTopic?.id || form.name.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
     onSubmit({ id, ...form });
   };
 
@@ -25,7 +49,9 @@ export default function NewTopicModal({ open, onClose, onSubmit }: NewTopicModal
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-xl">
-        <h3 className="mb-4 text-lg font-semibold text-foreground">New Topic</h3>
+        <h3 className="mb-4 text-lg font-semibold text-foreground">
+          {editTopic ? 'Edit Topic' : 'New Topic'}
+        </h3>
         <div className="grid gap-3">
           <input value={form.name} onChange={e => set('name', e.target.value)} required placeholder="Short name (e.g. STA)" className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground" />
           <input value={form.fullName} onChange={e => set('fullName', e.target.value)} placeholder="Full name" className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground" />
@@ -37,7 +63,9 @@ export default function NewTopicModal({ open, onClose, onSubmit }: NewTopicModal
         </div>
         <div className="mt-5 flex justify-end gap-2">
           <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:bg-secondary">Cancel</button>
-          <button type="submit" className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">Create</button>
+          <button type="submit" className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+            {editTopic ? 'Save' : 'Create'}
+          </button>
         </div>
       </form>
     </div>

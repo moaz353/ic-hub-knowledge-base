@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { readAllTopics } from '@/services/github';
+import { readAllTopics, createTopic, editTopic as editTopicApi, deleteTopic as deleteTopicApi } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
 import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, ITEM_TYPES } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
@@ -13,6 +13,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [newTopicOpen, setNewTopicOpen] = useState(false);
+  const [editingTopic, setEditingTopic] = useState<TopicData | null>(null);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const { requireToken } = useAuth();
@@ -69,8 +70,55 @@ export default function HomePage() {
   const handleNewTopic = async (topicData: { id: string; name: string; fullName: string; description: string; icon: string; color: string }) => {
     const token = await requireToken();
     if (!token) return;
-    toast.info('Topic creation requires GitHub API write — configure CONFIG in src/config.ts first');
-    setNewTopicOpen(false);
+    try {
+      const newTopic: TopicData = {
+        id: topicData.id,
+        name: topicData.name,
+        fullName: topicData.fullName,
+        description: topicData.description,
+        icon: topicData.icon,
+        color: topicData.color,
+        items: [],
+      };
+      const sha = await createTopic(newTopic, token);
+      toast.success(`Topic created — ${sha}`);
+      setNewTopicOpen(false);
+      loadData();
+    } catch (e: any) {
+      toast.error(`Error: ${e.message}`);
+    }
+  };
+
+  const handleEditTopic = async (topicData: { id: string; name: string; fullName: string; description: string; icon: string; color: string }) => {
+    const token = await requireToken();
+    if (!token) return;
+    try {
+      const sha = await editTopicApi(topicData.id, {
+        name: topicData.name,
+        fullName: topicData.fullName,
+        description: topicData.description,
+        icon: topicData.icon,
+        color: topicData.color,
+      }, token);
+      toast.success(`Topic updated — ${sha}`);
+      setEditingTopic(null);
+      loadData();
+    } catch (e: any) {
+      toast.error(`Error: ${e.message}`);
+    }
+  };
+
+  const handleDeleteTopic = async (topic: TopicData) => {
+    if (!confirm(`Delete topic "${topic.name}" and all its ${topic.items.length} items? This cannot be undone.`)) return;
+    const token = await requireToken();
+    if (!token) return;
+    try {
+      await deleteTopicApi(topic.id, token);
+      toast.success(`Topic "${topic.name}" deleted`);
+      loadData();
+    } catch (e: any) {
+      toast.error(`Error: ${e.message}`);
+    }
   };
 
   if (loading) {
@@ -195,13 +243,12 @@ export default function HomePage() {
               : '';
 
             return (
-              <Link
+              <div
                 key={topic.id}
-                to={`/topic?topic=${topic.id}`}
-                className="card-hover group overflow-hidden rounded-lg border border-border bg-card"
+                className="card-hover group relative overflow-hidden rounded-lg border border-border bg-card"
               >
                 <div className="h-1" style={{ backgroundColor: color }} />
-                <div className="p-4">
+                <Link to={`/topic?topic=${topic.id}`} className="block p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-xl" style={{ color }}>{icon}</span>
                     <span className="font-semibold text-foreground">{topic.name}</span>
@@ -221,8 +268,25 @@ export default function HomePage() {
                   {lastDate && (
                     <p className="mt-2 text-xs text-muted-foreground">Updated: {lastDate}</p>
                   )}
+                </Link>
+                {/* Topic management buttons */}
+                <div className="absolute right-2 top-3 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={(e) => { e.preventDefault(); setEditingTopic(topic); }}
+                    className="rounded p-1 text-xs text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    title="Edit topic"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    onClick={(e) => { e.preventDefault(); handleDeleteTopic(topic); }}
+                    className="rounded p-1 text-xs text-muted-foreground hover:bg-secondary hover:text-destructive"
+                    title="Delete topic"
+                  >
+                    ✕
+                  </button>
                 </div>
-              </Link>
+              </div>
             );
           })}
 
@@ -237,7 +301,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      <NewTopicModal open={newTopicOpen} onClose={() => setNewTopicOpen(false)} onSubmit={handleNewTopic} />
+      {/* New Topic Modal */}
+      <NewTopicModal
+        open={newTopicOpen}
+        onClose={() => setNewTopicOpen(false)}
+        onSubmit={handleNewTopic}
+      />
+
+      {/* Edit Topic Modal */}
+      <NewTopicModal
+        open={!!editingTopic}
+        onClose={() => setEditingTopic(null)}
+        onSubmit={handleEditTopic}
+        editTopic={editingTopic ? {
+          id: editingTopic.id,
+          name: editingTopic.name,
+          fullName: editingTopic.fullName,
+          description: editingTopic.description,
+          icon: editingTopic.icon,
+          color: editingTopic.color,
+        } : null}
+      />
     </div>
   );
 }
