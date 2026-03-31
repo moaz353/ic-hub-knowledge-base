@@ -115,7 +115,7 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
 
           <div>
             <label className="mb-1 block text-xs text-muted-foreground">Source / Origin</label>
-            <input value={form.source} onChange={e => set('source', e.target.value)} className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground" placeholder="e.g. K.Wasem Diploma" />
+            <input value={form.source} onChange={e => set('source', e.target.value)} className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground" placeholder="e.g. ASIC" />
           </div>
 
           <div>
