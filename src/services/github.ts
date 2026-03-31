@@ -143,3 +143,88 @@ export async function readAllTopics(): Promise<TopicData[]> {
     .filter((r): r is PromiseFulfilledResult<TopicData> => r.status === 'fulfilled')
     .map(r => r.value);
 }
+
+export async function createTopic(
+  topicData: TopicData,
+  token: string
+): Promise<string> {
+  const path = `${CONFIG.dataPath}${topicData.id}.json`;
+  const content = JSON.stringify(topicData, null, 2);
+  const encoded = btoa(unescape(encodeURIComponent(content)));
+  const res = await fetch(repoUrl(path), {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message: `create topic: ${topicData.name}`,
+      content: encoded,
+      branch: CONFIG.branch,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `GitHub API error: ${res.status}`);
+  }
+
+  // Update index.json
+  const indexPath = `${CONFIG.dataPath}index.json`;
+  const { content: indexContent, sha: indexSha } = await getFile(indexPath);
+  const index = JSON.parse(indexContent) as TopicIndex;
+  if (!index.topics.includes(topicData.id)) {
+    index.topics.push(topicData.id);
+    await putFile(indexPath, JSON.stringify(index, null, 2), indexSha, `index: add ${topicData.id}`, token);
+    invalidateCache(indexPath);
+  }
+
+  return (await res.json()).content.sha.substring(0, 7);
+}
+
+export async function editTopic(
+  topicId: string,
+  updates: Partial<Omit<TopicData, 'id' | 'items'>>,
+  token: string
+): Promise<string> {
+  const { data, sha } = await readTopic(topicId);
+  const updated = { ...data, ...updates, id: data.id, items: data.items };
+  return writeTopic(topicId, updated, sha, `edit topic: ${updated.name}`, token);
+}
+
+export async function deleteTopic(
+  topicId: string,
+  token: string
+): Promise<string> {
+  // Get the file sha
+  const path = `${CONFIG.dataPath}${topicId}.json`;
+  const { sha } = await getFile(path);
+
+  // Delete the file
+  const res = await fetch(repoUrl(path), {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message: `delete topic: ${topicId}`,
+      sha,
+      branch: CONFIG.branch,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `GitHub API error: ${res.status}`);
+  }
+  invalidateCache(path);
+
+  // Update index.json
+  const indexPath = `${CONFIG.dataPath}index.json`;
+  const { content: indexContent, sha: indexSha } = await getFile(indexPath);
+  const index = JSON.parse(indexContent) as TopicIndex;
+  index.topics = index.topics.filter(t => t !== topicId);
+  await putFile(indexPath, JSON.stringify(index, null, 2), indexSha, `index: remove ${topicId}`, token);
+  invalidateCache(indexPath);
+
+  return 'deleted';
+}
