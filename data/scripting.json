@@ -5,5 +5,23 @@
   "description": "TCL, Python, Perl scripting for EDA",
   "color": "#79c0ff",
   "icon": "∮",
-  "items": []
+  "items": [
+    {
+      "type": "linkedin",
+      "title": "TCL Notes",
+      "description": "Tcl Scripting for VLSI Physical Design Engineers – From Basics to Advanced",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7438184951746863104?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7438184951746863104%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29",
+      "thumbnail": "",
+      "tags": [
+        "TCL"
+      ],
+      "source": "",
+      "date": "2026-03-31",
+      "rating": 3,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "scripting-1774941878835"
+    }
+  ]
 }
