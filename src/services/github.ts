@@ -1,6 +1,7 @@
 import { CONFIG } from '@/config';
 import type { TopicData, TopicIndex, ICItem } from '@/types/ichub';
 import { getGitHubHeaders, throwGitHubResponseError } from '@/services/github-auth';
+import { getToken } from '@/services/auth';
 
 const API_BASE = 'https://api.github.com';
 
