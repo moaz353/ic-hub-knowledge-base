@@ -1,5 +1,6 @@
 import { CONFIG } from '@/config';
 import type { TopicData, TopicIndex, ICItem } from '@/types/ichub';
+import { getGitHubHeaders, throwGitHubResponseError } from '@/services/github-auth';
 
 const API_BASE = 'https://api.github.com';
 
@@ -48,7 +49,7 @@ export async function putFile(
   const res = await fetch(repoUrl(path), {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...getGitHubHeaders(token),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -59,8 +60,7 @@ export async function putFile(
     }),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `GitHub API error: ${res.status}`);
+    await throwGitHubResponseError(res);
   }
   const json = await res.json();
   return json.content.sha.substring(0, 7);
@@ -154,7 +154,7 @@ export async function createTopic(
   const res = await fetch(repoUrl(path), {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...getGitHubHeaders(token),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -164,8 +164,7 @@ export async function createTopic(
     }),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `GitHub API error: ${res.status}`);
+    await throwGitHubResponseError(res);
   }
 
   // Update index.json
@@ -203,7 +202,7 @@ export async function deleteTopic(
   const res = await fetch(repoUrl(path), {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...getGitHubHeaders(token),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -213,8 +212,7 @@ export async function deleteTopic(
     }),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `GitHub API error: ${res.status}`);
+    await throwGitHubResponseError(res);
   }
   invalidateCache(path);
 
