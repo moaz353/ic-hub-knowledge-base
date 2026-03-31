@@ -12,6 +12,7 @@
     "scripting",
     "sta",
     "systemverilog",
-    "verilog"
+    "verilog",
+    "imp"
   ]
 }
