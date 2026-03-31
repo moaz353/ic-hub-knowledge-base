@@ -1,0 +1,9 @@
+{
+  "id": "scripting",
+  "name": "Scripting",
+  "fullName": "Scripting & Automation",
+  "description": "TCL, Python, Perl scripting for EDA",
+  "color": "#79c0ff",
+  "icon": "∮",
+  "items": []
+}

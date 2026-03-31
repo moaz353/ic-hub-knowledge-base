@@ -1,0 +1,9 @@
+{
+  "id": "cdc",
+  "name": "CDC",
+  "fullName": "Clock Domain Crossing",
+  "description": "Clock domain crossing analysis and synchronization",
+  "color": "#f78166",
+  "icon": "⇄",
+  "items": []
+}
