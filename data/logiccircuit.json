@@ -5,5 +5,23 @@
   "description": "Digital logic design and circuit fundamentals",
   "color": "#56d364",
   "icon": "⊕",
-  "items": []
+  "items": [
+    {
+      "type": "linkedin",
+      "title": "NUMBER SYSTEMS",
+      "description": "Number system cheat sheet for quick revision",
+      "file": "https://www.linkedin.com/posts/tadakamalla-gourav-design-verification_number-systems-cheat-sheet-for-quick-revision-ugcPost-7435194667157213184-v1dR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "NUM_SYS"
+      ],
+      "source": "Logic circuits and number systems",
+      "date": "2026-04-01",
+      "rating": 1,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "logiccircuit-1775015253091"
+    }
+  ]
 }
