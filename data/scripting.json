@@ -42,6 +42,26 @@
       "favorite": false,
       "pinned": false,
       "id": "scripting-1775140588295"
+    },
+    {
+      "type": "note",
+      "title": "TCL Scripting Notes",
+      "description": "Comprehensive notes on TCL (Tool Command Language) scripting.",
+      "file": "https://www.linkedin.com/posts/onkar-sanjay-mane_tcl-scripting-notes-activity-7237883512878424064--o2M",
+      "thumbnail": "",
+      "tags": [
+        "TCL",
+        "Scripting",
+        "Notes",
+        "EDA"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "scripting-1775140640051"
     }
   ]
 }
