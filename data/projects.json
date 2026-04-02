@@ -47,6 +47,25 @@
       "favorite": false,
       "pinned": false,
       "id": "projects-1775139782269"
+    },
+    {
+      "type": "linkedin",
+      "title": "Memory Systems: DRAM Basics",
+      "description": "Explains the basics of Memory Systems and DRAM architecture.",
+      "file": "https://www.linkedin.com/posts/raghavendra-anjanappa-ba7a0432_memory-systems-11-memory-dram-basics-activity-7236743105117310977-2Jbx",
+      "thumbnail": "",
+      "tags": [
+        "Memory",
+        "DRAM",
+        "Architecture"
+      ],
+      "source": "LinkedIn /",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775139883691"
     }
   ]
 }
