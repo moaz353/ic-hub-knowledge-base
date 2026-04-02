@@ -105,6 +105,28 @@
       "favorite": false,
       "pinned": false,
       "id": "projects-1775140145438"
+    },
+    {
+      "type": "linkedin",
+      "title": "APB, AHB and AXI",
+      "description": "Explanation and overview of ARM's AMBA protocols including APB, AHB, and AXI.",
+      "file": "https://www.linkedin.com/posts/shreyasbagi_amba-protocols-apb-ahb-and-axi-ugcPost-7355124162887143425-MEwG",
+      "thumbnail": "",
+      "tags": [
+        "AMBA",
+        "AXI",
+        "AHB",
+        "APB",
+        "Protocols",
+        "Bus"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775140225866"
     }
   ]
 }
