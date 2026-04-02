@@ -87,6 +87,27 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775138401003"
+    },
+    {
+      "type": "linkedin",
+      "title": "Routing in Physical Design",
+      "description": "Introduction to routing stage and signal connections in chip design.",
+      "file": "https://www.linkedin.com/posts/suresh-gurappagari-gandla-66569924a_routing-ugcPost-7363404952326557696-L-m1",
+      "thumbnail": "",
+      "tags": [
+        "Routing",
+        "Physical Design",
+        "VLSI",
+        "ASIC",
+        "Backend"
+      ],
+      "source": "LinkedIn / VLSI Educational Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775138447816"
     }
   ]
 }
