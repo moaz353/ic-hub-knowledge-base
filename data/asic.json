@@ -5,5 +5,26 @@
   "description": "ASIC design flow, synthesis, and implementation",
   "color": "#7ee787",
   "icon": "◈",
-  "items": []
+  "items": [
+    {
+      "type": "linkedin",
+      "title": "Physical Design Basics",
+      "description": "Overview of physical design stages and key concepts in ASIC implementation.",
+      "file": "https://www.linkedin.com/posts/durgaprasad84_physical-design-ugcPost-7240962709960171521-aePD",
+      "thumbnail": "",
+      "tags": [
+        "Physical Design",
+        "ASIC",
+        "VLSI",
+        "Backend"
+      ],
+      "source": "LinkedIn / Educational Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775138082306"
+    }
+  ]
 }
