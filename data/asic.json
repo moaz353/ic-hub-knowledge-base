@@ -46,6 +46,26 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775138136594"
+    },
+    {
+      "type": "linkedin",
+      "title": "Physical Design Overview",
+      "description": "General explanation of physical design concepts and implementation stages.",
+      "file": "https://www.linkedin.com/posts/suresh-gurappagari-gandla-66569924a_physical-design-ugcPost-7343518114019495937-vgs9",
+      "thumbnail": "",
+      "tags": [
+        "Physical Design",
+        "ASIC",
+        "Backend",
+        "VLSI"
+      ],
+      "source": "LinkedIn / VLSI Educational Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775138168138"
     }
   ]
 }
