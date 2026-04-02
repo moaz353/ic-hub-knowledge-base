@@ -85,6 +85,26 @@
       "favorite": false,
       "pinned": false,
       "id": "projects-1775139953397"
+    },
+    {
+      "type": "linkedin",
+      "title": "Advanced Verilog Projects",
+      "description": "A collection or list of 25 advanced projects implemented in Verilog.",
+      "file": "https://www.linkedin.com/posts/prasanthi-chanda-484205245_25-advanced-verilog-projects-ugcPost-7331284740651601923-kUjv",
+      "thumbnail": "",
+      "tags": [
+        "Verilog",
+        "Projects",
+        "Advanced",
+        "FPGA"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775140145438"
     }
   ]
 }
