@@ -5,5 +5,27 @@
   "description": "VLSI design projects and implementations",
   "color": "#e3b341",
   "icon": "◧",
-  "items": []
+  "items": [
+    {
+      "type": "linkedin",
+      "title": "APB (Advanced Peripheral Bus)",
+      "description": "Overview of APB (Advanced Peripheral Bus) : simple protocol used for communication between a processor and peripheral devices in a system-on-chip (SoC).",
+      "file": "https://www.linkedin.com/posts/amradelm_asic-pnr-sta-activity-7235662304694992896-r7VD",
+      "thumbnail": "",
+      "tags": [
+        "ASIC",
+        "PnR",
+        "STA",
+        "Physical Design",
+        "Timing"
+      ],
+      "source": "LinkedIn / Amr Adel",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775138781592"
+    }
+  ]
 }
