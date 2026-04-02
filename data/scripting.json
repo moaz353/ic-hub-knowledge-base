@@ -22,6 +22,26 @@
       "favorite": false,
       "pinned": false,
       "id": "scripting-1774941878835"
+    },
+    {
+      "type": "linkedin",
+      "title": "Bash Scripting",
+      "description": "Resources and information regarding Bash Scripting for automation and Linux environments.",
+      "file": "https://www.linkedin.com/posts/shankar-kumar-yadav-817a0a165_bash-scripting-activity-7235696774428901376-0tu8",
+      "thumbnail": "",
+      "tags": [
+        "Bash",
+        "Scripting",
+        "Linux",
+        "Automation"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "scripting-1775140588295"
     }
   ]
 }
