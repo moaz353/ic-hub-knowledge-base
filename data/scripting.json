@@ -62,6 +62,24 @@
       "favorite": false,
       "pinned": false,
       "id": "scripting-1775140640051"
+    },
+    {
+      "type": "resource",
+      "title": "TCL Scripting Resources",
+      "description": "Additional resources or discussion about TCL.",
+      "file": "https://www.linkedin.com/posts/vinaykumar-reddy-annapureddy-a2135191_tcl-activity-7247879153213988865-g45a",
+      "thumbnail": "",
+      "tags": [
+        "TCL",
+        "Scripting"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "scripting-1775140711501"
     }
   ]
 }
