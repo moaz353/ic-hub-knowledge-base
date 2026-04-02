@@ -5,5 +5,27 @@
   "description": "SystemVerilog language and UVM",
   "color": "#7ee787",
   "icon": "◇",
-  "items": []
+  "items": [
+    {
+      "type": "linkedin",
+      "title": "SystemVerilog & VLSI Skill Development (VTU Initiative)",
+      "description": "Overview of SystemVerilog learning in VLSI training programs and industry-focused skill development.",
+      "file": "https://www.linkedin.com/posts/prabhavathi-p-a7625441_systemverilog-vtu-eshikshana-activity-7297630802127818752-WoRR",
+      "thumbnail": "",
+      "tags": [
+        "SystemVerilog",
+        "VLSI",
+        "Verification",
+        "Digital Design",
+        "Internship"
+      ],
+      "source": "Academic / VLSI Training",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775137631503"
+    }
+  ]
 }
