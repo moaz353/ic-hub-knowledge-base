@@ -25,6 +25,27 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775138082306"
+    },
+    {
+      "type": "linkedin",
+      "title": "Physical Design Flow & Power Planning",
+      "description": "Explanation of physical design flow with focus on power planning stage.",
+      "file": "https://www.linkedin.com/posts/onkar-sanjay-mane_physical-design-flow-power-planning-activity-7251683211552935936-cf0s",
+      "thumbnail": "",
+      "tags": [
+        "Physical Design",
+        "Power Planning",
+        "ASIC",
+        "VLSI",
+        "Backend"
+      ],
+      "source": "LinkedIn / VLSI Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775138136594"
     }
   ]
 }
