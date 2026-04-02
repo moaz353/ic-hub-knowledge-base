@@ -26,6 +26,27 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775137631503"
+    },
+    {
+      "type": "linkedin",
+      "title": "SystemVerilog in 5 Minutes (Quick Learning Series)",
+      "description": "Short series explaining key SystemVerilog concepts like interfaces and fork-join.",
+      "file": "https://www.linkedin.com/posts/ahmed-ibrahim-0013b4104_%D8%B3%D9%84%D8%B3%D9%84%D8%A9-systemverilog-in-5-minutes-%D9%82%D8%B5%D9%8A%D8%B1%D8%A9-%D8%AE%D9%81%D9%8A%D9%81%D8%A9-activity-7327646577001431040-_jg0",
+      "thumbnail": "",
+      "tags": [
+        "SystemVerilog",
+        "UVM",
+        "Verification",
+        "Interfaces",
+        "Testbench"
+      ],
+      "source": "LinkedIn / Educational Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775137733472"
     }
   ]
 }
