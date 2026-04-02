@@ -66,6 +66,25 @@
       "favorite": false,
       "pinned": false,
       "id": "projects-1775139883691"
+    },
+    {
+      "type": "linkedin",
+      "title": "System on Chip (SoC) Design and Modelling",
+      "description": "Resources or course material regarding SoC design and modeling methodologies.",
+      "file": "https://www.linkedin.com/posts/garal-das-aa895417a_system-on-chip-design-and-modelling-ugcPost-7234209421143244801-swQg",
+      "thumbnail": "",
+      "tags": [
+        "SoC",
+        "System on Chip",
+        "Modelling"
+      ],
+      "source": "LinkedIn",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775139953397"
     }
   ]
 }
