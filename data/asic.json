@@ -66,6 +66,27 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775138168138"
+    },
+    {
+      "type": "linkedin",
+      "title": "DRC & LVS in VLSI",
+      "description": "Overview of design rule checking (DRC) and layout vs schematic (LVS).",
+      "file": "https://www.linkedin.com/posts/suresh-gurappagari-gandla-66569924a_drc-lvs-ugcPost-7358362982810034177-JORS",
+      "thumbnail": "",
+      "tags": [
+        "DRC",
+        "LVS",
+        "Physical Verification",
+        "VLSI",
+        "ASIC"
+      ],
+      "source": "LinkedIn / VLSI Educational Content",
+      "date": "2026-04-02",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775138401003"
     }
   ]
 }
