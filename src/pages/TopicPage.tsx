@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { readTopic, addItem, editItem, deleteItem, readAllTopics } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
-import { ITEM_TYPES } from '@/types/ichub';
+import { getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import AddEditModal from '@/components/ichub/AddEditModal';
 import { useAuth } from '@/components/ichub/AuthProvider';
@@ -84,10 +84,11 @@ export default function TopicPage() {
     return items;
   }, [topic, activeTab, sortBy, tagFilter, showFavs, showPinned]);
 
+  const allTypes = getAllItemTypes();
   const tabCounts = useMemo(() => {
     if (!topic) return {};
     const counts: Record<string, number> = { all: topic.items.length };
-    ITEM_TYPES.forEach(t => {
+    allTypes.forEach(t => {
       const c = topic.items.filter(i => i.type === t).length;
       if (c > 0) counts[t] = c;
     });
@@ -212,18 +213,18 @@ export default function TopicPage() {
 
       {/* Tabs */}
       <div className="no-print mb-4 flex flex-wrap gap-1">
-        {(['all', ...ITEM_TYPES] as const).map(tab => {
+        {(['all', ...allTypes] as const).map(tab => {
           const count = tabCounts[tab];
           if (tab !== 'all' && !count) return null;
           return (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
-              className={`rounded-md px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
                 activeTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground hover:text-foreground'
               }`}
             >
-              {tab} {count !== undefined && <span className="ml-1 opacity-70">{count}</span>}
+              {capitalize(String(tab))} {count !== undefined && <span className="ml-1 opacity-70">{count}</span>}
             </button>
           );
         })}

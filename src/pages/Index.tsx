@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { readAllTopics, createTopic, editTopic as editTopicApi, deleteTopic as deleteTopicApi } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
-import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, ITEM_TYPES } from '@/types/ichub';
+import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import NewTopicModal from '@/components/ichub/NewTopicModal';
 import { useAuth } from '@/components/ichub/AuthProvider';
@@ -36,7 +36,8 @@ export default function HomePage() {
 
   // Stats
   const allItems = topics.flatMap(t => t.items);
-  const typeCounts = ITEM_TYPES.reduce((acc, type) => {
+  const dynamicTypes = getAllItemTypes();
+  const typeCounts = dynamicTypes.reduce((acc, type) => {
     acc[type] = allItems.filter(i => i.type === type).length;
     return acc;
   }, {} as Record<ItemType, number>);
@@ -176,11 +177,11 @@ export default function HomePage() {
           </div>
           <div className="h-8 w-px bg-border" />
           <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-            {ITEM_TYPES.map(type => typeCounts[type] > 0 && (
+            {dynamicTypes.map(type => typeCounts[type] > 0 && (
               <div key={type} className="flex shrink-0 items-center gap-1.5 text-sm">
-                <span className="text-muted-foreground">{TYPE_SYMBOLS[type]}</span>
+                <span className="text-muted-foreground">{TYPE_SYMBOLS[type] || '◈'}</span>
                 <span className="text-foreground">{typeCounts[type]}</span>
-                <span className="capitalize text-muted-foreground">{type}s</span>
+                <span className="text-muted-foreground">{capitalize(type)}s</span>
               </div>
             ))}
           </div>
