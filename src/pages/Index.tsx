@@ -5,6 +5,8 @@ import type { TopicData, ICItem, ItemType } from '@/types/ichub';
 import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import NewTopicModal from '@/components/ichub/NewTopicModal';
+import DailyReview from '@/components/ichub/DailyReview';
+import QuickNotesPanel from '@/components/ichub/QuickNotesPanel';
 import { useAuth } from '@/components/ichub/AuthProvider';
 import { toast } from 'sonner';
 
