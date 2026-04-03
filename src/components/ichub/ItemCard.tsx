@@ -5,6 +5,7 @@ import {
   isFavorite, toggleFavorite, addToQueue, removeFromQueue, isInQueue, timeAgo
 } from '@/services/utils';
 import { useState, useRef, useEffect } from 'react';
+import ItemAnnotations from './ItemAnnotations';
 
 interface ItemCardProps {
   item: ICItem;
