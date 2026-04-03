@@ -121,7 +121,35 @@ export const TYPE_SYMBOLS: Record<ItemType, string> = {
   cheatsheet: '≡',
 };
 
-export const ITEM_TYPES: ItemType[] = [
+export const DEFAULT_ITEM_TYPES: ItemType[] = [
   'note', 'slide', 'book', 'linkedin', 'video',
   'resource', 'tool', 'project', 'cheatsheet'
 ];
+
+export function getCustomItemTypes(): ItemType[] {
+  try {
+    const stored = localStorage.getItem('ichub-custom-item-types');
+    return stored ? JSON.parse(stored) : [];
+  } catch { return []; }
+}
+
+export function addCustomItemType(type: string): ItemType {
+  const normalized = type.toLowerCase().trim() as ItemType;
+  const custom = getCustomItemTypes();
+  if (!custom.includes(normalized) && !DEFAULT_ITEM_TYPES.includes(normalized)) {
+    custom.push(normalized);
+    localStorage.setItem('ichub-custom-item-types', JSON.stringify(custom));
+  }
+  return normalized;
+}
+
+export function getAllItemTypes(): ItemType[] {
+  return [...DEFAULT_ITEM_TYPES, ...getCustomItemTypes()];
+}
+
+// Keep ITEM_TYPES for backward compat but use getAllItemTypes() for dynamic list
+export const ITEM_TYPES: ItemType[] = DEFAULT_ITEM_TYPES;
+
+export function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

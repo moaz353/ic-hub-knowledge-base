@@ -133,7 +133,7 @@ export default function ItemCard({
           className="inline-block w-fit rounded-full px-2 py-0.5 text-xs font-medium"
           style={{ backgroundColor: `${topicColor}20`, color: topicColor }}
         >
-          {item.type}
+          {capitalize(item.type)}
         </span>
 
         {/* Tags */}
