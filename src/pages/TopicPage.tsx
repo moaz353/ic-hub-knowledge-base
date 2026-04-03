@@ -213,18 +213,18 @@ export default function TopicPage() {
 
       {/* Tabs */}
       <div className="no-print mb-4 flex flex-wrap gap-1">
-        {(['all', ...ITEM_TYPES] as const).map(tab => {
+        {(['all', ...allTypes] as const).map(tab => {
           const count = tabCounts[tab];
           if (tab !== 'all' && !count) return null;
           return (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
-              className={`rounded-md px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
                 activeTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground hover:text-foreground'
               }`}
             >
-              {tab} {count !== undefined && <span className="ml-1 opacity-70">{count}</span>}
+              {capitalize(String(tab))} {count !== undefined && <span className="ml-1 opacity-70">{count}</span>}
             </button>
           );
         })}
