@@ -333,6 +333,9 @@ export default function HomePage() {
           color: editingTopic.color,
         } : null}
       />
+
+      {/* Quick Notes Panel */}
+      <QuickNotesPanel topics={topics} />
     </div>
   );
 }
