@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ICItem, ItemType } from '@/types/ichub';
-import { ITEM_TYPES } from '@/types/ichub';
+import { getAllItemTypes, addCustomItemType, capitalize } from '@/types/ichub';
 
 interface AddEditModalProps {
   open: boolean;
@@ -11,6 +11,10 @@ interface AddEditModalProps {
 }
 
 export default function AddEditModal({ open, onClose, onSubmit, topicId, editItem }: AddEditModalProps) {
+  const [availableTypes, setAvailableTypes] = useState<ItemType[]>(getAllItemTypes);
+  const [showNewType, setShowNewType] = useState(false);
+  const [newTypeName, setNewTypeName] = useState('');
+
   const [form, setForm] = useState<{
     type: ItemType;
     title: string;
@@ -71,6 +75,16 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
     });
   };
 
+  const handleAddNewType = () => {
+    const name = newTypeName.trim();
+    if (!name) return;
+    const newType = addCustomItemType(name);
+    setAvailableTypes(getAllItemTypes());
+    set('type', newType);
+    setNewTypeName('');
+    setShowNewType(false);
+  };
+
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }));
 
   return (
@@ -83,9 +97,37 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
         <div className="grid gap-3">
           <div>
             <label className="mb-1 block text-xs text-muted-foreground">Type</label>
-            <select value={form.type} onChange={e => set('type', e.target.value)} className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground">
-              {ITEM_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
+            <div className="flex gap-2">
+              <select value={form.type} onChange={e => set('type', e.target.value)} className="flex-1 rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground">
+                {availableTypes.map(t => <option key={t} value={t}>{capitalize(t)}</option>)}
+              </select>
+              <button
+                type="button"
+                onClick={() => setShowNewType(!showNewType)}
+                className="rounded-md border border-border bg-secondary px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent"
+                title="Add new type"
+              >
+                +
+              </button>
+            </div>
+            {showNewType && (
+              <div className="mt-2 flex gap-2">
+                <input
+                  value={newTypeName}
+                  onChange={e => setNewTypeName(e.target.value)}
+                  placeholder="New type name"
+                  className="flex-1 rounded-md border border-border bg-secondary px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground"
+                  onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleAddNewType())}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddNewType}
+                  className="rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90"
+                >
+                  Add
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
