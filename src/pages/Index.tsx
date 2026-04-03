@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { readAllTopics, createTopic, editTopic as editTopicApi, deleteTopic as deleteTopicApi } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
-import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, ITEM_TYPES } from '@/types/ichub';
+import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import NewTopicModal from '@/components/ichub/NewTopicModal';
 import { useAuth } from '@/components/ichub/AuthProvider';
