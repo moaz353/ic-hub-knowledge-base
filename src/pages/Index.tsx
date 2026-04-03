@@ -5,6 +5,8 @@ import type { TopicData, ICItem, ItemType } from '@/types/ichub';
 import { TOPIC_ICONS, TOPIC_COLORS, TOPIC_FULLNAMES, TOPIC_DESCRIPTIONS, TYPE_SYMBOLS, getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import NewTopicModal from '@/components/ichub/NewTopicModal';
+import DailyReview from '@/components/ichub/DailyReview';
+import QuickNotesPanel from '@/components/ichub/QuickNotesPanel';
 import { useAuth } from '@/components/ichub/AuthProvider';
 import { toast } from 'sonner';
 
@@ -41,6 +43,11 @@ export default function HomePage() {
     acc[type] = allItems.filter(i => i.type === type).length;
     return acc;
   }, {} as Record<ItemType, number>);
+
+  // All items with topic info for daily review
+  const allItemsWithTopic = topics.flatMap(t =>
+    t.items.map(i => ({ item: i, topicId: t.id, topicName: t.name, topicColor: t.color }))
+  );
 
   // Pinned items
   const pinnedItems = topics.flatMap(t =>
@@ -168,6 +175,9 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
+      {/* Daily Review */}
+      {allItemsWithTopic.length > 0 && <DailyReview allItems={allItemsWithTopic} />}
+
       {/* Quick Stats */}
       <div className="mb-6 overflow-x-auto rounded-lg border border-border bg-card p-4">
         <div className="flex items-center gap-6">
@@ -323,6 +333,9 @@ export default function HomePage() {
           color: editingTopic.color,
         } : null}
       />
+
+      {/* Quick Notes Panel */}
+      <QuickNotesPanel topics={topics} />
     </div>
   );
 }

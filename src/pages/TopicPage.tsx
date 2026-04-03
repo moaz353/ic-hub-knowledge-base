@@ -5,6 +5,7 @@ import type { TopicData, ICItem, ItemType } from '@/types/ichub';
 import { getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import AddEditModal from '@/components/ichub/AddEditModal';
+import TopicAnnotations from '@/components/ichub/TopicAnnotations';
 import { useAuth } from '@/components/ichub/AuthProvider';
 import { toast } from 'sonner';
 import { exportMarkdown, exportPDF } from '@/services/utils';
@@ -190,6 +191,9 @@ export default function TopicPage() {
           </span>
         </div>
         {topic.description && <p className="mt-2 text-sm text-muted-foreground">{topic.description}</p>}
+
+        {/* Topic Annotations */}
+        <TopicAnnotations topicId={topicId} />
 
         {/* Export */}
         <div className="no-print mt-3 flex gap-2">
