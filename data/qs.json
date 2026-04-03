@@ -1,9 +1,9 @@
 {
   "id": "qs",
   "name": "QS",
-  "fullName": "Quick Start Guides",
-  "description": "Quick start guides and reference sheets",
-  "color": "#6a00ff",
-  "icon": "≡",
+  "fullName": "Interviews questions ",
+  "description": "Interviews questions and its answers.",
+  "color": "#00fffb",
+  "icon": "❔",
   "items": []
 }
