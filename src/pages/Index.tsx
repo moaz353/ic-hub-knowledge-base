@@ -36,7 +36,8 @@ export default function HomePage() {
 
   // Stats
   const allItems = topics.flatMap(t => t.items);
-  const typeCounts = ITEM_TYPES.reduce((acc, type) => {
+  const dynamicTypes = getAllItemTypes();
+  const typeCounts = dynamicTypes.reduce((acc, type) => {
     acc[type] = allItems.filter(i => i.type === type).length;
     return acc;
   }, {} as Record<ItemType, number>);
