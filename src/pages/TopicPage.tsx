@@ -84,10 +84,11 @@ export default function TopicPage() {
     return items;
   }, [topic, activeTab, sortBy, tagFilter, showFavs, showPinned]);
 
+  const allTypes = getAllItemTypes();
   const tabCounts = useMemo(() => {
     if (!topic) return {};
     const counts: Record<string, number> = { all: topic.items.length };
-    ITEM_TYPES.forEach(t => {
+    allTypes.forEach(t => {
       const c = topic.items.filter(i => i.type === t).length;
       if (c > 0) counts[t] = c;
     });
