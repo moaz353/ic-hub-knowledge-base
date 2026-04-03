@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { readTopic, addItem, editItem, deleteItem, readAllTopics } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
-import { ITEM_TYPES } from '@/types/ichub';
+import { getAllItemTypes, capitalize } from '@/types/ichub';
 import ItemCard from '@/components/ichub/ItemCard';
 import AddEditModal from '@/components/ichub/AddEditModal';
 import { useAuth } from '@/components/ichub/AuthProvider';
