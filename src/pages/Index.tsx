@@ -175,6 +175,9 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
+      {/* Daily Review */}
+      {allItemsWithTopic.length > 0 && <DailyReview allItems={allItemsWithTopic} />}
+
       {/* Quick Stats */}
       <div className="mb-6 overflow-x-auto rounded-lg border border-border bg-card p-4">
         <div className="flex items-center gap-6">
