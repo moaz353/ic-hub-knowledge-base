@@ -51,7 +51,7 @@ export default function HomePage() {
   const recentItems = topics
     .flatMap(t => t.items.map(i => ({ item: i, topic: t })))
     .sort((a, b) => new Date(b.item.date).getTime() - new Date(a.item.date).getTime())
-    .slice(0, 10);
+    .slice(0, 5);
 
   // Search results
   const searchResults = searchQuery
