@@ -1,4 +1,4 @@
-export type ItemType = 'note' | 'slide' | 'book' | 'linkedin' | 'video' | 'resource' | 'tool' | 'project' | 'cheatsheet';
+export type ItemType = 'note' | 'slide' | 'book' | 'linkedin' | 'video' | 'resource' | 'tool' | 'project' | 'cheatsheet' | (string & {});
 
 export interface ICItem {
   id: string;
