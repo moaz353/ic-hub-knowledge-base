@@ -177,11 +177,11 @@ export default function HomePage() {
           </div>
           <div className="h-8 w-px bg-border" />
           <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-            {ITEM_TYPES.map(type => typeCounts[type] > 0 && (
+            {dynamicTypes.map(type => typeCounts[type] > 0 && (
               <div key={type} className="flex shrink-0 items-center gap-1.5 text-sm">
-                <span className="text-muted-foreground">{TYPE_SYMBOLS[type]}</span>
+                <span className="text-muted-foreground">{TYPE_SYMBOLS[type] || '◈'}</span>
                 <span className="text-foreground">{typeCounts[type]}</span>
-                <span className="capitalize text-muted-foreground">{type}s</span>
+                <span className="text-muted-foreground">{capitalize(type)}s</span>
               </div>
             ))}
           </div>
