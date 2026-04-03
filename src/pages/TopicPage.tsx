@@ -192,6 +192,9 @@ export default function TopicPage() {
         </div>
         {topic.description && <p className="mt-2 text-sm text-muted-foreground">{topic.description}</p>}
 
+        {/* Topic Annotations */}
+        <TopicAnnotations topicId={topicId} />
+
         {/* Export */}
         <div className="no-print mt-3 flex gap-2">
           <div className="relative">
