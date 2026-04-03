@@ -1,5 +1,5 @@
 import type { ICItem, ItemType } from '@/types/ichub';
-import { TYPE_SYMBOLS } from '@/types/ichub';
+import { TYPE_SYMBOLS, capitalize } from '@/types/ichub';
 import {
   getProgress, setProgress, setLastOpened, getLastOpened,
   isFavorite, toggleFavorite, addToQueue, removeFromQueue, isInQueue, timeAgo
