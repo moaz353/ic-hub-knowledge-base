@@ -236,6 +236,9 @@ export default function ItemCard({
           </div>
         </div>
       )}
+
+      {/* Inline Annotations */}
+      <ItemAnnotations itemId={item.id} />
     </div>
   );
 }
