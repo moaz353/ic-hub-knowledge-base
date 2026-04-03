@@ -44,6 +44,11 @@ export default function HomePage() {
     return acc;
   }, {} as Record<ItemType, number>);
 
+  // All items with topic info for daily review
+  const allItemsWithTopic = topics.flatMap(t =>
+    t.items.map(i => ({ item: i, topicId: t.id, topicName: t.name, topicColor: t.color }))
+  );
+
   // Pinned items
   const pinnedItems = topics.flatMap(t =>
     t.items.filter(i => i.pinned).map(i => ({ item: i, topicId: t.id, topicColor: t.color }))
