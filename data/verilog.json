@@ -73,6 +73,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775290938258"
+    },
+    {
+      "type": "resource",
+      "title": "Verilog book",
+      "description": "A short verilog basics book",
+      "file": "https://www.linkedin.com/posts/vlsijobseekers24_verilog-notes-ugcPost-7220642124956889089-nCVQ?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "V"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775291098739"
     }
   ]
 }
