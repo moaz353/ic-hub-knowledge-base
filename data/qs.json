@@ -5,5 +5,23 @@
   "description": "Interviews questions and its answers.",
   "color": "#00fffb",
   "icon": "❔",
-  "items": []
+  "items": [
+    {
+      "type": "resource",
+      "title": "Verilog interview questions",
+      "description": "Some interview questions in verilog language",
+      "file": "https://www.linkedin.com/posts/vlsijobseekers24_system-verilog-notes-activity-7198340303282434051-773W",
+      "thumbnail": "",
+      "tags": [
+        "QS"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "qs-1775288150898"
+    }
+  ]
 }
