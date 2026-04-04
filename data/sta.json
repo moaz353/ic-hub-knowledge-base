@@ -45,6 +45,28 @@
       "favorite": false,
       "pinned": false,
       "id": "sta-1775327491708"
+    },
+    {
+      "type": "note",
+      "title": "STA & CDC",
+      "description": "Static Timing Analysis and Clock Domain Crossings",
+      "file": "https://www.linkedin.com/posts/ashwinkrishnamani_sta-and-cdc-activity-7226775022650941442-Ai0k/?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "STA",
+        "ASIC",
+        "CDC",
+        "CLK",
+        "VLSI",
+        "Timing"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "sta-1775327649065"
     }
   ]
 }
