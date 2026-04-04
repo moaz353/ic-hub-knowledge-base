@@ -90,6 +90,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775291098739"
+    },
+    {
+      "type": "resource",
+      "title": "Verilog resources",
+      "description": "More resources on verilog",
+      "file": "https://www.linkedin.com/posts/jairaj-mirashi-design-verification-engineer_interview-coding-semiconductor-activity-7226059357396905984-74qr?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "V"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775291187285"
     }
   ]
 }
