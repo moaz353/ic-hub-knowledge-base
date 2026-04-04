@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Check, RefreshCw, ExternalLink } from 'lucide-react';
 import type { ICItem } from '@/types/ichub';
 import { getDailyReview, markReview, getDaysSinceOpened } from '@/services/dailyReview';
 import { setLastOpened } from '@/services/utils';
@@ -13,7 +14,6 @@ export default function DailyReview({ allItems }: Props) {
 
   if (!review) return null;
 
-  const daysSince = getDaysSinceOpened(review.item.id);
   const isDone = review.status !== 'pending';
 
   const handleGotIt = () => {
@@ -34,67 +34,54 @@ export default function DailyReview({ allItems }: Props) {
   };
 
   return (
-    <section className="mb-6">
-      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-        <span>📖</span> Daily Review
-      </h2>
-      <div className="overflow-hidden rounded-lg border border-border bg-card">
-        {isDone ? (
-          <div className="flex flex-col items-center gap-2 p-6 text-center">
-            <span className="text-2xl">✓</span>
-            <p className="text-sm text-foreground">See you tomorrow!</p>
-            {streak > 0 && (
-              <span className="rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${review.topicColor}20`, color: review.topicColor }}>
-                🔥 {streak} day streak
-              </span>
-            )}
+    <section className="mb-5">
+      {isDone ? (
+        <div className="daily-review-pill mx-auto flex items-center gap-3 rounded-[40px] border border-border bg-[hsl(var(--card))] px-4 py-2 transition-all duration-[220ms] ease-in-out hover:scale-[1.04] hover:border-accent hover:bg-[hsl(var(--secondary))]">
+          <span className="shrink-0 rounded-full bg-[#22c55e18] px-2.5 py-0.5 text-[11px] font-semibold text-[#22c55e]">
+            Daily Review
+          </span>
+          <span className="text-sm text-muted-foreground">See you tomorrow!</span>
+          {streak > 0 && (
+            <>
+              <div className="h-4 w-px bg-border" />
+              <span className="text-xs text-muted-foreground">🔥 {streak} day streak</span>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="daily-review-pill group/pill mx-auto flex items-center gap-3 rounded-[40px] border border-border bg-[hsl(var(--card))] px-4 py-2 transition-all duration-[220ms] ease-in-out hover:scale-[1.04] hover:border-accent hover:bg-[hsl(var(--secondary))]">
+          <span className="shrink-0 rounded-full bg-[#22c55e18] px-2.5 py-0.5 text-[11px] font-semibold text-[#22c55e]">
+            Daily Review
+          </span>
+          <span className="min-w-0 truncate text-[13px] text-foreground transition-all duration-[220ms] group-hover/pill:text-[15px] group-hover/pill:text-white">
+            {review.item.title}
+          </span>
+          <div className="h-4 w-px shrink-0 bg-border" />
+          <div className="flex shrink-0 items-center gap-1.5">
+            <button
+              onClick={handleGotIt}
+              title="Got it"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#22c55e20] text-[#22c55e] transition-all duration-[220ms] ease-in-out hover:scale-[1.18] hover:bg-[#22c55e30] group-hover/pill:h-[30px] group-hover/pill:w-[30px]"
+            >
+              <Check size={14} />
+            </button>
+            <button
+              onClick={handleLater}
+              title="Review later"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f59e0b20] text-[#f59e0b] transition-all duration-[220ms] ease-in-out hover:scale-[1.18] hover:bg-[#f59e0b30] group-hover/pill:h-[30px] group-hover/pill:w-[30px]"
+            >
+              <RefreshCw size={14} />
+            </button>
+            <button
+              onClick={handleOpen}
+              title="Open"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-[220ms] ease-in-out hover:scale-[1.18] hover:bg-secondary hover:text-foreground group-hover/pill:h-[30px] group-hover/pill:w-[30px]"
+            >
+              <ExternalLink size={14} />
+            </button>
           </div>
-        ) : (
-          <div className="p-4">
-            <div className="mb-3 flex items-start gap-3">
-              <span className="mt-0.5 text-xl" style={{ color: review.topicColor }}>📖</span>
-              <div className="flex-1">
-                <h3 className="text-sm font-semibold text-foreground">{review.item.title}</h3>
-                <div className="mt-1 flex items-center gap-2">
-                  <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: `${review.topicColor}20`, color: review.topicColor }}>
-                    {review.topicName}
-                  </span>
-                  {daysSince !== null && (
-                    <span className="text-xs text-muted-foreground">
-                      Last opened {daysSince === 0 ? 'today' : `${daysSince}d ago`}
-                    </span>
-                  )}
-                  {daysSince === null && (
-                    <span className="text-xs text-muted-foreground">Never opened</span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={handleGotIt}
-                className="flex-1 rounded-md py-1.5 text-xs font-medium text-primary-foreground transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110"
-                style={{ backgroundColor: '#22c55e' }}
-              >
-                ✓ Got it
-              </button>
-              <button
-                onClick={handleLater}
-                className="flex-1 rounded-md py-1.5 text-xs font-medium transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110"
-                style={{ backgroundColor: '#f59e0b20', color: '#f59e0b' }}
-              >
-                ↻ Review later
-              </button>
-              <button
-                onClick={handleOpen}
-                className="flex-1 rounded-md border border-border py-1.5 text-xs font-medium text-foreground transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110 hover:bg-secondary"
-              >
-                Open
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
