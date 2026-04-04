@@ -179,25 +179,8 @@ export default function HomePage() {
       {/* Daily Review */}
       {allItemsWithTopic.length > 0 && <DailyReview allItems={allItemsWithTopic} />}
 
-      {/* Quick Stats */}
-      <div className="mb-6 overflow-x-auto rounded-lg border border-border bg-card p-4">
-        <div className="flex items-center gap-6">
-          <div className="shrink-0">
-            <span className="text-2xl font-bold text-foreground">{allItems.length}</span>
-            <span className="ml-2 text-sm text-muted-foreground">Total Items</span>
-          </div>
-          <div className="h-8 w-px bg-border" />
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-            {dynamicTypes.map(type => typeCounts[type] > 0 && (
-              <div key={type} className="flex shrink-0 items-center gap-1.5 text-sm">
-                <span className="text-muted-foreground">{TYPE_SYMBOLS[type] || '◈'}</span>
-                <span className="text-foreground">{typeCounts[type]}</span>
-                <span className="text-muted-foreground">{capitalize(type)}s</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Stats Bar */}
+      <StatsBar typeCounts={typeCounts} total={allItems.length} />
 
       {/* Pinned Items */}
       {pinnedItems.length > 0 && (
