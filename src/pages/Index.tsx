@@ -223,7 +223,7 @@ export default function HomePage() {
               <Link
                 key={item.id}
                 to={`/topic?topic=${topic.id}`}
-                className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-secondary"
+                className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:translate-x-1 hover:border-l-accent"
               >
                 <span
                   className="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
