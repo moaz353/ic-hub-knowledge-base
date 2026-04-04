@@ -1,9 +1,0 @@
-{
-  "id": "clk",
-  "name": "CLK",
-  "fullName": "Clock Design & Distribution",
-  "description": "Clock generation, distribution, and management",
-  "color": "#79c0ff",
-  "icon": "◷",
-  "items": []
-}
