@@ -56,6 +56,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775289554076"
+    },
+    {
+      "type": "note",
+      "title": "Verilog notes",
+      "description": "A PDF on Verilog, covering a wide range of topics from Datatypes to Finite State Machines (FSM)",
+      "file": "https://www.linkedin.com/posts/jairaj-mirashi-design-verification-engineer_verilognotes-ugcPost-7217526481277583360-9wSE?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "V"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775290938258"
     }
   ]
 }
