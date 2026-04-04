@@ -141,6 +141,25 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775291405968"
+    },
+    {
+      "type": "note",
+      "title": "50 Days RTL Guide",
+      "description": "RTL design in 50 days! Simple steps to get started and improve.",
+      "file": "https://www.linkedin.com/posts/jagruthi-karamala_50-days-of-rtl-ugcPost-7258821869032636416-6hT5/?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "RTL",
+        "V",
+        "Lab"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775325773437"
     }
   ]
 }
