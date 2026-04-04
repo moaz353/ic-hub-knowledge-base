@@ -108,6 +108,23 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775138447816"
+    },
+    {
+      "type": "resource",
+      "title": "SDC Constraints",
+      "description": "SDC Constraints – Complete Practical & Theoretical Guide",
+      "file": "https://www.linkedin.com/posts/bapuji2214_sdc-ugcPost-7444831516859437056-p0X3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "Synopsys Design Constraints (SDC) from basics to industry-level implementation."
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "the guide covers:\n• Complete understanding of timing constraints\n• Clock, input/output, and exception modeling\n• Real-world STA scenarios and debugging techniques\n• OCV, AOCV, POCV concepts\n• Industry best practices and interview preparation",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775280418197"
     }
   ]
 }
