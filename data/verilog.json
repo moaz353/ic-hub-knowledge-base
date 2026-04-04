@@ -107,6 +107,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775291187285"
+    },
+    {
+      "type": "note",
+      "title": "Verilog note 2",
+      "description": "Short verilog notes",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7230860813425590272?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "V"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775291284506"
     }
   ]
 }
