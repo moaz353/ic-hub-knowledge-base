@@ -111,12 +111,15 @@
     },
     {
       "type": "resource",
-      "title": "SDC Constraints",
-      "description": "SDC Constraints – Complete Practical & Theoretical Guide",
+      "title": "SDC Constraints– Complete Practical & Theoretical Guide",
+      "description": "Synopsys Design Constraints (SDC) from basics to industry-level implementation.",
       "file": "https://www.linkedin.com/posts/bapuji2214_sdc-ugcPost-7444831516859437056-p0X3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
       "thumbnail": "",
       "tags": [
-        "Synopsys Design Constraints (SDC) from basics to industry-level implementation."
+        "STA",
+        "Timing",
+        "ASIC",
+        "PD"
       ],
       "source": "Linkedin",
       "date": "2026-04-04",
