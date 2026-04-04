@@ -67,7 +67,7 @@ export default function ItemCard({
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-150 ease-in-out hover:-translate-y-[3px] hover:border-accent">
+    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-200 ease-in-out">
       {/* Thumbnail / placeholder */}
       <div
         className="flex h-28 items-center justify-center text-4xl"
@@ -83,7 +83,7 @@ export default function ItemCard({
       {/* Content */}
       <div className="flex flex-1 flex-col gap-2 p-3">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="line-clamp-2 text-sm font-semibold text-foreground">{item.title}</h3>
+          <h3 className="spotlight-item-title line-clamp-2 text-sm font-semibold text-foreground">{item.title}</h3>
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -126,7 +126,7 @@ export default function ItemCard({
         </div>
 
         {item.description && (
-          <p className="line-clamp-2 text-xs text-muted-foreground">{item.description}</p>
+          <p className="spotlight-item-desc line-clamp-2 text-xs text-muted-foreground">{item.description}</p>
         )}
 
         {/* Type badge */}

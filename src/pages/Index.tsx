@@ -218,12 +218,12 @@ export default function HomePage() {
       {recentItems.length > 0 && (
         <section className="mb-6">
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Recent Activity</h2>
-          <div className="rounded-lg border border-border bg-card divide-y divide-border">
+          <div className="spotlight-activity rounded-lg border border-border bg-card divide-y divide-border">
             {recentItems.map(({ item, topic }) => (
               <Link
                 key={item.id}
                 to={`/topic?topic=${topic.id}`}
-                className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:translate-x-1 hover:border-l-accent"
+                className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:border-l-accent"
               >
                 <span
                   className="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
@@ -231,9 +231,9 @@ export default function HomePage() {
                 >
                   {topic.name}
                 </span>
-                <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
-                <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{item.type}</span>
-                <span className="shrink-0 text-xs text-muted-foreground">{item.date}</span>
+                <span className="spotlight-title flex-1 truncate text-[13px] text-foreground">{item.title}</span>
+                <span className="spotlight-meta shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{item.type}</span>
+                <span className="spotlight-meta shrink-0 text-xs text-muted-foreground">{item.date}</span>
               </Link>
             ))}
           </div>
@@ -243,7 +243,7 @@ export default function HomePage() {
       {/* Topic Cards Grid */}
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topics</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="spotlight-topics grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {topics.map(topic => {
             const color = topic.color || TOPIC_COLORS[topic.id] || '#58a6ff';
             const icon = topic.icon || TOPIC_ICONS[topic.id] || '◈';
@@ -256,13 +256,13 @@ export default function HomePage() {
             return (
               <div
                 key={topic.id}
-                className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-[180ms] ease-in-out hover:scale-[1.02] hover:border-accent"
+                className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-[220ms] ease-in-out"
               >
                 <div className="h-1" style={{ backgroundColor: color }} />
                 <Link to={`/topic?topic=${topic.id}`} className="block p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-xl" style={{ color }}>{icon}</span>
-                    <span className="font-semibold text-foreground">{topic.name}</span>
+                    <span className="spotlight-topic-name font-semibold text-foreground">{topic.name}</span>
                     <span
                       className="ml-auto rounded-full px-2 py-0.5 text-xs font-medium"
                       style={{ backgroundColor: `${color}20`, color }}
