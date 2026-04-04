@@ -39,6 +39,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775289255254"
+    },
+    {
+      "type": "language labs",
+      "title": "Common verilog practice problems",
+      "description": "Some common topics verilog  practice problems with Solutions for reference",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7035204469021700096?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "Lab"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775289554076"
     }
   ]
 }
