@@ -87,7 +87,7 @@ export default function DailyReview({ allItems }: Props) {
               </button>
               <button
                 onClick={handleOpen}
-                className="flex-1 rounded-md border border-border py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-secondary"
+                className="flex-1 rounded-md border border-border py-1.5 text-xs font-medium text-foreground transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110 hover:bg-secondary"
               >
                 Open
               </button>
