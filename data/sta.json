@@ -5,5 +5,26 @@
   "description": "Timing constraints, SDC, setup/hold analysis",
   "color": "#8c2008",
   "icon": "◑",
-  "items": []
+  "items": [
+    {
+      "type": "book",
+      "title": "STA handbook",
+      "description": "A Complete Handbook for VLSI Engineers  Timing is everything in VLSI, and mastering Static Timing Analysis (STA) is crucial for any chip designer.",
+      "file": "https://www.linkedin.com/posts/prasanthi-chanda-484205245_static-timing-analysis-activity-7297983997215653888--dTj/?utm_source=share&utm_medium=member_ios&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "STA",
+        "Timing",
+        "VLSI",
+        "ASIC"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "sta-1775326243383"
+    }
+  ]
 }
