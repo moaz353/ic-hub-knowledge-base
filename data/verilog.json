@@ -160,6 +160,23 @@
       "favorite": false,
       "pinned": false,
       "id": "verilog-1775325773437"
+    },
+    {
+      "type": "cheatsheet",
+      "title": "Verilog cheatsheet",
+      "description": "Verilog Overview",
+      "file": "https://www.linkedin.com/posts/ugcPost-7240592256414466048-bkH9/?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "V"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "verilog-1775325917717"
     }
   ]
 }
