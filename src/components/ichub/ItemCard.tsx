@@ -83,7 +83,7 @@ export default function ItemCard({
       {/* Content */}
       <div className="flex flex-1 flex-col gap-2 p-3">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="line-clamp-2 text-sm font-semibold text-foreground">{item.title}</h3>
+          <h3 className="spotlight-item-title line-clamp-2 text-sm font-semibold text-foreground">{item.title}</h3>
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
