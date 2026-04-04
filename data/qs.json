@@ -56,6 +56,24 @@
       "favorite": false,
       "pinned": false,
       "id": "qs-1775327405805"
+    },
+    {
+      "type": "resource",
+      "title": "FPGA & ASIC",
+      "description": "Interview Questions For FPGA and ASIC",
+      "file": "https://www.linkedin.com/posts/anis-hassen_interview-questions-for-fpga-asic-activity-7228307376913715201-HWYD/?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "",
+      "tags": [
+        "ASIC",
+        "FPGA"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "qs-1775327800180"
     }
   ]
 }
