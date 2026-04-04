@@ -132,6 +132,87 @@
   }
 }
 
+/* ── Spotlight hover: Recent Activity ── */
+.spotlight-activity > * {
+  position: relative;
+  z-index: 1;
+  transition: opacity 180ms ease, transform 180ms ease, font-size 180ms ease, color 180ms ease;
+}
+.spotlight-activity:hover > * {
+  opacity: 0.25;
+}
+.spotlight-activity:hover > *:hover {
+  opacity: 1 !important;
+  z-index: 10;
+  transform: scaleY(1.32) translateX(10px);
+}
+.spotlight-activity:hover > *:hover .spotlight-title {
+  font-size: 15px;
+  color: hsl(var(--foreground));
+}
+.spotlight-activity:hover > *:hover .spotlight-meta {
+  color: hsl(var(--secondary-foreground));
+}
+
+/* ── Spotlight hover: Topic Cards (3-col grid) ── */
+.spotlight-topics > * {
+  position: relative;
+  z-index: 1;
+  transition: opacity 220ms ease, transform 220ms ease, border-color 220ms ease, background-color 220ms ease, padding 220ms ease;
+}
+.spotlight-topics:hover > * {
+  opacity: 0.25;
+}
+.spotlight-topics:hover > *:hover {
+  opacity: 1 !important;
+  z-index: 10;
+  border-color: hsl(var(--accent));
+  background-color: hsl(var(--surface-hover));
+}
+.spotlight-topics:hover > *:hover .spotlight-topic-name {
+  font-size: 16px;
+  color: hsl(var(--foreground));
+}
+/* Column-based drift */
+.spotlight-topics:hover > *:nth-child(3n+1):hover {
+  transform: scale(1.22) translateX(18px);
+}
+.spotlight-topics:hover > *:nth-child(3n+2):hover {
+  transform: scale(1.22) translateY(-4px);
+}
+.spotlight-topics:hover > *:nth-child(3n):hover {
+  transform: scale(1.22) translateX(-18px);
+}
+
+/* ── Spotlight hover: Item Cards (2-col grid) ── */
+.spotlight-items > * {
+  position: relative;
+  z-index: 1;
+  transition: opacity 200ms ease, transform 200ms ease, border-color 200ms ease;
+}
+.spotlight-items:hover > * {
+  opacity: 0.25;
+}
+.spotlight-items:hover > *:hover {
+  opacity: 1 !important;
+  z-index: 10;
+  border-color: hsl(var(--accent));
+}
+.spotlight-items:hover > *:hover .spotlight-item-title {
+  font-size: 15px;
+  color: hsl(var(--foreground));
+}
+.spotlight-items:hover > *:hover .spotlight-item-desc {
+  color: hsl(var(--secondary-foreground));
+}
+/* Column-based drift */
+.spotlight-items:hover > *:nth-child(odd):hover {
+  transform: scale(1.08) translateX(14px) translateY(-4px);
+}
+.spotlight-items:hover > *:nth-child(even):hover {
+  transform: scale(1.08) translateX(-14px) translateY(-4px);
+}
+
 @media print {
   body {
     background: white !important;
