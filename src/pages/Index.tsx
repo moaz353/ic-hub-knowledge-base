@@ -243,7 +243,7 @@ export default function HomePage() {
       {/* Topic Cards Grid */}
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topics</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="spotlight-topics grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {topics.map(topic => {
             const color = topic.color || TOPIC_COLORS[topic.id] || '#58a6ff';
             const icon = topic.icon || TOPIC_ICONS[topic.id] || '◈';
