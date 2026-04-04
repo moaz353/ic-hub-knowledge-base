@@ -1,9 +1,0 @@
-{
-  "id": "cts",
-  "name": "CTS",
-  "fullName": "Clock Tree Synthesis",
-  "description": "Clock tree synthesis and optimization",
-  "color": "#d2a8ff",
-  "icon": "⋱",
-  "items": []
-}
