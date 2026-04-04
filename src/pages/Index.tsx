@@ -256,7 +256,7 @@ export default function HomePage() {
             return (
               <div
                 key={topic.id}
-                className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-[180ms] ease-in-out hover:scale-[1.02] hover:border-accent"
+                className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-[220ms] ease-in-out"
               >
                 <div className="h-1" style={{ backgroundColor: color }} />
                 <Link to={`/topic?topic=${topic.id}`} className="block p-4">
