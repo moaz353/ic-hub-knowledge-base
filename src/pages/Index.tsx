@@ -218,12 +218,12 @@ export default function HomePage() {
       {recentItems.length > 0 && (
         <section className="mb-6">
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Recent Activity</h2>
-          <div className="rounded-lg border border-border bg-card divide-y divide-border">
+          <div className="spotlight-activity rounded-lg border border-border bg-card divide-y divide-border">
             {recentItems.map(({ item, topic }) => (
               <Link
                 key={item.id}
                 to={`/topic?topic=${topic.id}`}
-                className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:translate-x-1 hover:border-l-accent"
+                className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:border-l-accent"
               >
                 <span
                   className="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
@@ -231,9 +231,9 @@ export default function HomePage() {
                 >
                   {topic.name}
                 </span>
-                <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
-                <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{item.type}</span>
-                <span className="shrink-0 text-xs text-muted-foreground">{item.date}</span>
+                <span className="spotlight-title flex-1 truncate text-[13px] text-foreground">{item.title}</span>
+                <span className="spotlight-meta shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{item.type}</span>
+                <span className="spotlight-meta shrink-0 text-xs text-muted-foreground">{item.date}</span>
               </Link>
             ))}
           </div>
