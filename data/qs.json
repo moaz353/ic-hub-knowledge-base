@@ -39,6 +39,23 @@
       "favorite": false,
       "pinned": false,
       "id": "qs-1775325625667"
+    },
+    {
+      "type": "resource",
+      "title": "STA interview questions",
+      "description": "",
+      "file": "https://www.linkedin.com/posts/md-irshad-alam-953241270_static-timing-analysis-interview-questions-activity-7255072604116447232-VsZv/?utm_source=share&utm_medium=member_ios",
+      "thumbnail": "Static Timing Analysis Interview Questions",
+      "tags": [
+        "STA"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "qs-1775327405805"
     }
   ]
 }
