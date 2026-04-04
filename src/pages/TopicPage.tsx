@@ -279,7 +279,7 @@ export default function TopicPage() {
           <p className="text-sm text-muted-foreground">No items found</p>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="spotlight-items grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredItems.map(item => (
             <ItemCard
               key={item.id}

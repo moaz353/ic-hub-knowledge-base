@@ -126,7 +126,7 @@ export default function ItemCard({
         </div>
 
         {item.description && (
-          <p className="line-clamp-2 text-xs text-muted-foreground">{item.description}</p>
+          <p className="spotlight-item-desc line-clamp-2 text-xs text-muted-foreground">{item.description}</p>
         )}
 
         {/* Type badge */}

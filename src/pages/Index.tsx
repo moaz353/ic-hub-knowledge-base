@@ -262,7 +262,7 @@ export default function HomePage() {
                 <Link to={`/topic?topic=${topic.id}`} className="block p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-xl" style={{ color }}>{icon}</span>
-                    <span className="font-semibold text-foreground">{topic.name}</span>
+                    <span className="spotlight-topic-name font-semibold text-foreground">{topic.name}</span>
                     <span
                       className="ml-auto rounded-full px-2 py-0.5 text-xs font-medium"
                       style={{ backgroundColor: `${color}20`, color }}
