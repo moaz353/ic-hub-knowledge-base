@@ -128,6 +128,24 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775280418197"
+    },
+    {
+      "type": "book",
+      "title": "ASIC physical design",
+      "description": "ASIC physical design full short notes",
+      "file": "https://www.linkedin.com/posts/orsu-venkata-krishnaiah_asicphysicaldesignfullshortnotes-ugcPost-7322586450405867520-6-lA/?utm_source=share&utm_medium=member_ios&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "ASIC",
+        "PD"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775328032197"
     }
   ]
 }
