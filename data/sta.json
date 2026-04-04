@@ -67,6 +67,25 @@
       "favorite": false,
       "pinned": false,
       "id": "sta-1775327649065"
+    },
+    {
+      "type": "video",
+      "title": "CLK design",
+      "description": "",
+      "file": "https://www.linkedin.com/posts/sheroukali_clockmultipliers-ai-elevenlabs-activity-7299393286492897281--oiO/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "STA",
+        "Timing",
+        "CLK"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-04",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "sta-1775328185942"
     }
   ]
 }
