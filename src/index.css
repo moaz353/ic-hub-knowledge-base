@@ -229,3 +229,15 @@
     box-shadow: none;
   }
 }
+
+/* ── Spotlight hover: Stats legend ── */
+.stats-legend > .stats-legend-item {
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.stats-legend:hover > .stats-legend-item {
+  opacity: 0.3;
+}
+.stats-legend:hover > .stats-legend-item:hover {
+  opacity: 1 !important;
+  transform: scale(1.1);
+}
