@@ -1,8 +1,8 @@
 {
   "id": "systemverilog",
-  "name": "SystemVerilog",
-  "fullName": "SystemVerilog",
-  "description": "SystemVerilog language and UVM",
+  "name": "SystemVerilog & UVM",
+  "fullName": "SystemVerilog and UVM",
+  "description": "All things which related to SystemVerilog language and UVM ",
   "color": "#41aed2",
   "icon": "◇",
   "items": [
