@@ -73,21 +73,21 @@ export default function DailyReview({ allItems }: Props) {
             <div className="flex gap-2">
               <button
                 onClick={handleGotIt}
-                className="flex-1 rounded-md py-1.5 text-xs font-medium text-primary-foreground transition-colors"
+                className="flex-1 rounded-md py-1.5 text-xs font-medium text-primary-foreground transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110"
                 style={{ backgroundColor: '#22c55e' }}
               >
                 ✓ Got it
               </button>
               <button
                 onClick={handleLater}
-                className="flex-1 rounded-md py-1.5 text-xs font-medium transition-colors"
+                className="flex-1 rounded-md py-1.5 text-xs font-medium transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110"
                 style={{ backgroundColor: '#f59e0b20', color: '#f59e0b' }}
               >
                 ↻ Review later
               </button>
               <button
                 onClick={handleOpen}
-                className="flex-1 rounded-md border border-border py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-secondary"
+                className="flex-1 rounded-md border border-border py-1.5 text-xs font-medium text-foreground transition-all duration-[120ms] ease-in-out hover:scale-[1.02] hover:brightness-110 hover:bg-secondary"
               >
                 Open
               </button>

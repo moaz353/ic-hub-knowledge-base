@@ -67,7 +67,7 @@ export default function ItemCard({
   };
 
   return (
-    <div className="card-hover group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card">
+    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-150 ease-in-out hover:-translate-y-[3px] hover:border-accent">
       {/* Thumbnail / placeholder */}
       <div
         className="flex h-28 items-center justify-center text-4xl"
