@@ -10,6 +10,7 @@
     "systemverilog",
     "verilog",
     "imp",
-    "icboslla"
+    "icboslla",
+    "fpga"
   ]
 }
