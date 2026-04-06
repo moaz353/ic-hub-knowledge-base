@@ -1,0 +1,9 @@
+{
+  "id": "fpga",
+  "name": "FPGA",
+  "fullName": "Field Programmable Gate Array",
+  "description": "A field-programmable gate array (FPGA) is an integrated circuit that can be reconfigured and programmed after manufacturing to perform custom digital functions.",
+  "icon": "🤺",
+  "color": "#f245d2",
+  "items": []
+}
