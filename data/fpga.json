@@ -5,5 +5,24 @@
   "description": "A field-programmable gate array (FPGA) is an integrated circuit that can be reconfigured and programmed after manufacturing to perform custom digital functions.",
   "icon": "🤺",
   "color": "#f245d2",
-  "items": []
+  "items": [
+    {
+      "type": "video",
+      "title": "FPGA Deep Dive and Use",
+      "description": "FPGAs Aren’t Processors (Unless You Want Them to Be) || FPGA Deep Dive and Use",
+      "file": "https://www.youtube.com/watch?v=d3nuepnbmC4",
+      "thumbnail": "",
+      "tags": [
+        "FPGA",
+        "LOGIC"
+      ],
+      "source": "Youtube",
+      "date": "2026-04-06",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "fpga-1775503171527"
+    }
+  ]
 }
