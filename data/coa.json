@@ -5,5 +5,25 @@
   "description": "Define how computer systems are designed and function.",
   "icon": "🖥️",
   "color": "#454ba1",
-  "items": []
+  "items": [
+    {
+      "type": "video",
+      "title": "Processor design for dummies [English]",
+      "description": "A processor 101 intro. Gives a basic idea of assembly language, machine code and processor design from scratch.",
+      "file": "https://www.youtube.com/watch?v=HCzIK322Pzw",
+      "thumbnail": "",
+      "tags": [
+        "COA",
+        "design",
+        "CPU"
+      ],
+      "source": "Youtube",
+      "date": "2026-04-06",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "coa-1775503764027"
+    }
+  ]
 }
