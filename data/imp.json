@@ -5,5 +5,24 @@
   "description": "Important Websites for VLSI like forums. ",
   "icon": "👀",
   "color": "#a35252",
-  "items": []
+  "items": [
+    {
+      "type": "website",
+      "title": "BOSSLA",
+      "description": "The first and most organized resource for learning Digital IC Design",
+      "file": "https://ahm3d0x.github.io/Digital-IC-Design/pages/index.html",
+      "thumbnail": "",
+      "tags": [
+        "ROADMAP",
+        "TOOLS"
+      ],
+      "source": "Bossla website",
+      "date": "2026-04-07",
+      "rating": 3,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "imp-1775539461308"
+    }
+  ]
 }
