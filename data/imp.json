@@ -23,6 +23,26 @@
       "favorite": false,
       "pinned": false,
       "id": "imp-1775539461308"
+    },
+    {
+      "type": "website",
+      "title": "Leet Silicon",
+      "description": "Interview Prep Platform for Hardware Engineers Practice RTL design, design verification, programming problems and computer architecture inspired by real hardware interviews.",
+      "file": "https://leetsilicon.com/",
+      "thumbnail": "",
+      "tags": [
+        "Lab",
+        "V",
+        "SV",
+        "COA"
+      ],
+      "source": "",
+      "date": "2026-04-08",
+      "rating": 4,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "imp-1775672786855"
     }
   ]
 }
