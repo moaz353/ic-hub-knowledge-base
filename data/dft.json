@@ -5,5 +5,23 @@
   "description": "Design for testability, scan chains, BIST",
   "color": "#ffa657",
   "icon": "⊞",
-  "items": []
+  "items": [
+    {
+      "type": "book",
+      "title": "Design for Testability (DFT) – Complete Practical & Theoretical Guide",
+      "description": "This book is designed to help students and engineers build a strong foundation in DFT concepts and confidently apply them in real ASIC design flows.",
+      "file": "https://www.linkedin.com/posts/bapuji2214_dft-ugcPost-7445790704758603776-920D?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "",
+      "tags": [
+        "DFT"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "dft-1775726234710"
+    }
+  ]
 }
