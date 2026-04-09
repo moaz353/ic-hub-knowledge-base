@@ -42,6 +42,24 @@
       "favorite": false,
       "pinned": false,
       "id": "fpga-1775746743621"
+    },
+    {
+      "type": "youtube course",
+      "title": "FPGA Design Course",
+      "description": "FPGA Design Course youtube playlist 2026",
+      "file": "https://www.youtube.com/playlist?list=PLqPfWwayuBvMI5Zl-RGv8BrP2PCZpu_gp",
+      "thumbnail": "",
+      "tags": [
+        "FPGA",
+        "LUTs"
+      ],
+      "source": "Youtube",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "fpga-1775748768303"
     }
   ]
 }
