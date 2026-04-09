@@ -3,6 +3,8 @@ import { Check, RefreshCw, ExternalLink } from 'lucide-react';
 import type { ICItem } from '@/types/ichub';
 import { getDailyReview, markReview, getDaysSinceOpened } from '@/services/dailyReview';
 import { setLastOpened } from '@/services/utils';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import ItemCard from './ItemCard';
 
 interface Props {
   allItems: { item: ICItem; topicId: string; topicName: string; topicColor: string }[];
@@ -11,6 +13,7 @@ interface Props {
 export default function DailyReview({ allItems }: Props) {
   const [review, setReview] = useState(() => getDailyReview(allItems));
   const [streak, setStreak] = useState(review?.streak || 0);
+  const [cardOpen, setCardOpen] = useState(false);
 
   if (!review) return null;
 
@@ -53,9 +56,12 @@ export default function DailyReview({ allItems }: Props) {
           <span className="shrink-0 rounded-full bg-[#22c55e18] px-2.5 py-0.5 text-[11px] font-semibold text-[#22c55e]">
             Daily Review
           </span>
-          <span className="min-w-0 truncate text-[13px] text-foreground transition-all duration-[220ms] group-hover/pill:text-[15px] group-hover/pill:text-white">
+          <button
+            onClick={() => setCardOpen(true)}
+            className="min-w-0 truncate text-[13px] text-foreground transition-all duration-[220ms] group-hover/pill:text-[15px] group-hover/pill:text-white hover:underline cursor-pointer bg-transparent border-none p-0"
+          >
             {review.item.title}
-          </span>
+          </button>
           <div className="h-4 w-px shrink-0 bg-border" />
           <div className="flex shrink-0 items-center gap-1.5">
             <button
@@ -82,6 +88,17 @@ export default function DailyReview({ allItems }: Props) {
           </div>
         </div>
       )}
+
+      {/* Item Card Modal */}
+      <Dialog open={cardOpen} onOpenChange={setCardOpen}>
+        <DialogContent className="max-w-sm p-0 border-none bg-transparent shadow-none [&>button]:hidden">
+          <ItemCard
+            item={review.item}
+            topicColor={allItems.find(a => a.item.id === review.item.id)?.topicColor || '#58a6ff'}
+            topicId={allItems.find(a => a.item.id === review.item.id)?.topicId || ''}
+          />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
