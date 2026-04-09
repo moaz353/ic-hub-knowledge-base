@@ -23,6 +23,25 @@
       "favorite": false,
       "pinned": false,
       "id": "fpga-1775503171527"
+    },
+    {
+      "type": "note",
+      "title": "Inside an FPGA",
+      "description": "FPGA Architecture and resources",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7434883509997170689/",
+      "thumbnail": "",
+      "tags": [
+        "FPGA",
+        "LUTs",
+        "CLK"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "fpga-1775746743621"
     }
   ]
 }
