@@ -61,6 +61,25 @@
       "favorite": false,
       "pinned": false,
       "id": "coa-1775744798423"
+    },
+    {
+      "type": "youtube course",
+      "title": "RISC-V CPU in Python",
+      "description": "Build a RISC-V CPU in Python: From Microarchitecture to Verification",
+      "file": "https://www.youtube.com/playlist?list=PL0-xus8sJBCR3d_KcveIFzQBZnHzeOMHi",
+      "thumbnail": "",
+      "tags": [
+        "RISC-V",
+        "COA",
+        "PY"
+      ],
+      "source": "YouTube",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "coa-1775747369753"
     }
   ]
 }
