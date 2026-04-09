@@ -10,6 +10,7 @@ import StatsBar from '@/components/ichub/StatsBar';
 import QuickNotesPanel from '@/components/ichub/QuickNotesPanel';
 import { useAuth } from '@/components/ichub/AuthProvider';
 import { toast } from 'sonner';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 export default function HomePage() {
   const [topics, setTopics] = useState<TopicData[]>([]);
