@@ -3,6 +3,8 @@ import { Check, RefreshCw, ExternalLink } from 'lucide-react';
 import type { ICItem } from '@/types/ichub';
 import { getDailyReview, markReview, getDaysSinceOpened } from '@/services/dailyReview';
 import { setLastOpened } from '@/services/utils';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import ItemCard from './ItemCard';
 
 interface Props {
   allItems: { item: ICItem; topicId: string; topicName: string; topicColor: string }[];
@@ -11,6 +13,7 @@ interface Props {
 export default function DailyReview({ allItems }: Props) {
   const [review, setReview] = useState(() => getDailyReview(allItems));
   const [streak, setStreak] = useState(review?.streak || 0);
+  const [cardOpen, setCardOpen] = useState(false);
 
   if (!review) return null;
 
