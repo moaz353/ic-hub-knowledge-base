@@ -88,6 +88,17 @@ export default function DailyReview({ allItems }: Props) {
           </div>
         </div>
       )}
+
+      {/* Item Card Modal */}
+      <Dialog open={cardOpen} onOpenChange={setCardOpen}>
+        <DialogContent className="max-w-sm p-0 border-none bg-transparent shadow-none [&>button]:hidden">
+          <ItemCard
+            item={review.item}
+            topicColor={allItems.find(a => a.item.id === review.item.id)?.topicColor || '#58a6ff'}
+            topicId={allItems.find(a => a.item.id === review.item.id)?.topicId || ''}
+          />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
