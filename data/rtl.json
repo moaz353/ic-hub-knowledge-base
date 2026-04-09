@@ -5,5 +5,25 @@
   "description": "All about Digital IC design V , SV , RTL",
   "icon": "🏯",
   "color": "#01939d",
-  "items": []
+  "items": [
+    {
+      "type": "article",
+      "title": "RTL Rules",
+      "description": "Golden Rules in RTL Design for Industry Needs Article",
+      "file": "https://medium.com/@ansariowais118/golden-rules-in-rtl-design-for-industry-needs-46546e2b67e1",
+      "thumbnail": "",
+      "tags": [
+        "RTL",
+        "V",
+        "SV"
+      ],
+      "source": "Medium",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "rtl-1775749029263"
+    }
+  ]
 }
