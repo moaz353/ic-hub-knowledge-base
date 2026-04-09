@@ -31,11 +31,10 @@
       "file": "https://youtube.com/playlist?list=PL1h5a0eaDD3pimcMlzW15RpW02HPzIziL",
       "thumbnail": "",
       "tags": [
-        "Physical Design",
+        "PD",
         "Backend",
         "Synthesis",
-        "PrimeTime",
-        "DC"
+        "PrimeTime"
       ],
       "source": "YouTube / VLSI Academy",
       "date": "2026-04-02",
