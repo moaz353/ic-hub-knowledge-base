@@ -1,0 +1,9 @@
+{
+  "id": "oop",
+  "name": "OOP",
+  "fullName": "Object Oriented Programming",
+  "description": "Object-oriented programming is about creating \"objects\", which can hold data and functions that work on that data.",
+  "icon": "♏",
+  "color": "#730990",
+  "items": []
+}
