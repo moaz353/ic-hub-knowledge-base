@@ -206,21 +206,26 @@ export default function HomePage() {
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Recent Activity</h2>
           <div className="spotlight-activity rounded-lg border border-border bg-card divide-y divide-border">
             {recentItems.map(({ item, topic }) => (
-              <Link
+              <div
                 key={item.id}
-                to={`/topic?topic=${topic.id}`}
                 className="flex items-center gap-3 px-4 py-2.5 border-l-2 border-l-transparent transition-all duration-150 ease-in-out hover:bg-secondary hover:border-l-accent"
               >
-                <span
+                <Link
+                  to={`/topic?topic=${topic.id}`}
                   className="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
                   style={{ backgroundColor: `${topic.color}20`, color: topic.color }}
                 >
                   {topic.name}
-                </span>
-                <span className="spotlight-title flex-1 truncate text-[13px] text-foreground">{item.title}</span>
+                </Link>
+                <button
+                  onClick={() => setPreviewItem({ item, topicId: topic.id, topicColor: topic.color })}
+                  className="spotlight-title flex-1 truncate text-[13px] text-foreground text-left bg-transparent border-none p-0 cursor-pointer hover:underline"
+                >
+                  {item.title}
+                </button>
                 <span className="spotlight-meta shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{item.type}</span>
                 <span className="spotlight-meta shrink-0 text-xs text-muted-foreground">{item.date}</span>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
