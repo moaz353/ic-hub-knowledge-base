@@ -12,6 +12,7 @@
     "imp",
     "fpga",
     "coa",
-    "oop"
+    "oop",
+    "rtl"
   ]
 }
