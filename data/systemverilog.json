@@ -64,6 +64,25 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775502680730"
+    },
+    {
+      "type": "note",
+      "title": "Virtual Interface in SV",
+      "description": "Virtual Interface explanation in System Verilog",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7441521580477714432/",
+      "thumbnail": "",
+      "tags": [
+        "SV",
+        "OOP",
+        "UVM"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775745992878"
     }
   ]
 }
