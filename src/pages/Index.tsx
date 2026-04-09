@@ -327,6 +327,19 @@ export default function HomePage() {
 
       {/* Quick Notes Panel */}
       <QuickNotesPanel topics={topics} />
+
+      {/* Item Preview Modal */}
+      <Dialog open={!!previewItem} onOpenChange={(open) => !open && setPreviewItem(null)}>
+        <DialogContent className="max-w-sm p-0 border-none bg-transparent shadow-none [&>button]:hidden">
+          {previewItem && (
+            <ItemCard
+              item={previewItem.item}
+              topicColor={previewItem.topicColor}
+              topicId={previewItem.topicId}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
