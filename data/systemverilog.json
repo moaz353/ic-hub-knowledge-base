@@ -121,6 +121,25 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775746542516"
+    },
+    {
+      "type": "youtube course",
+      "title": "SVA - Assertions",
+      "description": "System Verilog Assertion Youtube playlist that explain all about SVA.",
+      "file": "https://www.youtube.com/playlist?list=PLcmfUkZaXr_y3hoek-FZqPVrnSusH3YEh",
+      "thumbnail": "",
+      "tags": [
+        "SV",
+        "SVA",
+        "DV"
+      ],
+      "source": "YouTube",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775747871389"
     }
   ]
 }
