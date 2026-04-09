@@ -83,6 +83,25 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775745992878"
+    },
+    {
+      "type": "youtube course",
+      "title": "UVM FULL COURSE B2",
+      "description": "UVM FULL COURSE in youtube",
+      "file": "https://www.youtube.com/playlist?list=PLqPfWwayuBvPb3keSEbSqTmkdowC-OL6M",
+      "thumbnail": "",
+      "tags": [
+        "UVM",
+        "SV",
+        "COURSE"
+      ],
+      "source": "YouTube / ALL ABOUT VLSI",
+      "date": "2026-04-09",
+      "rating": 2,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775746341856"
     }
   ]
 }
