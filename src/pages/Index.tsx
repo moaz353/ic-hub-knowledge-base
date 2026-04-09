@@ -21,6 +21,7 @@ export default function HomePage() {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const { requireToken } = useAuth();
+  const [previewItem, setPreviewItem] = useState<{ item: ICItem; topicId: string; topicColor: string } | null>(null);
 
   useEffect(() => {
     loadData();
