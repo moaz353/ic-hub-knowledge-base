@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { readAllTopics, createTopic, editTopic as editTopicApi, deleteTopic as deleteTopicApi } from '@/services/github';
 import type { TopicData, ICItem, ItemType } from '@/types/ichub';
@@ -22,6 +22,24 @@ export default function HomePage() {
   const searchQuery = searchParams.get('search') || '';
   const { requireToken } = useAuth();
   const [previewItem, setPreviewItem] = useState<{ item: ICItem; topicId: string; topicColor: string } | null>(null);
+  const [previewOrigin, setPreviewOrigin] = useState('top left');
+  const previewCardRef = useRef<HTMLDivElement>(null);
+
+  const openPreview = useCallback((e: React.MouseEvent, item: ICItem, topicId: string, topicColor: string) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    setPreviewOrigin(`${rect.top < vh / 2 ? 'top' : 'bottom'} ${rect.left < vw / 2 ? 'left' : 'right'}`);
+    setPreviewItem({ item, topicId, topicColor });
+    requestAnimationFrame(() => {
+      const el = previewCardRef.current;
+      if (el) {
+        el.classList.remove('card-open');
+        void el.offsetWidth;
+        el.classList.add('card-open');
+      }
+    });
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -218,7 +236,7 @@ export default function HomePage() {
                   {topic.name}
                 </Link>
                 <button
-                  onClick={() => setPreviewItem({ item, topicId: topic.id, topicColor: topic.color })}
+                  onClick={(e) => openPreview(e, item, topic.id, topic.color)}
                   className="spotlight-title flex-1 truncate text-[13px] text-foreground text-left bg-transparent border-none p-0 cursor-pointer hover:underline"
                 >
                   {item.title}
@@ -332,11 +350,13 @@ export default function HomePage() {
       <Dialog open={!!previewItem} onOpenChange={(open) => !open && setPreviewItem(null)}>
         <DialogContent className="max-w-sm p-0 border-none bg-transparent shadow-none [&>button]:hidden">
           {previewItem && (
-            <ItemCard
-              item={previewItem.item}
-              topicColor={previewItem.topicColor}
-              topicId={previewItem.topicId}
-            />
+            <div ref={previewCardRef} style={{ transformOrigin: previewOrigin }}>
+              <ItemCard
+                item={previewItem.item}
+                topicColor={previewItem.topicColor}
+                topicId={previewItem.topicId}
+              />
+            </div>
           )}
         </DialogContent>
       </Dialog>
