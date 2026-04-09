@@ -120,6 +120,24 @@
       "favorite": false,
       "pinned": false,
       "id": "scripting-1775140846156"
+    },
+    {
+      "type": "interview qs",
+      "title": "Advanced TCL Scripting",
+      "description": "Advanced TCL Scripting – Interview Handbook",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7430210932494209024/",
+      "thumbnail": "",
+      "tags": [
+        "TCL",
+        "QS"
+      ],
+      "source": "Likedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "scripting-1775747565920"
     }
   ]
 }
