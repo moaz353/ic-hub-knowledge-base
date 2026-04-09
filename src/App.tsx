@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import TopicPage from "./pages/TopicPage.tsx";
 import TagsPage from "./pages/TagsPage.tsx";
 import QueuePage from "./pages/QueuePage.tsx";
+import StatsPage from "./pages/StatsPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/topic" element={<TopicPage />} />
               <Route path="/tags" element={<TagsPage />} />
+              <Route path="/stats" element={<StatsPage />} />
               <Route path="/queue" element={<QueuePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
