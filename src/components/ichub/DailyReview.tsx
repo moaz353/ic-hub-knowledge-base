@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Check, RefreshCw, ExternalLink } from 'lucide-react';
 import type { ICItem } from '@/types/ichub';
 import { getDailyReview, markReview, getDaysSinceOpened } from '@/services/dailyReview';
@@ -14,6 +14,24 @@ export default function DailyReview({ allItems }: Props) {
   const [review, setReview] = useState(() => getDailyReview(allItems));
   const [streak, setStreak] = useState(review?.streak || 0);
   const [cardOpen, setCardOpen] = useState(false);
+  const [cardOrigin, setCardOrigin] = useState('top left');
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const openCard = useCallback((e: React.MouseEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    setCardOrigin(`${rect.top < vh / 2 ? 'top' : 'bottom'} ${rect.left < vw / 2 ? 'left' : 'right'}`);
+    setCardOpen(true);
+    requestAnimationFrame(() => {
+      const el = cardRef.current;
+      if (el) {
+        el.classList.remove('card-open');
+        void el.offsetWidth;
+        el.classList.add('card-open');
+      }
+    });
+  }, []);
 
   if (!review) return null;
 
@@ -92,11 +110,13 @@ export default function DailyReview({ allItems }: Props) {
       {/* Item Card Modal */}
       <Dialog open={cardOpen} onOpenChange={setCardOpen}>
         <DialogContent className="max-w-sm p-0 border-none bg-transparent shadow-none [&>button]:hidden">
-          <ItemCard
-            item={review.item}
-            topicColor={allItems.find(a => a.item.id === review.item.id)?.topicColor || '#58a6ff'}
-            topicId={allItems.find(a => a.item.id === review.item.id)?.topicId || ''}
-          />
+          <div ref={cardRef} style={{ transformOrigin: cardOrigin }}>
+            <ItemCard
+              item={review.item}
+              topicColor={allItems.find(a => a.item.id === review.item.id)?.topicColor || '#58a6ff'}
+              topicId={allItems.find(a => a.item.id === review.item.id)?.topicId || ''}
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </section>
