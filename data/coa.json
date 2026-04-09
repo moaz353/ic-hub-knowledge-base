@@ -42,6 +42,25 @@
       "favorite": false,
       "pinned": false,
       "id": "coa-1775581374835"
+    },
+    {
+      "type": "note",
+      "title": "CPU vs GPU vs TPU vs NPU vs LPU",
+      "description": "5 hardware architectures power AI today.  Each one makes a fundamentally different tradeoff between flexibility, parallelism, and memory access.",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7442876693033185280/",
+      "thumbnail": "",
+      "tags": [
+        "CPU",
+        "COA",
+        "GPU"
+      ],
+      "source": "",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "coa-1775744798423"
     }
   ]
 }
