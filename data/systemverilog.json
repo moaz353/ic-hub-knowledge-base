@@ -102,6 +102,25 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775746341856"
+    },
+    {
+      "type": "interview qs",
+      "title": "UVM TLM PORTS",
+      "description": "UVM TLM ports interview qs and the explanation.",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7435601445581684736/",
+      "thumbnail": "",
+      "tags": [
+        "UVM",
+        "TLM",
+        "SV"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775746542516"
     }
   ]
 }
