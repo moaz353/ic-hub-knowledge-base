@@ -5,5 +5,25 @@
   "description": "Object-oriented programming is about creating \"objects\", which can hold data and functions that work on that data.",
   "icon": "♏",
   "color": "#730990",
-  "items": []
+  "items": [
+    {
+      "type": "interview qs",
+      "title": "OOP QS",
+      "description": "Top 50 OOP interview questions and answers",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7429238821814358017/",
+      "thumbnail": "",
+      "tags": [
+        "OOP",
+        "DV",
+        "UVM"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "oop-1775748654586"
+    }
+  ]
 }
