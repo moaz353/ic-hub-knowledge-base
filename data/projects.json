@@ -123,6 +123,25 @@
       "favorite": false,
       "pinned": false,
       "id": "projects-1775140225866"
+    },
+    {
+      "type": "note",
+      "title": "Listed projects",
+      "description": "List of important project",
+      "file": "https://www.linkedin.com/feed/update/urn:li:activity:7416001178032984064/?updateEntityUrn=urn%3Ali%3Afs_updateV2%3A%28urn%3Ali%3Aactivity%3A7416001178032984064%2CFEED_DETAIL%2CEMPTY%2CDEFAULT%2Cfalse%29",
+      "thumbnail": "",
+      "tags": [
+        "V",
+        "SV",
+        "RTL"
+      ],
+      "source": "",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "projects-1775749251841"
     }
   ]
 }
