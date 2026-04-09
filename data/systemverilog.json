@@ -140,6 +140,27 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775747871389"
+    },
+    {
+      "type": "youtube course",
+      "title": "DV Course",
+      "description": "Design and verification youtube course",
+      "file": "https://www.youtube.com/playlist?list=PLqPfWwayuBvP6ghcSCLDgmy701QjkRb_w",
+      "thumbnail": "",
+      "tags": [
+        "DV",
+        "SV",
+        "V",
+        "UVM",
+        "Flip-Flop"
+      ],
+      "source": "YouTube",
+      "date": "2026-04-09",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1775748332214"
     }
   ]
 }
