@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ICItem, ItemType } from '@/types/ichub';
 import { getAllItemTypes, addCustomItemType, capitalize } from '@/types/ichub';
+import { fetchUrlMetadata } from '@/services/urlMetadata';
 
 interface AddEditModalProps {
   open: boolean;
@@ -14,6 +15,7 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
   const [availableTypes, setAvailableTypes] = useState<ItemType[]>(getAllItemTypes);
   const [showNewType, setShowNewType] = useState(false);
   const [newTypeName, setNewTypeName] = useState('');
+  const [fetching, setFetching] = useState(false);
 
   const [form, setForm] = useState<{
     type: ItemType;
@@ -85,6 +87,27 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
     setShowNewType(false);
   };
 
+  const handleAutoFill = async () => {
+    const url = form.file.trim();
+    if (!url) return;
+    setFetching(true);
+    try {
+      const meta = await fetchUrlMetadata(url);
+      if (meta) {
+        setForm(f => ({
+          ...f,
+          title: f.title || meta.title,
+          description: f.description || meta.description,
+          thumbnail: f.thumbnail || meta.thumbnail,
+        }));
+      }
+    } catch (e) {
+      console.error('Auto-fill failed:', e);
+    } finally {
+      setFetching(false);
+    }
+  };
+
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }));
 
   return (
@@ -142,7 +165,29 @@ export default function AddEditModal({ open, onClose, onSubmit, topicId, editIte
 
           <div>
             <label className="mb-1 block text-xs text-muted-foreground">URL / File link *</label>
-            <input value={form.file} onChange={e => set('file', e.target.value)} required className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground" placeholder="https://..." />
+            <div className="flex gap-2">
+              <input
+                value={form.file}
+                onChange={e => set('file', e.target.value)}
+                required
+                className="flex-1 rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
+                placeholder="https://..."
+                onBlur={() => {
+                  if (form.file.trim() && !form.title && !editItem) {
+                    handleAutoFill();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleAutoFill}
+                disabled={!form.file.trim() || fetching}
+                className="rounded-md border border-border bg-secondary px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent disabled:opacity-50"
+                title="Auto-fill from URL"
+              >
+                {fetching ? '⟳' : '⚡ Fill'}
+              </button>
+            </div>
           </div>
 
           <div>
