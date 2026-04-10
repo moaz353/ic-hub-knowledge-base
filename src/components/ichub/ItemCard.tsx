@@ -4,8 +4,10 @@ import {
   getProgress, setProgress, setLastOpened, getLastOpened,
   isFavorite, toggleFavorite, addToQueue, removeFromQueue, isInQueue, timeAgo
 } from '@/services/utils';
+import { logActivity } from '@/services/activityLog';
 import { useState, useRef, useEffect } from 'react';
 import ItemAnnotations from './ItemAnnotations';
+import RichTextEditor from './RichTextEditor';
 
 interface ItemCardProps {
   item: ICItem;
@@ -25,6 +27,7 @@ export default function ItemCard({
   const [progress, setProgressState] = useState(getProgress(item.id));
   const [menuOpen, setMenuOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
+  const [richNoteOpen, setRichNoteOpen] = useState(false);
   const [progressInput, setProgressInput] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const lastOpened = getLastOpened(item.id);
@@ -41,6 +44,7 @@ export default function ItemCard({
 
   const handleOpen = () => {
     setLastOpened(item.id);
+    logActivity('open_item', item.id, topicId);
     window.open(item.file, '_blank');
   };
 
@@ -117,6 +121,9 @@ export default function ItemCard({
                 <button onClick={() => { setProgressInput(true); setMenuOpen(false); }} className="w-full px-3 py-1.5 text-left text-sm text-foreground hover:bg-secondary">
                   Update Progress
                 </button>
+                <button onClick={() => { setRichNoteOpen(!richNoteOpen); setMenuOpen(false); }} className="w-full px-3 py-1.5 text-left text-sm text-foreground hover:bg-secondary">
+                  {richNoteOpen ? 'Hide Notes' : 'Rich Notes'}
+                </button>
                 <button onClick={() => { navigator.clipboard.writeText(item.file); setMenuOpen(false); }} className="w-full px-3 py-1.5 text-left text-sm text-foreground hover:bg-secondary">
                   Copy Link
                 </button>
@@ -176,6 +183,9 @@ export default function ItemCard({
             {item.annotation}
           </div>
         )}
+
+        {/* Rich Text Editor */}
+        {richNoteOpen && <RichTextEditor itemId={item.id} />}
 
         {/* Last opened */}
         {lastOpened && (

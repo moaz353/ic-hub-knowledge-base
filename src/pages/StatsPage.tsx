@@ -6,6 +6,7 @@ import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
+import ContributionHeatmap from '@/components/ichub/ContributionHeatmap';
 
 const TYPE_COLORS: Record<string, string> = {
   linkedin: '#378ADD',
@@ -37,7 +38,6 @@ function getWeeklyData(topics: TopicData[]) {
   allItems.forEach(item => {
     if (!item.date) return;
     const d = new Date(item.date);
-    // Get Monday of that week
     const day = d.getDay();
     const diff = d.getDate() - day + (day === 0 ? -6 : 1);
     const monday = new Date(d);
@@ -48,7 +48,7 @@ function getWeeklyData(topics: TopicData[]) {
 
   return Object.entries(weekMap)
     .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-12) // last 12 weeks
+    .slice(-12)
     .map(([week, count]) => ({
       week: `${new Date(week).toLocaleDateString('en', { month: 'short', day: 'numeric' })}`,
       count,
@@ -56,7 +56,6 @@ function getWeeklyData(topics: TopicData[]) {
 }
 
 function getTopicProgress(topics: TopicData[]) {
-  // Use rating > 0 as a proxy for "reviewed/completed"
   return topics
     .filter(t => t.items.length > 0)
     .map(t => {
@@ -101,7 +100,7 @@ export default function StatsPage() {
     <div className="mx-auto max-w-5xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-bold text-foreground">Stats</h1>
 
-      {/* Top row: total + streak */}
+      {/* Top row */}
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">Total Items</div>
@@ -125,6 +124,11 @@ export default function StatsPage() {
         </div>
       </div>
 
+      {/* Contribution Heatmap */}
+      <div className="mb-6">
+        <ContributionHeatmap />
+      </div>
+
       {/* Charts row */}
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
         {/* Donut chart */}
@@ -132,28 +136,12 @@ export default function StatsPage() {
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Items by Type</h2>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie
-                data={typeCounts}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                paddingAngle={2}
-                dataKey="value"
-              >
+              <Pie data={typeCounts} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value">
                 {typeCounts.map((entry) => (
                   <Cell key={entry.type} fill={getColor(entry.type)} />
                 ))}
               </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: 8,
-                  color: 'hsl(var(--foreground))',
-                  fontSize: 12,
-                }}
-              />
+              <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, color: 'hsl(var(--foreground))', fontSize: 12 }} />
             </PieChart>
           </ResponsiveContainer>
           <div className="mt-2 flex flex-wrap justify-center gap-3">
@@ -174,27 +162,9 @@ export default function StatsPage() {
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={weeklyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis
-                  dataKey="week"
-                  tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={{ stroke: 'hsl(var(--border))' }}
-                />
-                <YAxis
-                  allowDecimals={false}
-                  tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={{ stroke: 'hsl(var(--border))' }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: 8,
-                    color: 'hsl(var(--foreground))',
-                    fontSize: 12,
-                  }}
-                />
+                <XAxis dataKey="week" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} tickLine={false} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                <YAxis allowDecimals={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} tickLine={false} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, color: 'hsl(var(--foreground))', fontSize: 12 }} />
                 <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -215,10 +185,7 @@ export default function StatsPage() {
                 <span className="text-muted-foreground">{tp.reviewed}/{tp.total} ({tp.pct}%)</span>
               </div>
               <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${tp.pct}%`, backgroundColor: tp.color }}
-                />
+                <div className="h-full rounded-full transition-all duration-500" style={{ width: `${tp.pct}%`, backgroundColor: tp.color }} />
               </div>
             </div>
           ))}
