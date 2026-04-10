@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_log: {
+        Row: {
+          action_type: string
+          activity_date: string
+          created_at: string
+          id: string
+          item_id: string | null
+          topic_id: string | null
+        }
+        Insert: {
+          action_type: string
+          activity_date?: string
+          created_at?: string
+          id?: string
+          item_id?: string | null
+          topic_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          activity_date?: string
+          created_at?: string
+          id?: string
+          item_id?: string | null
+          topic_id?: string | null
+        }
+        Relationships: []
+      }
+      review_cards: {
+        Row: {
+          created_at: string
+          ease_factor: number
+          id: string
+          interval: number
+          item_id: string
+          last_quality: number | null
+          last_review_date: string | null
+          next_review_date: string
+          repetitions: number
+          topic_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ease_factor?: number
+          id?: string
+          interval?: number
+          item_id: string
+          last_quality?: number | null
+          last_review_date?: string | null
+          next_review_date?: string
+          repetitions?: number
+          topic_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ease_factor?: number
+          id?: string
+          interval?: number
+          item_id?: string
+          last_quality?: number | null
+          last_review_date?: string | null
+          next_review_date?: string
+          repetitions?: number
+          topic_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rich_notes: {
+        Row: {
+          content: string
+          created_at: string
+          format: string
+          id: string
+          item_id: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          format?: string
+          id?: string
+          item_id: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          format?: string
+          id?: string
+          item_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
