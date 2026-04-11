@@ -153,10 +153,13 @@
       "description": "",
       "file": "https://akzyujvllkedbpnrqpra.supabase.co/storage/v1/object/public/item-files/asic/1775925729422-krav42.pdf",
       "thumbnail": "",
-      "tags": [],
-      "source": "",
+      "tags": [
+        "ASIC",
+        "PD"
+      ],
+      "source": "ASIC",
       "date": "2026-04-11",
-      "rating": 0,
+      "rating": 2,
       "annotation": "",
       "favorite": false,
       "pinned": false,
