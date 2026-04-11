@@ -146,6 +146,21 @@
       "favorite": false,
       "pinned": false,
       "id": "asic-1775328032197"
+    },
+    {
+      "type": "book",
+      "title": "ASIC_Design_Flow_Tutorial",
+      "description": "",
+      "file": "https://akzyujvllkedbpnrqpra.supabase.co/storage/v1/object/public/item-files/asic/1775925729422-krav42.pdf",
+      "thumbnail": "",
+      "tags": [],
+      "source": "",
+      "date": "2026-04-11",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "asic-1775925766611"
     }
   ]
 }
