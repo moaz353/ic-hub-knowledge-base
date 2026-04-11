@@ -195,6 +195,9 @@ export default function ItemCard({
           </span>
         )}
 
+        {/* File action buttons */}
+        <FileActionButtons fileUrl={item.file} topicColor={topicColor} />
+
         <div className="mt-auto flex items-center gap-2 pt-2">
           <button
             onClick={handleOpen}
