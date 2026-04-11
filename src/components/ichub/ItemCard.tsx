@@ -8,6 +8,7 @@ import { logActivity } from '@/services/activityLog';
 import { useState, useRef, useEffect } from 'react';
 import ItemAnnotations from './ItemAnnotations';
 import RichTextEditor from './RichTextEditor';
+import FileActionButtons from './FileActionButtons';
 
 interface ItemCardProps {
   item: ICItem;
