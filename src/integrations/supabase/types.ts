@@ -41,6 +41,124 @@ export type Database = {
         }
         Relationships: []
       }
+      course_lessons: {
+        Row: {
+          bookmarked: boolean
+          completed: boolean
+          course_id: string
+          created_at: string
+          id: string
+          pinned: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          bookmarked?: boolean
+          completed?: boolean
+          course_id: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          bookmarked?: boolean
+          completed?: boolean
+          course_id?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_lessons_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_sessions: {
+        Row: {
+          course_id: string
+          created_at: string
+          duration_minutes: number
+          id: string
+          session_date: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          session_date?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          session_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_sessions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          created_at: string
+          description: string
+          estimated_hours: number
+          id: string
+          last_activity: string | null
+          name: string
+          progress: number
+          provider: string
+          status: string
+          thumbnail: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          estimated_hours?: number
+          id?: string
+          last_activity?: string | null
+          name: string
+          progress?: number
+          provider?: string
+          status?: string
+          thumbnail?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          estimated_hours?: number
+          id?: string
+          last_activity?: string | null
+          name?: string
+          progress?: number
+          provider?: string
+          status?: string
+          thumbnail?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       review_cards: {
         Row: {
           created_at: string
