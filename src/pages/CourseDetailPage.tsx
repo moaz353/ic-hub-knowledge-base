@@ -5,7 +5,7 @@ import {
   logSession, recalculateProgress,
   type Course, type CourseLesson, type CourseSession,
 } from '@/services/courses';
-import { uploadFile, getPublicUrl } from '@/services/fileUpload';
+import { uploadFile } from '@/services/fileUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Plus, Check, Bookmark, Pin, Trash2, ExternalLink, Download, Play, Clock, BarChart3, FileUp } from 'lucide-react';
@@ -115,10 +115,11 @@ export default function CourseDetailPage() {
     const file = e.target.files?.[0];
     if (!file || !id) return;
     try {
-      const path = await uploadFile(file, `courses/${id}`);
-      const url = getPublicUrl(path);
-      setFiles(f => [...f, { name: file.name, url }]);
-      toast.success('File uploaded');
+      const result = await uploadFile(file, `courses/${id}`);
+      if (result) {
+        setFiles(f => [...f, { name: file.name, url: result.url }]);
+        toast.success('File uploaded');
+      }
     } catch (err: any) { toast.error(err.message); }
   }
 
