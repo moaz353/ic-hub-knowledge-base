@@ -63,7 +63,6 @@ export default function TagsPage() {
   const selectedTagInfo = selectedTag ? tags.find(t => t.tag.toLowerCase() === selectedTag.toLowerCase()) : null;
   const maxCount = tags.length ? Math.max(...tags.map(t => t.count)) : 1;
 
-  // Generate a soft hue from tag name for variety
   function tagHue(tag: string) {
     let hash = 0;
     for (let i = 0; i < tag.length; i++) hash = tag.charCodeAt(i) + ((hash << 5) - hash);
@@ -133,7 +132,6 @@ export default function TagsPage() {
                       : 'border-border bg-card hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5'
                   }`}
                 >
-                  {/* Subtle gradient accent */}
                   <div
                     className="absolute inset-0 opacity-[0.06] transition-opacity group-hover:opacity-[0.1]"
                     style={{ background: `linear-gradient(135deg, hsl(${hue}, 70%, 60%), transparent)` }}
@@ -156,27 +154,40 @@ export default function TagsPage() {
             })}
           </div>
 
-          {/* Selected Tag Details */}
+          {/* Selected Tag Details - Show ALL items */}
           {selectedTagInfo && (
             <div className="animate-fade-in">
               <h2 className="mb-3 text-lg font-semibold text-foreground">
                 Items tagged "{selectedTagInfo.tag}" <span className="text-muted-foreground">({selectedTagInfo.count})</span>
               </h2>
-              <div className="divide-y divide-border rounded-xl border border-border bg-card">
-                {selectedTagInfo.items.map((item, i) => (
-                  <Link
-                    key={`${item.id}-${i}`}
-                    to={`/topic?topic=${item.topicId}`}
-                    className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-secondary/50"
-                  >
-                    <span className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ backgroundColor: `${item.topicColor}20`, color: item.topicColor }}>
-                      {item.topicId}
-                    </span>
-                    <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
-                    <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{item.type}</span>
-                  </Link>
-                ))}
-              </div>
+
+              {/* Group items by topic */}
+              {selectedTagInfo.topics.map(topic => {
+                const topicItems = selectedTagInfo.items.filter(item => item.topicId === topic.id);
+                return (
+                  <div key={topic.id} className="mb-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: topic.color }} />
+                      <Link to={`/topic?topic=${topic.id}`} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                        {topic.name}
+                      </Link>
+                      <span className="text-xs text-muted-foreground">({topicItems.length})</span>
+                    </div>
+                    <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden">
+                      {topicItems.map((item, i) => (
+                        <Link
+                          key={`${item.id}-${i}`}
+                          to={`/topic?topic=${item.topicId}`}
+                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-secondary/50"
+                        >
+                          <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
+                          <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{item.type}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </>

@@ -1,5 +1,5 @@
-import { ExternalLink, Eye, Download, X } from 'lucide-react';
-import { isImageFile, isPdfFile } from '@/services/fileUpload';
+import { Eye, Download, X } from 'lucide-react';
+import { isImageFile, isPdfFile, isUploadedFile } from '@/services/fileUpload';
 import { useState } from 'react';
 
 interface FileActionButtonsProps {
@@ -10,7 +10,8 @@ interface FileActionButtonsProps {
 export default function FileActionButtons({ fileUrl, topicColor }: FileActionButtonsProps) {
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  const handleOpenTab = () => window.open(fileUrl, '_blank');
+  // Only show for uploaded files, not external links
+  if (!isUploadedFile(fileUrl)) return null;
 
   const handleDownload = async () => {
     try {
@@ -34,13 +35,6 @@ export default function FileActionButtons({ fileUrl, topicColor }: FileActionBut
   return (
     <>
       <div className="flex items-center gap-1">
-        <button
-          onClick={handleOpenTab}
-          title="Open in new tab"
-          className="rounded-md border border-border p-1.5 text-muted-foreground transition-all hover:text-foreground hover:border-foreground/30 hover:shadow-sm"
-        >
-          <ExternalLink size={14} />
-        </button>
         {canPreview && (
           <button
             onClick={() => setPreviewOpen(!previewOpen)}
