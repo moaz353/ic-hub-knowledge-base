@@ -11,7 +11,7 @@
       "title": "Every Hardware Protocol Explained in 6 Minutes",
       "description": "This video introduces various communication protocols including UART, SPI, I2C, CAN, RS232, and 1-Wire, illustrating their basic connections and applications. It highlights the simplicity of UART with its two-wire system and asynchronous serial communication, contrasting it with other protocols through diagrams and real-world examples like vehicle interiors. For anyone interested in electronics basics and understanding how communication works between devices, this protocol breakdown explains the fundamentals.",
       "file": "https://www.youtube.com/watch?v=0rlpwVNyBO8",
-      "thumbnail": "https://i.ytimg.com/an_webp/0rlpwVNyBO8/mqdefault_6s.webp?du=3000&sqp=CM-Q7c4G&rs=AOn4CLAkEuPyqTPVrsK1j1O18ic7tgnDGg",
+      "thumbnail": "https://i.ytimg.com/vi/0rlpwVNyBO8/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLChf_qhu56fu_aSObhdAxY4QpExOg",
       "tags": [
         "PROTOCOL",
         "UART",
