@@ -1,0 +1,9 @@
+{
+  "id": "linux",
+  "name": "Linux",
+  "fullName": "",
+  "description": "Linux is the predominant operating system for servers",
+  "icon": "🐧",
+  "color": "#d0d6dc",
+  "items": []
+}
