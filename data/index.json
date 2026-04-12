@@ -13,6 +13,7 @@
     "fpga",
     "coa",
     "oop",
-    "rtl"
+    "rtl",
+    "linux"
   ]
 }
