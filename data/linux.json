@@ -5,5 +5,24 @@
   "description": "Linux is the predominant operating system for servers",
   "icon": "🐧",
   "color": "#d0d6dc",
-  "items": []
+  "items": [
+    {
+      "type": "cheatsheet",
+      "title": "Linux Commands Cheatsheet",
+      "description": "Linux Commands Cheat Sheet for Interviews",
+      "file": "https://www.linkedin.com/posts/prasanthi-chanda-484205245_linux-commands-cheat-sheet-for-interviews-ugcPost-7448946687097720832-ZWEl?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "https://static.licdn.com/aero-v1/sc/h/c45fy346jw096z9pbphyyhdz7",
+      "tags": [
+        "Linux",
+        "VLSI"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-12",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "linux-1775979008621"
+    }
+  ]
 }
