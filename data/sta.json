@@ -71,9 +71,9 @@
     {
       "type": "video",
       "title": "CLK design",
-      "description": "",
+      "description": "🎥 New Video Release: Continuing our exploration of Generated Clocks, focusing on #ClockMultipliers.\n\nThis video covers:\n\n• Definition of Clock Multiplier. starts at 00:30\n• Clock Subsystem Architecture. starts at 1:29\n• How a PLL can be used to perform clock multiplication. starts at 2:00\n• Implementation of clock multiplier using XOR gate and a delay element. starts at 3:45\n• Why do we need clock multiplication? starts at 5:06\n\n📚 References for this video:\n1. Constraining Designs for Synthesis and Timing Analysis (Chapter 6, Section 2)\n2. Lecture 21 (part 1) from Dr. Hesham Omran",
       "file": "https://www.linkedin.com/posts/sheroukali_clockmultipliers-ai-elevenlabs-activity-7299393286492897281--oiO/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
-      "thumbnail": "",
+      "thumbnail": "https://dms.licdn.com/playlist/vid/v2/D4D05AQF0kPgcjr-x6w/thumbnail-with-play-button-overlay-high/B4DZUyl63vGkDI-/0/1740310939123?e=2147483647&amp;v=beta&amp;t=bDJDp8D7C-87xy-bqnZKVXfbUoLsVHLm9t_kBPRsnPc",
       "tags": [
         "STA",
         "Timing",
