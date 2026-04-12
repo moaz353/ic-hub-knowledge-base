@@ -20,10 +20,8 @@ function generateDayGrid(activities: DayActivity[]) {
   const today = new Date();
   const days: { date: string; count: number }[] = [];
 
-  // Go back ~52 weeks from today
   const start = new Date(today);
   start.setDate(start.getDate() - 364);
-  // Align to Sunday
   start.setDate(start.getDate() - start.getDay());
 
   for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
@@ -58,6 +56,20 @@ export default function ContributionHeatmap() {
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+  // Build month labels with correct positioning - only show each month once
+  const monthLabels: { label: string; colIndex: number }[] = [];
+  let lastMonth = -1;
+  weeks.forEach((week, wi) => {
+    const firstDay = week[0];
+    if (!firstDay) return;
+    const d = new Date(firstDay.date);
+    const month = d.getMonth();
+    if (month !== lastMonth && d.getDate() <= 7) {
+      monthLabels.push({ label: months[month], colIndex: wi });
+      lastMonth = month;
+    }
+  });
+
   return (
     <div className="rounded-lg border border-border bg-card p-5">
       <div className="mb-3 flex items-center justify-between">
@@ -70,22 +82,18 @@ export default function ContributionHeatmap() {
       </div>
 
       <div className="overflow-x-auto">
-        <div className="inline-flex flex-col gap-0.5">
-          {/* Month labels */}
-          <div className="flex gap-0.5 pl-8">
-            {weeks.map((week, wi) => {
-              const firstDay = week[0];
-              if (!firstDay) return null;
-              const d = new Date(firstDay.date);
-              const showMonth = d.getDate() <= 7;
-              return (
-                <div key={wi} className="h-3 w-[11px] text-center">
-                  {showMonth && (
-                    <span className="text-[9px] text-muted-foreground">{months[d.getMonth()]}</span>
-                  )}
-                </div>
-              );
-            })}
+        <div className="inline-flex flex-col gap-0.5" style={{ minWidth: `${weeks.length * 13 + 32}px` }}>
+          {/* Month labels - positioned absolutely relative to grid */}
+          <div className="relative h-4 ml-8">
+            {monthLabels.map((m, i) => (
+              <span
+                key={i}
+                className="absolute text-[10px] text-muted-foreground whitespace-nowrap"
+                style={{ left: `${m.colIndex * 13}px` }}
+              >
+                {m.label}
+              </span>
+            ))}
           </div>
 
           {/* Day rows */}
