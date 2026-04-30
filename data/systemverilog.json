@@ -161,6 +161,24 @@
       "favorite": false,
       "pinned": false,
       "id": "systemverilog-1775748332214"
+    },
+    {
+      "type": "note",
+      "title": "UVM Sequencer–Driver Handshake",
+      "description": "🚀 #UVM Sequencer–Driver Handshake (Simple #interview Explanation)",
+      "file": "https://www.linkedin.com/posts/aashishr7_uvm-interview-flow-share-7455431560440455168-UY3y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD8t-ysBhcxiIeMh_rgeLYpoI9tjUbDuWJo",
+      "thumbnail": "https://media.licdn.com/dms/image/v2/D5622AQFMDuZNy1s3hg/feedshare-shrink_800/B56Z3cDfuUIQAc-/0/1777513397483?e=2147483647&amp;v=beta&amp;t=tPjw0HCmjwUdGghw3qTBEt0n5QVfl7_gnV8q7XF0Tnk",
+      "tags": [
+        "UVM",
+        "DV"
+      ],
+      "source": "Linkedin",
+      "date": "2026-04-30",
+      "rating": 0,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "systemverilog-1777554881925"
     }
   ]
 }
