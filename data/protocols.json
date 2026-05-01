@@ -26,6 +26,27 @@
       "favorite": false,
       "pinned": false,
       "id": "protocols-1775983537431"
+    },
+    {
+      "type": "video",
+      "title": "AMBA APB Protocol",
+      "description": "Explanation of AMBA APB Protocol",
+      "file": "https://www.youtube.com/watch?v=MEC7Mgd35VE",
+      "thumbnail": "https://i.ytimg.com/vi/MEC7Mgd35VE/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCQYthYe8wTYzi4Dp-Zo1tOb-kr2A",
+      "tags": [
+        "AMPA",
+        "APB",
+        "PROTOCOL",
+        "VLSI",
+        "COA"
+      ],
+      "source": "Youtube",
+      "date": "2026-05-01",
+      "rating": 2,
+      "annotation": "",
+      "favorite": false,
+      "pinned": false,
+      "id": "protocols-1777637148566"
     }
   ]
 }
