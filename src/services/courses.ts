@@ -17,6 +17,8 @@ export interface Course {
 export interface CourseLesson {
   id: string;
   course_id: string;
+  section_id: string | null;
+  kind: 'lesson' | 'lab';
   title: string;
   completed: boolean;
   sort_order: number;
@@ -24,6 +26,24 @@ export interface CourseLesson {
   pinned: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface CourseSection {
+  id: string;
+  course_id: string;
+  name: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CourseLink {
+  id: string;
+  course_id: string;
+  name: string;
+  url: string;
+  sort_order: number;
+  created_at: string;
 }
 
 export interface CourseSession {
