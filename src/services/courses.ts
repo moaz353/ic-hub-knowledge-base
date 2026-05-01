@@ -161,3 +161,57 @@ export async function recalculateProgress(courseId: string): Promise<number> {
   await updateCourse(courseId, { progress, status, last_activity: new Date().toISOString() } as any);
   return progress;
 }
+
+// ============ Sections ============
+export async function fetchSections(courseId: string): Promise<CourseSection[]> {
+  const { data, error } = await supabase
+    .from('course_sections' as any)
+    .select('*')
+    .eq('course_id', courseId)
+    .order('sort_order', { ascending: true });
+  if (error) throw error;
+  return (data || []) as unknown as CourseSection[];
+}
+
+export async function addSection(courseId: string, name: string, sortOrder: number): Promise<CourseSection> {
+  const { data, error } = await supabase
+    .from('course_sections' as any)
+    .insert({ course_id: courseId, name, sort_order: sortOrder } as any)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as unknown as CourseSection;
+}
+
+export async function deleteSection(id: string): Promise<void> {
+  // Detach lessons in this section (set section_id to null) so they aren't lost
+  await supabase.from('course_lessons').update({ section_id: null } as any).eq('section_id', id);
+  const { error } = await supabase.from('course_sections' as any).delete().eq('id', id);
+  if (error) throw error;
+}
+
+// ============ Shared Links ============
+export async function fetchCourseLinks(courseId: string): Promise<CourseLink[]> {
+  const { data, error } = await supabase
+    .from('course_links' as any)
+    .select('*')
+    .eq('course_id', courseId)
+    .order('sort_order', { ascending: true });
+  if (error) throw error;
+  return (data || []) as unknown as CourseLink[];
+}
+
+export async function addCourseLink(courseId: string, name: string, url: string, sortOrder: number): Promise<CourseLink> {
+  const { data, error } = await supabase
+    .from('course_links' as any)
+    .insert({ course_id: courseId, name, url, sort_order: sortOrder } as any)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as unknown as CourseLink;
+}
+
+export async function deleteCourseLink(id: string): Promise<void> {
+  const { error } = await supabase.from('course_links' as any).delete().eq('id', id);
+  if (error) throw error;
+}
