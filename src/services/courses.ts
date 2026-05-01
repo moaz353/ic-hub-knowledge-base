@@ -106,10 +106,16 @@ export async function fetchLessons(courseId: string): Promise<CourseLesson[]> {
   return (data || []) as unknown as CourseLesson[];
 }
 
-export async function addLesson(courseId: string, title: string, sortOrder: number): Promise<CourseLesson> {
+export async function addLesson(
+  courseId: string,
+  title: string,
+  sortOrder: number,
+  sectionId: string | null = null,
+  kind: 'lesson' | 'lab' = 'lesson',
+): Promise<CourseLesson> {
   const { data, error } = await supabase
     .from('course_lessons')
-    .insert({ course_id: courseId, title, sort_order: sortOrder } as any)
+    .insert({ course_id: courseId, title, sort_order: sortOrder, section_id: sectionId, kind } as any)
     .select()
     .single();
   if (error) throw error;
