@@ -48,7 +48,9 @@ export type Database = {
           course_id: string
           created_at: string
           id: string
+          kind: string
           pinned: boolean
+          section_id: string | null
           sort_order: number
           title: string
           updated_at: string
@@ -59,7 +61,9 @@ export type Database = {
           course_id: string
           created_at?: string
           id?: string
+          kind?: string
           pinned?: boolean
+          section_id?: string | null
           sort_order?: number
           title: string
           updated_at?: string
@@ -70,7 +74,9 @@ export type Database = {
           course_id?: string
           created_at?: string
           id?: string
+          kind?: string
           pinned?: boolean
+          section_id?: string | null
           sort_order?: number
           title?: string
           updated_at?: string
@@ -84,6 +90,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      course_links: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      course_sections: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       course_sessions: {
         Row: {
