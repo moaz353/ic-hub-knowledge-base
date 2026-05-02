@@ -1,4 +1,4 @@
-import { Home, BarChart3, Tags, Clock, GraduationCap, PanelLeftClose, PanelLeft } from 'lucide-react';
+import { Home, BarChart3, Tags, Clock, GraduationCap, StickyNote, ListTodo, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from './AuthProvider';
 import {
@@ -21,6 +21,8 @@ const navItems = [
   { to: '/tags', label: 'Tags', icon: Tags },
   { to: '/queue', label: 'Watch Later', icon: Clock },
   { to: '/courses', label: 'Courses', icon: GraduationCap },
+  { to: '/notes', label: 'Notes', icon: StickyNote },
+  { to: '/tasks', label: 'Tasks', icon: ListTodo },
 ];
 
 export default function AppSidebar() {

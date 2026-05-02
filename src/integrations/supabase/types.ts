@@ -219,6 +219,84 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_resources: {
+        Row: {
+          code_content: string | null
+          created_at: string
+          description: string
+          file_size: number | null
+          id: string
+          language: string | null
+          lesson_id: string
+          name: string
+          page_count: number | null
+          sort_order: number
+          storage_path: string | null
+          type: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          code_content?: string | null
+          created_at?: string
+          description?: string
+          file_size?: number | null
+          id?: string
+          language?: string | null
+          lesson_id: string
+          name: string
+          page_count?: number | null
+          sort_order?: number
+          storage_path?: string | null
+          type: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          code_content?: string | null
+          created_at?: string
+          description?: string
+          file_size?: number | null
+          id?: string
+          language?: string | null
+          lesson_id?: string
+          name?: string
+          page_count?: number | null
+          sort_order?: number
+          storage_path?: string | null
+          type?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          color: string
+          content: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       review_cards: {
         Row: {
           created_at: string
@@ -284,6 +362,45 @@ export type Database = {
           format?: string
           id?: string
           item_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          cadence: string
+          context_label: string
+          course_id: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          name: string
+          progress: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          cadence?: string
+          context_label?: string
+          course_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          name: string
+          progress?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          cadence?: string
+          context_label?: string
+          course_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          name?: string
+          progress?: number
+          status?: string
           updated_at?: string
         }
         Relationships: []

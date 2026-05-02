@@ -10,6 +10,7 @@ import {
 import { uploadFile } from '@/services/fileUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ResourceViewer from '@/components/ichub/ResourceViewer';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   ArrowLeft, Plus, Check, Bookmark, Trash2, ExternalLink, Download, Clock,
@@ -530,6 +531,9 @@ export default function CourseDetailPage() {
               </div>
             )}
           </div>
+
+          {/* Resources for current lesson/lab */}
+          {currentItem && <ResourceViewer key={currentItem.id} lessonId={currentItem.id} />}
 
           {/* Stats strip */}
           <div className="grid gap-4 sm:grid-cols-4">

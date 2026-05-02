@@ -12,6 +12,8 @@ import QueuePage from "./pages/QueuePage.tsx";
 import StatsPage from "./pages/StatsPage.tsx";
 import CoursesPage from "./pages/CoursesPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailPage.tsx";
+import NotesPage from "./pages/NotesPage.tsx";
+import TasksPage from "./pages/TasksPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ const App = () => (
                   <Route path="/queue" element={<QueuePage />} />
                   <Route path="/courses" element={<CoursesPage />} />
                   <Route path="/courses/:id" element={<CourseDetailPage />} />
+                  <Route path="/notes" element={<NotesPage />} />
+                  <Route path="/tasks" element={<TasksPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
