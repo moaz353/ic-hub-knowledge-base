@@ -532,6 +532,9 @@ export default function CourseDetailPage() {
             )}
           </div>
 
+          {/* Resources for current lesson/lab */}
+          {currentItem && <ResourceViewer key={currentItem.id} lessonId={currentItem.id} />}
+
           {/* Stats strip */}
           <div className="grid gap-4 sm:grid-cols-4">
             {[
