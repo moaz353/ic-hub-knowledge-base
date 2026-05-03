@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCourses, createCourse, updateCourse, deleteCourse, type Course } from '@/services/courses';
-import { Search, Plus, GraduationCap, CheckCircle2, PlayCircle, BookOpen, Trash2, Pencil, X, Image as ImageIcon } from 'lucide-react';
+import { fetchInstructors, type Instructor } from '@/services/instructors';
+import InstructorSelector from '@/components/ichub/InstructorSelector';
+import InstructorAvatar from '@/components/ichub/InstructorAvatar';
+import { Search, Plus, GraduationCap, CheckCircle2, PlayCircle, BookOpen, Trash2, Pencil, Image as ImageIcon, Calendar } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 
@@ -9,6 +12,7 @@ type FilterStatus = 'all' | 'in_progress' | 'completed' | 'not_started';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterStatus>('all');
@@ -20,8 +24,11 @@ export default function CoursesPage() {
   const [newProvider, setNewProvider] = useState('');
   const [newHours, setNewHours] = useState('');
   const [newThumbnail, setNewThumbnail] = useState('');
+  const [newInstructor, setNewInstructor] = useState<string | null>(null);
+  const [newStart, setNewStart] = useState('');
+  const [newEnd, setNewEnd] = useState('');
 
-  useEffect(() => { loadCourses(); }, []);
+  useEffect(() => { loadCourses(); fetchInstructors().then(setInstructors).catch(() => {}); }, []);
 
   async function loadCourses() {
     setLoading(true);
