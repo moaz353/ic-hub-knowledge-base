@@ -25,6 +25,7 @@ export async function fetchResources(lessonId: string): Promise<LessonResource[]
     .from('lesson_resources' as any)
     .select('*')
     .eq('lesson_id', lessonId)
+    .order('sort_order', { ascending: true })
     .order('created_at', { ascending: true });
   if (error) throw error;
   return (data || []) as unknown as LessonResource[];
@@ -48,6 +49,14 @@ export async function deleteResource(id: string, storagePath?: string | null): P
     await supabase.storage.from('item-files').remove([storagePath]);
   }
   const { error } = await supabase.from('lesson_resources' as any).delete().eq('id', id);
+  if (error) throw error;
+}
+
+export async function updateResourceOrder(id: string, sort_order: number): Promise<void> {
+  const { error } = await supabase
+    .from('lesson_resources' as any)
+    .update({ sort_order } as any)
+    .eq('id', id);
   if (error) throw error;
 }
 

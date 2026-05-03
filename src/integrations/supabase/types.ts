@@ -181,12 +181,15 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          end_date: string | null
           estimated_hours: number
           id: string
+          instructor_id: string | null
           last_activity: string | null
           name: string
           progress: number
           provider: string
+          start_date: string | null
           status: string
           thumbnail: string
           updated_at: string
@@ -194,12 +197,15 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string
+          end_date?: string | null
           estimated_hours?: number
           id?: string
+          instructor_id?: string | null
           last_activity?: string | null
           name: string
           progress?: number
           provider?: string
+          start_date?: string | null
           status?: string
           thumbnail?: string
           updated_at?: string
@@ -207,14 +213,44 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string
+          end_date?: string | null
           estimated_hours?: number
           id?: string
+          instructor_id?: string | null
           last_activity?: string | null
           name?: string
           progress?: number
           provider?: string
+          start_date?: string | null
           status?: string
           thumbnail?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      instructors: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          name: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          name: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          name?: string
+          title?: string
           updated_at?: string
         }
         Relationships: []

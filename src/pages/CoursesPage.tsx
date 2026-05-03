@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCourses, createCourse, updateCourse, deleteCourse, type Course } from '@/services/courses';
-import { Search, Plus, GraduationCap, CheckCircle2, PlayCircle, BookOpen, Trash2, Pencil, X, Image as ImageIcon } from 'lucide-react';
+import { fetchInstructors, type Instructor } from '@/services/instructors';
+import InstructorSelector from '@/components/ichub/InstructorSelector';
+import InstructorAvatar from '@/components/ichub/InstructorAvatar';
+import { Search, Plus, GraduationCap, CheckCircle2, PlayCircle, BookOpen, Trash2, Pencil, Image as ImageIcon, Calendar } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 
@@ -9,6 +12,7 @@ type FilterStatus = 'all' | 'in_progress' | 'completed' | 'not_started';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterStatus>('all');
@@ -20,8 +24,11 @@ export default function CoursesPage() {
   const [newProvider, setNewProvider] = useState('');
   const [newHours, setNewHours] = useState('');
   const [newThumbnail, setNewThumbnail] = useState('');
+  const [newInstructor, setNewInstructor] = useState<string | null>(null);
+  const [newStart, setNewStart] = useState('');
+  const [newEnd, setNewEnd] = useState('');
 
-  useEffect(() => { loadCourses(); }, []);
+  useEffect(() => { loadCourses(); fetchInstructors().then(setInstructors).catch(() => {}); }, []);
 
   async function loadCourses() {
     setLoading(true);
@@ -45,9 +52,14 @@ export default function CoursesPage() {
     return true;
   });
 
+  function resetForm() {
+    setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+    setNewInstructor(null); setNewStart(''); setNewEnd('');
+  }
+
   function openAdd() {
     setEditCourse(null);
-    setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+    resetForm();
     setAddOpen(true);
   }
 
@@ -58,23 +70,34 @@ export default function CoursesPage() {
     setNewProvider(course.provider);
     setNewHours(course.estimated_hours > 0 ? String(course.estimated_hours) : '');
     setNewThumbnail(course.thumbnail || '');
+    setNewInstructor(course.instructor_id);
+    setNewStart(course.start_date || '');
+    setNewEnd(course.end_date || '');
     setAddOpen(true);
   }
 
   async function handleSave() {
     if (!newName.trim()) return;
     try {
-      const payload = { name: newName, description: newDesc, provider: newProvider, estimated_hours: parseFloat(newHours) || 0, thumbnail: newThumbnail };
+      const payload = {
+        name: newName, description: newDesc, provider: newProvider,
+        estimated_hours: parseFloat(newHours) || 0, thumbnail: newThumbnail,
+        instructor_id: newInstructor,
+        start_date: newStart || null,
+        end_date: newEnd || null,
+      };
       if (editCourse) {
         await updateCourse(editCourse.id, payload as any);
         toast.success('Course updated');
       } else {
         await createCourse(payload as any);
         toast.success('Course created');
+        // refresh instructors in case a new one was added inline
+        fetchInstructors().then(setInstructors).catch(() => {});
       }
       setAddOpen(false);
       setEditCourse(null);
-      setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+      resetForm();
       loadCourses();
     } catch (e: any) { toast.error(e.message); }
   }
@@ -225,8 +248,18 @@ export default function CoursesPage() {
                 <Link to={`/courses/${course.id}`}>
                   <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">{course.name}</h3>
                 </Link>
+                {(() => {
+                  const ins = instructors.find(i => i.id === course.instructor_id);
+                  if (!ins) return null;
+                  return (
+                    <div className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <InstructorAvatar instructor={ins} size="sm" />
+                      <span className="truncate">{ins.name}</span>
+                    </div>
+                  );
+                })()}
                 {course.description && <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{course.description}</p>}
-                
+
                 <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
                   {course.provider && <span className="rounded-lg bg-secondary px-2 py-0.5">{course.provider}</span>}
                   {course.estimated_hours > 0 && <span>{course.estimated_hours}h</span>}
@@ -293,6 +326,20 @@ export default function CoursesPage() {
                   <img src={newThumbnail} alt="Preview" className="h-full w-full object-cover" onError={e => (e.currentTarget.style.display = 'none')} />
                 </div>
               )}
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1.5 block">Instructor</label>
+              <InstructorSelector value={newInstructor} onChange={setNewInstructor} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5"><Calendar size={12} /> Start date</label>
+                <input type="date" value={newStart} onChange={e => setNewStart(e.target.value)} className="w-full rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5"><Calendar size={12} /> End date</label>
+                <input type="date" value={newEnd} onChange={e => setNewEnd(e.target.value)} className="w-full rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
             </div>
             <button onClick={handleSave} className="w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
               {editCourse ? 'Save Changes' : 'Create Course'}

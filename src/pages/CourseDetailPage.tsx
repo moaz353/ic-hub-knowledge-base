@@ -7,15 +7,18 @@ import {
   fetchCourseLinks, addCourseLink, deleteCourseLink,
   type Course, type CourseLesson, type CourseSession, type CourseSection, type CourseLink,
 } from '@/services/courses';
+import { fetchInstructors, type Instructor } from '@/services/instructors';
+import InstructorAvatar from '@/components/ichub/InstructorAvatar';
 import { uploadFile } from '@/services/fileUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ResourceViewer from '@/components/ichub/ResourceViewer';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   ArrowLeft, Plus, Check, Bookmark, Trash2, ExternalLink, Download, Clock,
   FileUp, Link as LinkIcon, ChevronUp, ChevronDown, ChevronRight,
-  FlaskConical, BookOpen, SkipForward, SkipBack,
+  FlaskConical, BookOpen, SkipForward, SkipBack, Calendar,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -26,6 +29,7 @@ export default function CourseDetailPage() {
   const [sections, setSections] = useState<CourseSection[]>([]);
   const [sharedLinks, setSharedLinks] = useState<CourseLink[]>([]);
   const [sessions, setSessions] = useState<CourseSession[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [sessionMinutes, setSessionMinutes] = useState('');
 
@@ -60,7 +64,7 @@ export default function CourseDetailPage() {
   const [newFileName, setNewFileName] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  useEffect(() => { if (id) load(); }, [id]);
+  useEffect(() => { if (id) load(); fetchInstructors().then(setInstructors).catch(() => {}); }, [id]);
 
   async function load() {
     setLoading(true);
@@ -331,9 +335,42 @@ export default function CourseDetailPage() {
       {/* Header */}
       <div className="mb-4 rounded-2xl border border-border bg-gradient-to-br from-card to-card/80 p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-bold text-foreground mb-1">{course.name}</h1>
             {course.provider && <span className="text-sm text-muted-foreground">{course.provider}</span>}
+
+            {/* Instructor row */}
+            {(() => {
+              const ins = instructors.find(i => i.id === course.instructor_id);
+              if (!ins) return null;
+              const taughtCount = 0; // placeholder; could be computed if needed
+              return (
+                <div className="mt-3">
+                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">Instructor</div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="inline-flex items-center gap-3 rounded-xl border border-border bg-secondary/40 px-3 py-2 hover:border-primary/40 transition-colors">
+                        <InstructorAvatar instructor={ins} size="lg" />
+                        <div className="text-left">
+                          <div className="text-sm font-semibold text-foreground">{ins.name}</div>
+                          {ins.title && <div className="text-xs text-muted-foreground">{ins.title}</div>}
+                        </div>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-64">
+                      <div className="flex items-center gap-3">
+                        <InstructorAvatar instructor={ins} size="lg" />
+                        <div>
+                          <div className="text-sm font-semibold">{ins.name}</div>
+                          {ins.title && <div className="text-xs text-muted-foreground">{ins.title}</div>}
+                          <div className="mt-1 text-[11px] text-muted-foreground">Teaches this course</div>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              );
+            })()}
           </div>
           <div className="text-right shrink-0">
             <div className="text-3xl font-bold text-foreground">{course.progress}%</div>
@@ -344,6 +381,11 @@ export default function CourseDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Timeline bar */}
+        {(course.start_date || course.end_date) && (
+          <CourseTimeline start={course.start_date} end={course.end_date} />
+        )}
       </div>
 
       {/* === COURSE OVERVIEW PANEL (collapsible) === */}
@@ -597,6 +639,42 @@ function SidebarItem({
       <button onClick={(e) => { e.stopPropagation(); onRemove(); }} className="rounded p-0.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
         <Trash2 size={11} />
       </button>
+    </div>
+  );
+}
+
+function CourseTimeline({ start, end }: { start: string | null; end: string | null }) {
+  const today = new Date();
+  const s = start ? new Date(start) : null;
+  const e = end ? new Date(end) : null;
+  let pct = 0;
+  if (s && e && e > s) {
+    pct = Math.max(0, Math.min(100, ((today.getTime() - s.getTime()) / (e.getTime() - s.getTime())) * 100));
+  } else if (s && !e) {
+    pct = today >= s ? 100 : 0;
+  }
+  const fmt = (d: Date) => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  const todayBefore = s && today < s;
+  const todayAfter = e && today > e;
+  return (
+    <div className="mt-5 border-t border-border pt-4">
+      <div className="mb-1.5 flex items-center justify-between text-[11px] uppercase tracking-wider text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5"><Calendar size={11} /> {s ? fmt(s) : 'No start'}</span>
+        <span className="text-foreground/80">
+          {todayBefore ? 'Starts soon' : todayAfter ? 'Ended' : 'Today'}
+        </span>
+        <span>{e ? fmt(e) : 'No end'}</span>
+      </div>
+      <div className="relative h-2 rounded-full bg-secondary overflow-visible">
+        <div className="h-full rounded-full bg-gradient-to-r from-primary/60 to-primary" style={{ width: `${pct}%` }} />
+        {s && e && (
+          <div
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-4 w-4 rounded-full bg-accent border-2 border-background shadow-md"
+            style={{ left: `${pct}%` }}
+            title="Today"
+          />
+        )}
+      </div>
     </div>
   );
 }

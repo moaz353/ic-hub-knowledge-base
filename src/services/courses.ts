@@ -10,6 +10,9 @@ export interface Course {
   estimated_hours: number;
   last_activity: string | null;
   thumbnail: string;
+  instructor_id: string | null;
+  start_date: string | null;
+  end_date: string | null;
   created_at: string;
   updated_at: string;
 }
