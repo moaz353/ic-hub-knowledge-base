@@ -25,6 +25,7 @@ export async function fetchResources(lessonId: string): Promise<LessonResource[]
     .from('lesson_resources' as any)
     .select('*')
     .eq('lesson_id', lessonId)
+    .order('sort_order', { ascending: true })
     .order('created_at', { ascending: true });
   if (error) throw error;
   return (data || []) as unknown as LessonResource[];
