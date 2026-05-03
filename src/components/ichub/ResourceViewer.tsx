@@ -126,9 +126,10 @@ export default function ResourceViewer({ lessonId }: Props) {
 
                 {/* === PDF === */}
                 {type === 'pdf' && (
-                  <div className="space-y-2">
+                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('pdf', o)} className="space-y-2">
                     {items.map(r => (
-                      <div key={r.id} className="group flex items-center gap-3 rounded-xl border border-border bg-secondary/30 p-3 hover:border-primary/30 transition-colors">
+                      <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-xl border border-border bg-secondary/30 p-3 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
+                        <GripVertical size={14} className="text-muted-foreground/40 shrink-0" />
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400">
                           <FileText size={22} />
                         </div>
@@ -150,17 +151,18 @@ export default function ResourceViewer({ lessonId }: Props) {
                         <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all">
                           <Trash2 size={13} />
                         </button>
-                      </div>
+                      </Reorder.Item>
                     ))}
-                  </div>
+                  </Reorder.Group>
                 )}
 
                 {/* === IMAGE === */}
                 {type === 'image' && (
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('image', o)} className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {items.map((r, i) => (
-                      <div
+                      <Reorder.Item
                         key={r.id}
+                        value={r}
                         className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border bg-secondary"
                         onClick={() => setLightbox({ items, index: i })}
                       >
@@ -182,42 +184,48 @@ export default function ResourceViewer({ lessonId }: Props) {
                         >
                           <Trash2 size={12} />
                         </button>
-                      </div>
+                      </Reorder.Item>
                     ))}
-                  </div>
+                  </Reorder.Group>
                 )}
 
                 {/* === VIDEO === */}
                 {type === 'video' && (
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('video', o)} className="grid gap-3 sm:grid-cols-2">
                     {items.map(r => (
-                      <VideoCard key={r.id} r={r} onFullscreen={() => setVideoFs(r)} onDelete={() => handleDelete(r)} />
+                      <Reorder.Item key={r.id} value={r} className="cursor-grab active:cursor-grabbing">
+                        <VideoCard r={r} onFullscreen={() => setVideoFs(r)} onDelete={() => handleDelete(r)} />
+                      </Reorder.Item>
                     ))}
-                  </div>
+                  </Reorder.Group>
                 )}
 
                 {/* === CODE === */}
                 {type === 'code' && (
-                  <div className="space-y-5">
+                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('code', o)} className="space-y-5">
                     {items.map(r => (
-                      <div key={r.id} className="group">
+                      <Reorder.Item key={r.id} value={r} className="group">
                         <div className="mb-1 flex items-start justify-between gap-2">
-                          {r.description && <p className="text-[11px] text-muted-foreground">{r.description}</p>}
+                          <div className="flex items-center gap-1.5 text-muted-foreground/40 cursor-grab active:cursor-grabbing">
+                            <GripVertical size={12} />
+                            {r.description && <p className="text-[11px] text-muted-foreground">{r.description}</p>}
+                          </div>
                           <button onClick={() => handleDelete(r)} className="ml-auto rounded p-1 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
                             <Trash2 size={12} />
                           </button>
                         </div>
                         <CodeBlock code={r.code_content || ''} language={r.language || 'text'} fileName={r.name} />
-                      </div>
+                      </Reorder.Item>
                     ))}
-                  </div>
+                  </Reorder.Group>
                 )}
 
                 {/* === LINK === */}
                 {type === 'link' && (
-                  <div className="space-y-1.5">
+                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('link', o)} className="space-y-1.5">
                     {items.map(r => (
-                      <div key={r.id} className="group flex items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 hover:border-primary/30 transition-colors">
+                      <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
+                        <GripVertical size={12} className="text-muted-foreground/40 shrink-0" />
                         <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
                         <span className="text-sm font-semibold text-foreground">{r.name}</span>
                         <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">{r.url}</span>
@@ -227,9 +235,9 @@ export default function ResourceViewer({ lessonId }: Props) {
                         <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
                           <Trash2 size={13} />
                         </button>
-                      </div>
+                      </Reorder.Item>
                     ))}
-                  </div>
+                  </Reorder.Group>
                 )}
               </section>
             );
