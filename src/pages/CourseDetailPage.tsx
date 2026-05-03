@@ -335,9 +335,42 @@ export default function CourseDetailPage() {
       {/* Header */}
       <div className="mb-4 rounded-2xl border border-border bg-gradient-to-br from-card to-card/80 p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-bold text-foreground mb-1">{course.name}</h1>
             {course.provider && <span className="text-sm text-muted-foreground">{course.provider}</span>}
+
+            {/* Instructor row */}
+            {(() => {
+              const ins = instructors.find(i => i.id === course.instructor_id);
+              if (!ins) return null;
+              const taughtCount = 0; // placeholder; could be computed if needed
+              return (
+                <div className="mt-3">
+                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">Instructor</div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="inline-flex items-center gap-3 rounded-xl border border-border bg-secondary/40 px-3 py-2 hover:border-primary/40 transition-colors">
+                        <InstructorAvatar instructor={ins} size="lg" />
+                        <div className="text-left">
+                          <div className="text-sm font-semibold text-foreground">{ins.name}</div>
+                          {ins.title && <div className="text-xs text-muted-foreground">{ins.title}</div>}
+                        </div>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-64">
+                      <div className="flex items-center gap-3">
+                        <InstructorAvatar instructor={ins} size="lg" />
+                        <div>
+                          <div className="text-sm font-semibold">{ins.name}</div>
+                          {ins.title && <div className="text-xs text-muted-foreground">{ins.title}</div>}
+                          <div className="mt-1 text-[11px] text-muted-foreground">Teaches this course</div>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              );
+            })()}
           </div>
           <div className="text-right shrink-0">
             <div className="text-3xl font-bold text-foreground">{course.progress}%</div>
@@ -348,6 +381,11 @@ export default function CourseDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Timeline bar */}
+        {(course.start_date || course.end_date) && (
+          <CourseTimeline start={course.start_date} end={course.end_date} />
+        )}
       </div>
 
       {/* === COURSE OVERVIEW PANEL (collapsible) === */}
