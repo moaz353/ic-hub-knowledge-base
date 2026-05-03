@@ -71,6 +71,22 @@ export default function ResourceViewer({ lessonId }: Props) {
   };
   resources.forEach(r => grouped[r.type]?.push(r));
 
+  async function reorderType(type: ResourceType, newOrder: LessonResource[]) {
+    // Optimistic UI: replace items of this type, keep others as-is
+    setResources(prev => {
+      const others = prev.filter(r => r.type !== type);
+      return [...others, ...newOrder.map((r, i) => ({ ...r, sort_order: i }))];
+    });
+    // Persist
+    try {
+      await Promise.all(newOrder.map((r, i) => updateResourceOrder(r.id, i)));
+    } catch {
+      // Reload on failure
+      const fresh = await fetchResources(lessonId);
+      setResources(fresh);
+    }
+  }
+
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
       <div className="mb-4 flex items-center justify-between">
