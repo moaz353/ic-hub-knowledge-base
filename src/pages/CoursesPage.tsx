@@ -248,8 +248,18 @@ export default function CoursesPage() {
                 <Link to={`/courses/${course.id}`}>
                   <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">{course.name}</h3>
                 </Link>
+                {(() => {
+                  const ins = instructors.find(i => i.id === course.instructor_id);
+                  if (!ins) return null;
+                  return (
+                    <div className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <InstructorAvatar instructor={ins} size="sm" />
+                      <span className="truncate">{ins.name}</span>
+                    </div>
+                  );
+                })()}
                 {course.description && <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{course.description}</p>}
-                
+
                 <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
                   {course.provider && <span className="rounded-lg bg-secondary px-2 py-0.5">{course.provider}</span>}
                   {course.estimated_hours > 0 && <span>{course.estimated_hours}h</span>}
@@ -316,6 +326,20 @@ export default function CoursesPage() {
                   <img src={newThumbnail} alt="Preview" className="h-full w-full object-cover" onError={e => (e.currentTarget.style.display = 'none')} />
                 </div>
               )}
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1.5 block">Instructor</label>
+              <InstructorSelector value={newInstructor} onChange={setNewInstructor} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5"><Calendar size={12} /> Start date</label>
+                <input type="date" value={newStart} onChange={e => setNewStart(e.target.value)} className="w-full rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5"><Calendar size={12} /> End date</label>
+                <input type="date" value={newEnd} onChange={e => setNewEnd(e.target.value)} className="w-full rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
             </div>
             <button onClick={handleSave} className="w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
               {editCourse ? 'Save Changes' : 'Create Course'}
