@@ -7,15 +7,18 @@ import {
   fetchCourseLinks, addCourseLink, deleteCourseLink,
   type Course, type CourseLesson, type CourseSession, type CourseSection, type CourseLink,
 } from '@/services/courses';
+import { fetchInstructors, type Instructor } from '@/services/instructors';
+import InstructorAvatar from '@/components/ichub/InstructorAvatar';
 import { uploadFile } from '@/services/fileUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ResourceViewer from '@/components/ichub/ResourceViewer';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   ArrowLeft, Plus, Check, Bookmark, Trash2, ExternalLink, Download, Clock,
   FileUp, Link as LinkIcon, ChevronUp, ChevronDown, ChevronRight,
-  FlaskConical, BookOpen, SkipForward, SkipBack,
+  FlaskConical, BookOpen, SkipForward, SkipBack, Calendar,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -26,6 +29,7 @@ export default function CourseDetailPage() {
   const [sections, setSections] = useState<CourseSection[]>([]);
   const [sharedLinks, setSharedLinks] = useState<CourseLink[]>([]);
   const [sessions, setSessions] = useState<CourseSession[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [sessionMinutes, setSessionMinutes] = useState('');
 
@@ -60,7 +64,7 @@ export default function CourseDetailPage() {
   const [newFileName, setNewFileName] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  useEffect(() => { if (id) load(); }, [id]);
+  useEffect(() => { if (id) load(); fetchInstructors().then(setInstructors).catch(() => {}); }, [id]);
 
   async function load() {
     setLoading(true);
