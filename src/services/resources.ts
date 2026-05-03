@@ -51,6 +51,14 @@ export async function deleteResource(id: string, storagePath?: string | null): P
   if (error) throw error;
 }
 
+export async function updateResourceOrder(id: string, sort_order: number): Promise<void> {
+  const { error } = await supabase
+    .from('lesson_resources' as any)
+    .update({ sort_order } as any)
+    .eq('id', id);
+  if (error) throw error;
+}
+
 export async function uploadResourceFile(file: File, lessonId: string) {
   const ext = file.name.split('.').pop() || 'bin';
   const safeName = `lesson-resources/${lessonId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
