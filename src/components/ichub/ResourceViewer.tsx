@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Reorder, useDragControls } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import {
   FileText, Image as ImageIcon, Video, Code2, Link2, Plus,
   Download, Eye, Trash2, ExternalLink, Maximize2, Play, X, ChevronLeft, ChevronRight,
+  GripVertical,
 } from 'lucide-react';
-import { fetchResources, deleteResource, type LessonResource, type ResourceType } from '@/services/resources';
+import { fetchResources, deleteResource, updateResourceOrder, type LessonResource, type ResourceType } from '@/services/resources';
 import AddResourceModal from './AddResourceModal';
 import CodeBlock from './CodeBlock';
 import { toast } from 'sonner';
