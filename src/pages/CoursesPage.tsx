@@ -52,9 +52,14 @@ export default function CoursesPage() {
     return true;
   });
 
+  function resetForm() {
+    setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+    setNewInstructor(null); setNewStart(''); setNewEnd('');
+  }
+
   function openAdd() {
     setEditCourse(null);
-    setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+    resetForm();
     setAddOpen(true);
   }
 
@@ -65,23 +70,34 @@ export default function CoursesPage() {
     setNewProvider(course.provider);
     setNewHours(course.estimated_hours > 0 ? String(course.estimated_hours) : '');
     setNewThumbnail(course.thumbnail || '');
+    setNewInstructor(course.instructor_id);
+    setNewStart(course.start_date || '');
+    setNewEnd(course.end_date || '');
     setAddOpen(true);
   }
 
   async function handleSave() {
     if (!newName.trim()) return;
     try {
-      const payload = { name: newName, description: newDesc, provider: newProvider, estimated_hours: parseFloat(newHours) || 0, thumbnail: newThumbnail };
+      const payload = {
+        name: newName, description: newDesc, provider: newProvider,
+        estimated_hours: parseFloat(newHours) || 0, thumbnail: newThumbnail,
+        instructor_id: newInstructor,
+        start_date: newStart || null,
+        end_date: newEnd || null,
+      };
       if (editCourse) {
         await updateCourse(editCourse.id, payload as any);
         toast.success('Course updated');
       } else {
         await createCourse(payload as any);
         toast.success('Course created');
+        // refresh instructors in case a new one was added inline
+        fetchInstructors().then(setInstructors).catch(() => {});
       }
       setAddOpen(false);
       setEditCourse(null);
-      setNewName(''); setNewDesc(''); setNewProvider(''); setNewHours(''); setNewThumbnail('');
+      resetForm();
       loadCourses();
     } catch (e: any) { toast.error(e.message); }
   }
