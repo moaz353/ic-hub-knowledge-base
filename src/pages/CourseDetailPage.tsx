@@ -642,3 +642,39 @@ function SidebarItem({
     </div>
   );
 }
+
+function CourseTimeline({ start, end }: { start: string | null; end: string | null }) {
+  const today = new Date();
+  const s = start ? new Date(start) : null;
+  const e = end ? new Date(end) : null;
+  let pct = 0;
+  if (s && e && e > s) {
+    pct = Math.max(0, Math.min(100, ((today.getTime() - s.getTime()) / (e.getTime() - s.getTime())) * 100));
+  } else if (s && !e) {
+    pct = today >= s ? 100 : 0;
+  }
+  const fmt = (d: Date) => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  const todayBefore = s && today < s;
+  const todayAfter = e && today > e;
+  return (
+    <div className="mt-5 border-t border-border pt-4">
+      <div className="mb-1.5 flex items-center justify-between text-[11px] uppercase tracking-wider text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5"><Calendar size={11} /> {s ? fmt(s) : 'No start'}</span>
+        <span className="text-foreground/80">
+          {todayBefore ? 'Starts soon' : todayAfter ? 'Ended' : 'Today'}
+        </span>
+        <span>{e ? fmt(e) : 'No end'}</span>
+      </div>
+      <div className="relative h-2 rounded-full bg-secondary overflow-visible">
+        <div className="h-full rounded-full bg-gradient-to-r from-primary/60 to-primary" style={{ width: `${pct}%` }} />
+        {s && e && (
+          <div
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-4 w-4 rounded-full bg-accent border-2 border-background shadow-md"
+            style={{ left: `${pct}%` }}
+            title="Today"
+          />
+        )}
+      </div>
+    </div>
+  );
+}
