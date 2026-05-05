@@ -1,4 +1,5 @@
 import { Home, BarChart3, Tags, Clock, GraduationCap, StickyNote, ListTodo, PanelLeftClose, PanelLeft } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from './AuthProvider';
 import {
