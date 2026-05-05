@@ -1,4 +1,5 @@
 import { Home, BarChart3, Tags, Clock, GraduationCap, StickyNote, ListTodo, PanelLeftClose, PanelLeft } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from './AuthProvider';
 import {
@@ -134,7 +135,8 @@ export default function AppSidebar() {
         )}
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-3">
+      <SidebarFooter className="border-t border-sidebar-border p-3 space-y-2">
+        <ThemeToggle collapsed={collapsed} />
         <div className="flex items-center gap-2">
           <button
             onClick={() => hasToken && logout()}
