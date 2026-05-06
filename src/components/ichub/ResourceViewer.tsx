@@ -9,6 +9,7 @@ import {
 import { fetchResources, deleteResource, updateResourceOrder, type LessonResource, type ResourceType } from '@/services/resources';
 import AddResourceModal from './AddResourceModal';
 import CodeBlock from './CodeBlock';
+import AnimatedTabs from './AnimatedTabs';
 import { toast } from 'sonner';
 
 interface Props {
