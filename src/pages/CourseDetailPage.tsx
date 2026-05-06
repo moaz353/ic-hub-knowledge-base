@@ -395,68 +395,7 @@ export default function CourseDetailPage() {
         )}
       </div>
 
-      {/* === COURSE OVERVIEW PANEL (collapsible) === */}
-      <div className="mb-6 rounded-xl border border-border bg-card border-l-[3px] border-l-primary overflow-hidden shadow-sm">
-        <button
-          onClick={() => setOverviewOpen(o => !o)}
-          className="flex w-full items-center justify-between px-5 py-3 hover:bg-secondary/40 transition-colors"
-          aria-expanded={overviewOpen}
-        >
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Course Overview</span>
-          {overviewOpen ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
-        </button>
-        {overviewOpen && (
-          <div className="border-t border-border px-5 py-4 space-y-5">
-            {/* Rich text-ish editor (markdown textarea, matches existing notes pattern) */}
-            <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <label className="text-xs font-medium text-foreground">Description</label>
-                <span className={`text-[11px] ${descSaved ? 'text-emerald-400' : 'text-amber-400'}`}>{descSaved ? '✓ Saved' : 'Saving…'}</span>
-              </div>
-              <textarea
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Markdown supported — **bold**, *italic*, # heading, - bullets"
-                rows={5}
-                className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none font-mono"
-              />
-            </div>
-
-            {/* Shared Links */}
-            <div>
-              <label className="mb-2 block text-xs font-medium text-foreground">Shared Links</label>
-              <div className="flex flex-wrap gap-2 mb-3 min-h-[2rem]">
-                {sharedLinks.length === 0 && <span className="text-xs text-muted-foreground">No shared links yet.</span>}
-                {sharedLinks.map(l => (
-                  <span key={l.id} className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary pl-3 pr-1 py-1 text-xs hover:border-primary/40 transition-colors">
-                    <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">{l.name}</a>
-                    <button onClick={() => handleDeleteSharedLink(l.id)} className="ml-1 rounded-full p-0.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all" aria-label="Delete link">
-                      <Trash2 size={11} />
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <div className="flex flex-col gap-2 sm:flex-row">
-                <input
-                  placeholder="Name"
-                  value={newLinkName}
-                  onChange={e => setNewLinkName(e.target.value)}
-                  className="flex-1 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
-                <input
-                  placeholder="https://…"
-                  value={newLinkUrl}
-                  onChange={e => setNewLinkUrl(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleAddSharedLink()}
-                  className="flex-[2] rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
-                <button onClick={handleAddSharedLink} className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Add</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
+      {/* Floating reopen button when curriculum is collapsed */}
       {/* === PLAYER LAYOUT: sidebar + content === */}
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
         {/* SIDEBAR: Sections / Lessons / Labs */}
