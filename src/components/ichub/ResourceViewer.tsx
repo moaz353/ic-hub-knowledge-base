@@ -88,6 +88,19 @@ export default function ResourceViewer({ lessonId }: Props) {
     }
   }
 
+  const TYPE_ORDER: ResourceType[] = ['code', 'link', 'image', 'video', 'pdf'];
+  const availableTypes = TYPE_ORDER.filter(t => grouped[t].length > 0);
+  const [activeTab, setActiveTab] = useState<ResourceType | null>(null);
+
+  useEffect(() => {
+    if (!activeTab && availableTypes.length > 0) setActiveTab(availableTypes[0]);
+    if (activeTab && !availableTypes.includes(activeTab)) {
+      setActiveTab(availableTypes[0] || null);
+    }
+  }, [availableTypes.join(','), activeTab]);
+
+  const items = activeTab ? grouped[activeTab] : [];
+
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
       <div className="mb-4 flex items-center justify-between">
@@ -108,142 +121,137 @@ export default function ResourceViewer({ lessonId }: Props) {
           <div className="text-sm text-muted-foreground">No resources yet. Click "+ Add Resource" to get started.</div>
         </div>
       ) : (
-        <div className="space-y-7">
-          {(Object.keys(grouped) as ResourceType[]).map(type => {
-            const items = grouped[type];
-            if (items.length === 0) return null;
-            const meta = TYPE_META[type];
-            return (
-              <section key={type}>
-                {/* Section divider */}
-                <div className="mb-3 flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${meta.dot}`} />
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground">{meta.label}</h4>
-                    <span className="text-xs text-muted-foreground">({items.length})</span>
-                  </div>
-                  <div className="h-px flex-1 bg-border" />
-                </div>
+        <>
+          <AnimatedTabs
+            tabs={availableTypes.map(t => ({
+              value: t,
+              label: TYPE_META[t].label,
+              count: grouped[t].length,
+              icon: (() => { const Ic = TYPE_META[t].icon; return <Ic size={13} />; })(),
+            }))}
+            value={activeTab || ''}
+            onChange={(v) => setActiveTab(v as ResourceType)}
+            className="mb-5"
+          />
 
-                {/* === PDF === */}
-                {type === 'pdf' && (
-                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('pdf', o)} className="space-y-2">
-                    {items.map(r => (
-                      <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-xl border border-border bg-secondary/30 p-3 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
-                        <GripVertical size={14} className="text-muted-foreground/40 shrink-0" />
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400">
-                          <FileText size={22} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="truncate text-sm font-medium text-foreground">{r.name}</div>
-                          <div className="text-[11px] text-muted-foreground">
-                            {r.file_size ? `${(r.file_size / 1024).toFixed(0)} KB` : '—'}
-                            {' · '}
-                            {new Date(r.created_at).toLocaleDateString()}
-                          </div>
-                          {r.description && <div className="mt-0.5 truncate text-[11px] text-muted-foreground/80">{r.description}</div>}
-                        </div>
-                        <button onClick={() => setPdfPreview(r)} className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
-                          <Eye size={12} /> Preview
-                        </button>
-                        <a href={r.url || '#'} download className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
-                          <Download size={12} /> Download
-                        </a>
-                        <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all">
-                          <Trash2 size={13} />
-                        </button>
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                )}
+          <div key={activeTab} className="animate-fade-in">
+            {/* === PDF === */}
+            {activeTab === 'pdf' && (
+              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('pdf', o)} className="space-y-2">
+                {items.map(r => (
+                  <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-xl border border-border bg-secondary/30 p-3 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
+                    <GripVertical size={14} className="text-muted-foreground/40 shrink-0" />
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400">
+                      <FileText size={22} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium text-foreground">{r.name}</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        {r.file_size ? `${(r.file_size / 1024).toFixed(0)} KB` : '—'}
+                        {' · '}
+                        {new Date(r.created_at).toLocaleDateString()}
+                      </div>
+                      {r.description && <div className="mt-0.5 truncate text-[11px] text-muted-foreground/80">{r.description}</div>}
+                    </div>
+                    <button onClick={() => setPdfPreview(r)} className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
+                      <Eye size={12} /> Preview
+                    </button>
+                    <a href={r.url || '#'} download className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
+                      <Download size={12} /> Download
+                    </a>
+                    <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all">
+                      <Trash2 size={13} />
+                    </button>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            )}
 
-                {/* === IMAGE === */}
-                {type === 'image' && (
-                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('image', o)} className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {items.map((r, i) => (
-                      <Reorder.Item
-                        key={r.id}
-                        value={r}
-                        className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border bg-secondary"
-                        onClick={() => setLightbox({ items, index: i })}
-                      >
-                        <img src={r.url || ''} alt={r.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="absolute bottom-0 left-0 right-0 p-2 text-xs font-medium text-white truncate">{r.name}</div>
-                        </div>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setLightbox({ items, index: i }); }}
-                          className="absolute right-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-black/70 transition-all"
-                          aria-label="Expand"
-                        >
-                          <Maximize2 size={12} />
-                        </button>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleDelete(r); }}
-                          className="absolute left-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-destructive transition-all"
-                          aria-label="Delete"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                )}
+            {/* === IMAGE === */}
+            {activeTab === 'image' && (
+              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('image', o)} className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {items.map((r, i) => (
+                  <Reorder.Item
+                    key={r.id}
+                    value={r}
+                    className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border bg-secondary"
+                    onClick={() => setLightbox({ items, index: i })}
+                  >
+                    <img src={r.url || ''} alt={r.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="absolute bottom-0 left-0 right-0 p-2 text-xs font-medium text-white truncate">{r.name}</div>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setLightbox({ items, index: i }); }}
+                      className="absolute right-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-black/70 transition-all"
+                      aria-label="Expand"
+                    >
+                      <Maximize2 size={12} />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleDelete(r); }}
+                      className="absolute left-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-destructive transition-all"
+                      aria-label="Delete"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            )}
 
-                {/* === VIDEO === */}
-                {type === 'video' && (
-                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('video', o)} className="grid gap-3 sm:grid-cols-2">
-                    {items.map(r => (
-                      <Reorder.Item key={r.id} value={r} className="cursor-grab active:cursor-grabbing">
-                        <VideoCard r={r} onFullscreen={() => setVideoFs(r)} onDelete={() => handleDelete(r)} />
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                )}
+            {/* === VIDEO === */}
+            {activeTab === 'video' && (
+              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('video', o)} className="grid gap-3 sm:grid-cols-2">
+                {items.map(r => (
+                  <Reorder.Item key={r.id} value={r} className="cursor-grab active:cursor-grabbing">
+                    <VideoCard r={r} onFullscreen={() => setVideoFs(r)} onDelete={() => handleDelete(r)} />
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            )}
 
-                {/* === CODE === */}
-                {type === 'code' && (
-                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('code', o)} className="space-y-5">
-                    {items.map(r => (
-                      <Reorder.Item key={r.id} value={r} className="group">
-                        <div className="mb-1 flex items-start justify-between gap-2">
-                          <div className="flex items-center gap-1.5 text-muted-foreground/40 cursor-grab active:cursor-grabbing">
-                            <GripVertical size={12} />
-                            {r.description && <p className="text-[11px] text-muted-foreground">{r.description}</p>}
-                          </div>
-                          <button onClick={() => handleDelete(r)} className="ml-auto rounded p-1 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
-                            <Trash2 size={12} />
-                          </button>
-                        </div>
-                        <CodeBlock code={r.code_content || ''} language={r.language || 'text'} fileName={r.name} />
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                )}
+            {/* === CODE === */}
+            {activeTab === 'code' && (
+              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('code', o)} className="space-y-5">
+                {items.map(r => (
+                  <Reorder.Item key={r.id} value={r} className="group">
+                    <div className="mb-1 flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-1.5 text-muted-foreground/40 cursor-grab active:cursor-grabbing">
+                        <GripVertical size={12} />
+                        {r.description && <p className="text-[11px] text-muted-foreground">{r.description}</p>}
+                      </div>
+                      <button onClick={() => handleDelete(r)} className="ml-auto rounded p-1 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
+                        <Trash2 size={12} />
+                      </button>
+                    </div>
+                    <CodeBlock code={r.code_content || ''} language={r.language || 'text'} fileName={r.name} />
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            )}
 
-                {/* === LINK === */}
-                {type === 'link' && (
-                  <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('link', o)} className="space-y-1.5">
-                    {items.map(r => (
-                      <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
-                        <GripVertical size={12} className="text-muted-foreground/40 shrink-0" />
-                        <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
-                        <span className="text-sm font-semibold text-foreground">{r.name}</span>
-                        <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">{r.url}</span>
-                        <a href={r.url || '#'} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-md p-1.5 text-muted-foreground hover:text-primary transition-colors" aria-label="Open in new tab">
-                          <ExternalLink size={13} />
-                        </a>
-                        <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
-                          <Trash2 size={13} />
-                        </button>
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                )}
-              </section>
-            );
-          })}
-        </div>
+            {/* === LINK === */}
+            {activeTab === 'link' && (
+              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('link', o)} className="space-y-1.5">
+                {items.map(r => (
+                  <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
+                    <GripVertical size={12} className="text-muted-foreground/40 shrink-0" />
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
+                    <span className="text-sm font-semibold text-foreground">{r.name}</span>
+                    <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">{r.url}</span>
+                    <a href={r.url || '#'} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-md p-1.5 text-muted-foreground hover:text-primary transition-colors" aria-label="Open in new tab">
+                      <ExternalLink size={13} />
+                    </a>
+                    <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
+                      <Trash2 size={13} />
+                    </button>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            )}
+          </div>
+        </>
       )}
 
       <AddResourceModal
