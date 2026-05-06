@@ -19,6 +19,7 @@ import {
   ArrowLeft, Plus, Check, Bookmark, Trash2, ExternalLink, Download, Clock,
   FileUp, Link as LinkIcon, ChevronUp, ChevronDown, ChevronRight,
   FlaskConical, BookOpen, SkipForward, SkipBack, Calendar,
+  Paperclip, PanelLeftClose, PanelLeft,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -51,6 +52,12 @@ export default function CourseDetailPage() {
 
   // Player / current item
   const [currentId, setCurrentId] = useState<string | null>(null);
+
+  // Main view: 'attachments' (course-level) or 'item' (lesson/lab)
+  const [mainView, setMainView] = useState<'attachments' | 'item'>('item');
+
+  // Curriculum panel collapse
+  const [curriculumOpen, setCurriculumOpen] = useState(true);
 
   // Section collapse state
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
@@ -388,121 +395,100 @@ export default function CourseDetailPage() {
         )}
       </div>
 
-      {/* === COURSE OVERVIEW PANEL (collapsible) === */}
-      <div className="mb-6 rounded-xl border border-border bg-card border-l-[3px] border-l-primary overflow-hidden shadow-sm">
-        <button
-          onClick={() => setOverviewOpen(o => !o)}
-          className="flex w-full items-center justify-between px-5 py-3 hover:bg-secondary/40 transition-colors"
-          aria-expanded={overviewOpen}
-        >
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Course Overview</span>
-          {overviewOpen ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
-        </button>
-        {overviewOpen && (
-          <div className="border-t border-border px-5 py-4 space-y-5">
-            {/* Rich text-ish editor (markdown textarea, matches existing notes pattern) */}
-            <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <label className="text-xs font-medium text-foreground">Description</label>
-                <span className={`text-[11px] ${descSaved ? 'text-emerald-400' : 'text-amber-400'}`}>{descSaved ? '✓ Saved' : 'Saving…'}</span>
-              </div>
-              <textarea
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Markdown supported — **bold**, *italic*, # heading, - bullets"
-                rows={5}
-                className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none font-mono"
-              />
-            </div>
-
-            {/* Shared Links */}
-            <div>
-              <label className="mb-2 block text-xs font-medium text-foreground">Shared Links</label>
-              <div className="flex flex-wrap gap-2 mb-3 min-h-[2rem]">
-                {sharedLinks.length === 0 && <span className="text-xs text-muted-foreground">No shared links yet.</span>}
-                {sharedLinks.map(l => (
-                  <span key={l.id} className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary pl-3 pr-1 py-1 text-xs hover:border-primary/40 transition-colors">
-                    <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">{l.name}</a>
-                    <button onClick={() => handleDeleteSharedLink(l.id)} className="ml-1 rounded-full p-0.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all" aria-label="Delete link">
-                      <Trash2 size={11} />
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <div className="flex flex-col gap-2 sm:flex-row">
-                <input
-                  placeholder="Name"
-                  value={newLinkName}
-                  onChange={e => setNewLinkName(e.target.value)}
-                  className="flex-1 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
-                <input
-                  placeholder="https://…"
-                  value={newLinkUrl}
-                  onChange={e => setNewLinkUrl(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleAddSharedLink()}
-                  className="flex-[2] rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
-                <button onClick={handleAddSharedLink} className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Add</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* === PLAYER LAYOUT: sidebar + content === */}
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        {/* SIDEBAR: Sections / Lessons / Labs */}
+      {/* === PLAYER LAYOUT: collapsible sidebar + content === */}
+      <div
+        className="grid gap-6 transition-[grid-template-columns] duration-300 ease-out"
+        style={{ gridTemplateColumns: curriculumOpen ? '300px 1fr' : '44px 1fr' }}
+      >
+        {/* SIDEBAR: Curriculum */}
         <aside className="rounded-2xl border border-border bg-card overflow-hidden self-start">
-          <div className="px-4 py-3 border-b border-border">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Curriculum</span>
-            <div className="text-xs text-muted-foreground mt-0.5">{completedLessons}/{lessons.length} done</div>
+          <div className="flex items-center gap-2 px-3 py-3 border-b border-border">
+            <button
+              onClick={() => setCurriculumOpen(o => !o)}
+              className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors shrink-0"
+              title={curriculumOpen ? 'Collapse curriculum' : 'Expand curriculum'}
+            >
+              {curriculumOpen ? <PanelLeftClose size={16} /> : <PanelLeft size={16} />}
+            </button>
+            <div
+              className={`min-w-0 flex-1 transition-opacity duration-200 ${curriculumOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            >
+              <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Curriculum</span>
+              <span className="block text-[11px] text-muted-foreground mt-0.5">{completedLessons}/{lessons.length} done</span>
+            </div>
           </div>
 
-          <div className="divide-y divide-border max-h-[60vh] overflow-y-auto">
-            {sections.map(sec => {
-              const items = lessons.filter(l => l.section_id === sec.id).sort((a, b) => a.sort_order - b.sort_order);
-              const isCollapsed = !!collapsedSections[sec.id];
-              return (
-                <div key={sec.id} className="group/sec">
-                  <div className="flex items-center gap-1 px-3 py-2 hover:bg-secondary/50 transition-colors">
-                    <button onClick={() => setCollapsedSections(c => ({ ...c, [sec.id]: !c[sec.id] }))} className="p-1 text-muted-foreground hover:text-foreground">
-                      {isCollapsed ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
-                    </button>
-                    <span className="flex-1 text-xs font-semibold text-foreground truncate">{sec.name}</span>
-                    <button
-                      onClick={() => setAddItemDialog({ sectionId: sec.id, kind: 'lesson' })}
-                      title="Add Lesson"
-                      className="rounded p-1 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                    >
-                      <BookOpen size={12} />
-                    </button>
-                    <button
-                      onClick={() => setAddItemDialog({ sectionId: sec.id, kind: 'lab' })}
-                      title="Add Lab"
-                      className="rounded p-1 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                    >
-                      <FlaskConical size={12} />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteSection(sec.id, sec.name)}
-                      title="Delete section"
-                      className="rounded p-1 text-muted-foreground/40 opacity-0 group-hover/sec:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                  </div>
-                  {!isCollapsed && (
+          {curriculumOpen && (
+            <>
+              <div className="max-h-[65vh] overflow-y-auto">
+                {/* Attachments entry (course-level) */}
+                <button
+                  onClick={() => setMainView('attachments')}
+                  className={`group flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors border-l-2 ${mainView === 'attachments' ? 'bg-primary/10 border-l-primary' : 'border-l-transparent hover:bg-secondary/50'}`}
+                >
+                  <Paperclip size={13} className={mainView === 'attachments' ? 'text-primary shrink-0' : 'text-muted-foreground shrink-0'} />
+                  <span className={`flex-1 text-xs truncate ${mainView === 'attachments' ? 'text-foreground font-semibold' : 'text-foreground/90'}`}>Attachments</span>
+                  <span className="text-[10px] text-muted-foreground">{sharedLinks.length + files.length}</span>
+                </button>
+
+                <div className="h-px bg-border" />
+
+                <div className="divide-y divide-border">
+                  {sections.map(sec => {
+                    const items = lessons.filter(l => l.section_id === sec.id).sort((a, b) => a.sort_order - b.sort_order);
+                    const isCollapsed = !!collapsedSections[sec.id];
+                    return (
+                      <div key={sec.id} className="group/sec">
+                        <div className="flex items-center gap-1 px-3 py-2 hover:bg-secondary/50 transition-colors">
+                          <button
+                            onClick={() => setCollapsedSections(c => ({ ...c, [sec.id]: !c[sec.id] }))}
+                            className="p-1 text-muted-foreground hover:text-foreground transition-transform"
+                            style={{ transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)', transition: 'transform 0.2s ease' }}
+                          >
+                            <ChevronRight size={14} />
+                          </button>
+                          <span className="flex-1 text-xs font-semibold text-foreground truncate">{sec.name}</span>
+                          <button onClick={() => setAddItemDialog({ sectionId: sec.id, kind: 'lesson' })} title="Add Lesson" className="rounded p-1 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
+                            <BookOpen size={12} />
+                          </button>
+                          <button onClick={() => setAddItemDialog({ sectionId: sec.id, kind: 'lab' })} title="Add Lab" className="rounded p-1 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
+                            <FlaskConical size={12} />
+                          </button>
+                          <button onClick={() => handleDeleteSection(sec.id, sec.name)} title="Delete section" className="rounded p-1 text-muted-foreground/40 opacity-0 group-hover/sec:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all">
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                        <div
+                          className="overflow-hidden transition-all duration-300 ease-out"
+                          style={{ maxHeight: isCollapsed ? 0 : `${Math.max(items.length, 1) * 40 + 12}px`, opacity: isCollapsed ? 0 : 1 }}
+                        >
+                          {items.length === 0 && (
+                            <div className="px-8 py-2 text-[11px] text-muted-foreground/60 italic">No items yet</div>
+                          )}
+                          {items.map(item => (
+                            <SidebarItem
+                              key={item.id}
+                              item={item}
+                              active={mainView === 'item' && item.id === currentItem?.id}
+                              onSelect={() => { setCurrentId(item.id); setMainView('item'); }}
+                              onToggleComplete={() => toggleComplete(item)}
+                              onRemove={() => removeItem(item.id)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {unsectionedItems.length > 0 && (
                     <div>
-                      {items.length === 0 && (
-                        <div className="px-8 py-2 text-[11px] text-muted-foreground/60 italic">No items yet</div>
-                      )}
-                      {items.map(item => (
+                      <div className="px-3 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground/60 bg-secondary/30">Uncategorized</div>
+                      {unsectionedItems.map(item => (
                         <SidebarItem
                           key={item.id}
                           item={item}
-                          active={item.id === currentItem?.id}
-                          onSelect={() => setCurrentId(item.id)}
+                          active={mainView === 'item' && item.id === currentItem?.id}
+                          onSelect={() => { setCurrentId(item.id); setMainView('item'); }}
                           onToggleComplete={() => toggleComplete(item)}
                           onRemove={() => removeItem(item.id)}
                         />
@@ -510,73 +496,72 @@ export default function CourseDetailPage() {
                     </div>
                   )}
                 </div>
-              );
-            })}
-
-            {/* Unsectioned items */}
-            {unsectionedItems.length > 0 && (
-              <div>
-                <div className="px-3 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground/60 bg-secondary/30">Uncategorized</div>
-                {unsectionedItems.map(item => (
-                  <SidebarItem
-                    key={item.id}
-                    item={item}
-                    active={item.id === currentItem?.id}
-                    onSelect={() => setCurrentId(item.id)}
-                    onToggleComplete={() => toggleComplete(item)}
-                    onRemove={() => removeItem(item.id)}
-                  />
-                ))}
               </div>
-            )}
-          </div>
 
-          <div className="border-t border-border p-3">
-            <button onClick={() => setAddSectionOpen(true)} className="flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors">
-              <Plus size={14} /> Add Section
-            </button>
-          </div>
+              <div className="border-t border-border p-3">
+                <button onClick={() => setAddSectionOpen(true)} className="flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors">
+                  <Plus size={14} /> Add Section
+                </button>
+              </div>
+            </>
+          )}
         </aside>
 
         {/* MAIN CONTENT */}
         <main className="space-y-6 min-w-0">
-          {/* Current item player */}
-          <div className="rounded-2xl border border-border bg-card p-6">
-            {currentItem ? (
-              <>
-                <div className="mb-4 flex items-center gap-2">
-                  <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold ${currentItem.kind === 'lab' ? 'border-amber-500/30 bg-amber-500/10 text-amber-400' : 'border-primary/30 bg-primary/10 text-primary'}`}>
-                    {currentItem.kind === 'lab' ? <FlaskConical size={11} /> : <BookOpen size={11} />}
-                    {currentItem.kind === 'lab' ? 'Lab' : 'Lesson'}
-                  </span>
-                  {currentItem.completed && <span className="text-[10px] font-semibold text-emerald-400">✓ Completed</span>}
-                </div>
-                <h2 className="text-xl font-bold text-foreground mb-4">{currentItem.title}</h2>
-                <div className="flex flex-wrap items-center gap-2">
-                  <button onClick={() => toggleComplete(currentItem)} className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all ${currentItem.completed ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-primary text-primary-foreground hover:bg-primary/90'}`}>
-                    <Check size={14} /> {currentItem.completed ? 'Completed' : 'Mark complete'} <kbd className="ml-1 rounded bg-black/20 px-1.5 py-0.5 text-[10px]">Space</kbd>
-                  </button>
-                  <button onClick={() => toggleBookmark(currentItem)} className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-all ${currentItem.bookmarked ? 'border-amber-500/40 text-amber-400 bg-amber-500/10' : 'border-border text-muted-foreground hover:text-foreground'}`}>
-                    <Bookmark size={14} /> {currentItem.bookmarked ? 'Bookmarked' : 'Bookmark'} <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">M</kbd>
-                  </button>
-                  <button onClick={goPrev} className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    <SkipBack size={14} /> Prev <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">P</kbd>
-                  </button>
-                  <button onClick={goNext} className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Next <SkipForward size={14} /> <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">N</kbd>
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="py-10 text-center text-sm text-muted-foreground">
-                No items yet. Add a section then add lessons or labs from the sidebar.
+          {mainView === 'attachments' ? (
+            <AttachmentsView
+              description={description}
+              setDescription={setDescription}
+              descSaved={descSaved}
+              sharedLinks={sharedLinks}
+              newLinkName={newLinkName}
+              setNewLinkName={setNewLinkName}
+              newLinkUrl={newLinkUrl}
+              setNewLinkUrl={setNewLinkUrl}
+              onAddLink={handleAddSharedLink}
+              onDeleteLink={handleDeleteSharedLink}
+              files={files}
+              onUploadClick={() => setAddFileOpen(true)}
+            />
+          ) : (
+            <>
+              <div className="rounded-2xl border border-border bg-card p-6 animate-fade-in">
+                {currentItem ? (
+                  <>
+                    <div className="mb-4 flex items-center gap-2">
+                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold ${currentItem.kind === 'lab' ? 'border-amber-500/30 bg-amber-500/10 text-amber-400' : 'border-primary/30 bg-primary/10 text-primary'}`}>
+                        {currentItem.kind === 'lab' ? <FlaskConical size={11} /> : <BookOpen size={11} />}
+                        {currentItem.kind === 'lab' ? 'Lab' : 'Lesson'}
+                      </span>
+                      {currentItem.completed && <span className="text-[10px] font-semibold text-emerald-400">✓ Completed</span>}
+                    </div>
+                    <h2 className="text-xl font-bold text-foreground mb-4">{currentItem.title}</h2>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button onClick={() => toggleComplete(currentItem)} className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all ${currentItem.completed ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-primary text-primary-foreground hover:bg-primary/90'}`}>
+                        <Check size={14} /> {currentItem.completed ? 'Completed' : 'Mark complete'} <kbd className="ml-1 rounded bg-black/20 px-1.5 py-0.5 text-[10px]">Space</kbd>
+                      </button>
+                      <button onClick={() => toggleBookmark(currentItem)} className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-all ${currentItem.bookmarked ? 'border-amber-500/40 text-amber-400 bg-amber-500/10' : 'border-border text-muted-foreground hover:text-foreground'}`}>
+                        <Bookmark size={14} /> {currentItem.bookmarked ? 'Bookmarked' : 'Bookmark'} <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">M</kbd>
+                      </button>
+                      <button onClick={goPrev} className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                        <SkipBack size={14} /> Prev <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">P</kbd>
+                      </button>
+                      <button onClick={goNext} className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                        Next <SkipForward size={14} /> <kbd className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-[10px]">N</kbd>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="py-10 text-center text-sm text-muted-foreground">
+                    No items yet. Add a section then add lessons or labs from the sidebar.
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Resources for current lesson/lab */}
-          {currentItem && <ResourceViewer key={currentItem.id} lessonId={currentItem.id} />}
-
+              {currentItem && <ResourceViewer key={currentItem.id} lessonId={currentItem.id} />}
+            </>
+          )}
         </main>
       </div>
 
@@ -674,6 +659,87 @@ function CourseTimeline({ start, end }: { start: string | null; end: string | nu
             title="Today"
           />
         )}
+      </div>
+    </div>
+  );
+}
+
+function AttachmentsView({
+  description, setDescription, descSaved,
+  sharedLinks, newLinkName, setNewLinkName, newLinkUrl, setNewLinkUrl, onAddLink, onDeleteLink,
+  files, onUploadClick,
+}: {
+  description: string;
+  setDescription: (v: string) => void;
+  descSaved: boolean;
+  sharedLinks: CourseLink[];
+  newLinkName: string;
+  setNewLinkName: (v: string) => void;
+  newLinkUrl: string;
+  setNewLinkUrl: (v: string) => void;
+  onAddLink: () => void;
+  onDeleteLink: (id: string) => void;
+  files: { name: string; url: string }[];
+  onUploadClick: () => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-6 animate-fade-in space-y-6">
+      <div className="flex items-center gap-2">
+        <Paperclip size={16} className="text-primary" />
+        <h2 className="text-lg font-bold text-foreground">Course Attachments</h2>
+      </div>
+
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Description</label>
+          <span className={`text-[11px] ${descSaved ? 'text-emerald-400' : 'text-amber-400'}`}>{descSaved ? '✓ Saved' : 'Saving…'}</span>
+        </div>
+        <textarea
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          placeholder="Markdown supported — **bold**, *italic*, # heading, - bullets"
+          rows={6}
+          className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none font-mono"
+        />
+      </div>
+
+      <div>
+        <label className="mb-2 block text-xs font-medium text-foreground">Shared Links</label>
+        <div className="flex flex-wrap gap-2 mb-3 min-h-[2rem]">
+          {sharedLinks.length === 0 && <span className="text-xs text-muted-foreground">No shared links yet.</span>}
+          {sharedLinks.map(l => (
+            <span key={l.id} className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary pl-3 pr-1 py-1 text-xs hover:border-primary/40 transition-colors">
+              <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">{l.name}</a>
+              <button onClick={() => onDeleteLink(l.id)} className="ml-1 rounded-full p-0.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all" aria-label="Delete link">
+                <Trash2 size={11} />
+              </button>
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <input placeholder="Name" value={newLinkName} onChange={e => setNewLinkName(e.target.value)} className="flex-1 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40" />
+          <input placeholder="https://…" value={newLinkUrl} onChange={e => setNewLinkUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && onAddLink()} className="flex-[2] rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40" />
+          <button onClick={onAddLink} className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Add</button>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Files</label>
+          <button onClick={onUploadClick} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <FileUp size={12} /> Upload
+          </button>
+        </div>
+        <div className="space-y-2">
+          {files.length === 0 && <span className="text-xs text-muted-foreground">No files uploaded this session.</span>}
+          {files.map((f, i) => (
+            <a key={i} href={f.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-xs hover:border-primary/40 transition-colors">
+              <FileUp size={12} className="text-muted-foreground" />
+              <span className="flex-1 truncate text-foreground">{f.name}</span>
+              <ExternalLink size={11} className="text-muted-foreground" />
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
