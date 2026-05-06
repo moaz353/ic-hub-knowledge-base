@@ -663,3 +663,84 @@ function CourseTimeline({ start, end }: { start: string | null; end: string | nu
     </div>
   );
 }
+
+function AttachmentsView({
+  description, setDescription, descSaved,
+  sharedLinks, newLinkName, setNewLinkName, newLinkUrl, setNewLinkUrl, onAddLink, onDeleteLink,
+  files, onUploadClick,
+}: {
+  description: string;
+  setDescription: (v: string) => void;
+  descSaved: boolean;
+  sharedLinks: CourseLink[];
+  newLinkName: string;
+  setNewLinkName: (v: string) => void;
+  newLinkUrl: string;
+  setNewLinkUrl: (v: string) => void;
+  onAddLink: () => void;
+  onDeleteLink: (id: string) => void;
+  files: { name: string; url: string }[];
+  onUploadClick: () => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-6 animate-fade-in space-y-6">
+      <div className="flex items-center gap-2">
+        <Paperclip size={16} className="text-primary" />
+        <h2 className="text-lg font-bold text-foreground">Course Attachments</h2>
+      </div>
+
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Description</label>
+          <span className={`text-[11px] ${descSaved ? 'text-emerald-400' : 'text-amber-400'}`}>{descSaved ? '✓ Saved' : 'Saving…'}</span>
+        </div>
+        <textarea
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          placeholder="Markdown supported — **bold**, *italic*, # heading, - bullets"
+          rows={6}
+          className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none font-mono"
+        />
+      </div>
+
+      <div>
+        <label className="mb-2 block text-xs font-medium text-foreground">Shared Links</label>
+        <div className="flex flex-wrap gap-2 mb-3 min-h-[2rem]">
+          {sharedLinks.length === 0 && <span className="text-xs text-muted-foreground">No shared links yet.</span>}
+          {sharedLinks.map(l => (
+            <span key={l.id} className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary pl-3 pr-1 py-1 text-xs hover:border-primary/40 transition-colors">
+              <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">{l.name}</a>
+              <button onClick={() => onDeleteLink(l.id)} className="ml-1 rounded-full p-0.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all" aria-label="Delete link">
+                <Trash2 size={11} />
+              </button>
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <input placeholder="Name" value={newLinkName} onChange={e => setNewLinkName(e.target.value)} className="flex-1 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40" />
+          <input placeholder="https://…" value={newLinkUrl} onChange={e => setNewLinkUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && onAddLink()} className="flex-[2] rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40" />
+          <button onClick={onAddLink} className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Add</button>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Files</label>
+          <button onClick={onUploadClick} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <FileUp size={12} /> Upload
+          </button>
+        </div>
+        <div className="space-y-2">
+          {files.length === 0 && <span className="text-xs text-muted-foreground">No files uploaded this session.</span>}
+          {files.map((f, i) => (
+            <a key={i} href={f.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-xs hover:border-primary/40 transition-colors">
+              <FileUp size={12} className="text-muted-foreground" />
+              <span className="flex-1 truncate text-foreground">{f.name}</span>
+              <ExternalLink size={11} className="text-muted-foreground" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
