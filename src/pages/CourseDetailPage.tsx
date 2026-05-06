@@ -19,6 +19,7 @@ import {
   ArrowLeft, Plus, Check, Bookmark, Trash2, ExternalLink, Download, Clock,
   FileUp, Link as LinkIcon, ChevronUp, ChevronDown, ChevronRight,
   FlaskConical, BookOpen, SkipForward, SkipBack, Calendar,
+  Paperclip, PanelLeftClose, PanelLeft,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
