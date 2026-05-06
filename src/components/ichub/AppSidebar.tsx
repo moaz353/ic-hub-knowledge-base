@@ -63,12 +63,12 @@ export default function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <div className="flex h-14 items-center justify-between px-4 border-b border-sidebar-border">
-        {!collapsed && (
-          <div className="flex items-center gap-2 overflow-hidden">
-            <span className="text-xl font-bold text-primary">IC</span>
-            <span className="text-xl font-bold text-sidebar-foreground">Hub</span>
-          </div>
-        )}
+        <div
+          className={`flex items-center gap-2 overflow-hidden transition-all duration-200 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}
+        >
+          <span className="text-xl font-bold text-primary">IC</span>
+          <span className="text-xl font-bold text-sidebar-foreground">Hub</span>
+        </div>
         <button
           onClick={toggleSidebar}
           className="rounded-md p-1.5 text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
