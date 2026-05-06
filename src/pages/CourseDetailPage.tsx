@@ -53,6 +53,12 @@ export default function CourseDetailPage() {
   // Player / current item
   const [currentId, setCurrentId] = useState<string | null>(null);
 
+  // Main view: 'attachments' (course-level) or 'item' (lesson/lab)
+  const [mainView, setMainView] = useState<'attachments' | 'item'>('item');
+
+  // Curriculum panel collapse
+  const [curriculumOpen, setCurriculumOpen] = useState(true);
+
   // Section collapse state
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
 
