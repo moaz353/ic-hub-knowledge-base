@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Reorder, useDragControls } from 'framer-motion';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Reorder } from 'framer-motion';
 import {
   FileText, Image as ImageIcon, Video, Code2, Link2, Plus,
-  Download, Eye, Trash2, ExternalLink, Maximize2, Play, X, ChevronLeft, ChevronRight,
-  GripVertical,
+  X, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { fetchResources, deleteResource, updateResourceOrder, type LessonResource, type ResourceType } from '@/services/resources';
 import AddResourceModal from './AddResourceModal';
-import CodeBlock from './CodeBlock';
 import AnimatedTabs from './AnimatedTabs';
+import ResourceCard from './ResourceCard';
 import { toast } from 'sonner';
 
 interface Props {
