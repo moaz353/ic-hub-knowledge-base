@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { readAllTopics } from '@/services/github';
-import { Search, ArrowUpAZ, TrendingUp, Hash } from 'lucide-react';
+import { Search, ArrowUpAZ, TrendingUp, Hash, X } from 'lucide-react';
+import { useEffect as useEffectEsc } from 'react';
 
 interface TagInfo {
   tag: string;
