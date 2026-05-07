@@ -333,6 +333,39 @@ export type Database = {
         }
         Relationships: []
       }
+      resource_notes: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          rating: number
+          resource_id: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          resource_id: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          resource_id?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       review_cards: {
         Row: {
           created_at: string
