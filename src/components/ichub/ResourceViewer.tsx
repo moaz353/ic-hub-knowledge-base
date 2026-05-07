@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Reorder, useDragControls } from 'framer-motion';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Reorder } from 'framer-motion';
 import {
   FileText, Image as ImageIcon, Video, Code2, Link2, Plus,
-  Download, Eye, Trash2, ExternalLink, Maximize2, Play, X, ChevronLeft, ChevronRight,
-  GripVertical,
+  X, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { fetchResources, deleteResource, updateResourceOrder, type LessonResource, type ResourceType } from '@/services/resources';
 import AddResourceModal from './AddResourceModal';
-import CodeBlock from './CodeBlock';
 import AnimatedTabs from './AnimatedTabs';
+import ResourceCard from './ResourceCard';
 import { toast } from 'sonner';
 
 interface Props {
@@ -28,11 +26,7 @@ export default function ResourceViewer({ lessonId }: Props) {
   const [resources, setResources] = useState<LessonResource[]>([]);
   const [loading, setLoading] = useState(true);
   const [addOpen, setAddOpen] = useState(false);
-
-  // Lightbox state
   const [lightbox, setLightbox] = useState<{ items: LessonResource[]; index: number } | null>(null);
-  const [pdfPreview, setPdfPreview] = useState<LessonResource | null>(null);
-  const [videoFs, setVideoFs] = useState<LessonResource | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,7 +38,6 @@ export default function ResourceViewer({ lessonId }: Props) {
     return () => { cancelled = true; };
   }, [lessonId]);
 
-  // Lightbox keyboard nav
   useEffect(() => {
     if (!lightbox) return;
     function onKey(e: KeyboardEvent) {
@@ -73,16 +66,13 @@ export default function ResourceViewer({ lessonId }: Props) {
   resources.forEach(r => grouped[r.type]?.push(r));
 
   async function reorderType(type: ResourceType, newOrder: LessonResource[]) {
-    // Optimistic UI: replace items of this type, keep others as-is
     setResources(prev => {
       const others = prev.filter(r => r.type !== type);
       return [...others, ...newOrder.map((r, i) => ({ ...r, sort_order: i }))];
     });
-    // Persist
     try {
       await Promise.all(newOrder.map((r, i) => updateResourceOrder(r.id, i)));
     } catch {
-      // Reload on failure
       const fresh = await fetchResources(lessonId);
       setResources(fresh);
     }
@@ -123,130 +113,31 @@ export default function ResourceViewer({ lessonId }: Props) {
       ) : (
         <>
           <AnimatedTabs
-            tabs={availableTypes.map(t => ({
-              value: t,
-              label: TYPE_META[t].label,
-              count: grouped[t].length,
-              icon: (() => { const Ic = TYPE_META[t].icon; return <Ic size={13} />; })(),
-            }))}
+            tabs={availableTypes.map(t => {
+              const Ic = ({ pdf: FileText, image: ImageIcon, video: Video, code: Code2, link: Link2 } as any)[t];
+              const label = ({ pdf: 'PDFs', image: 'Images', video: 'Videos', code: 'Code', link: 'Links' } as any)[t];
+              return { value: t, label, count: grouped[t].length, icon: <Ic size={13} /> };
+            })}
             value={activeTab || ''}
             onChange={(v) => setActiveTab(v as ResourceType)}
             className="mb-5"
           />
 
           <div key={activeTab} className="animate-fade-in">
-            {/* === PDF === */}
-            {activeTab === 'pdf' && (
-              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('pdf', o)} className="space-y-2">
-                {items.map(r => (
-                  <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-xl border border-border bg-secondary/30 p-3 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
-                    <GripVertical size={14} className="text-muted-foreground/40 shrink-0" />
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400">
-                      <FileText size={22} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium text-foreground">{r.name}</div>
-                      <div className="text-[11px] text-muted-foreground">
-                        {r.file_size ? `${(r.file_size / 1024).toFixed(0)} KB` : '—'}
-                        {' · '}
-                        {new Date(r.created_at).toLocaleDateString()}
-                      </div>
-                      {r.description && <div className="mt-0.5 truncate text-[11px] text-muted-foreground/80">{r.description}</div>}
-                    </div>
-                    <button onClick={() => setPdfPreview(r)} className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
-                      <Eye size={12} /> Preview
-                    </button>
-                    <a href={r.url || '#'} download className="inline-flex items-center gap-1 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-[11px] hover:border-primary/40 hover:text-primary transition-colors">
-                      <Download size={12} /> Download
-                    </a>
-                    <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all">
-                      <Trash2 size={13} />
-                    </button>
-                  </Reorder.Item>
-                ))}
-              </Reorder.Group>
-            )}
-
-            {/* === IMAGE === */}
-            {activeTab === 'image' && (
-              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('image', o)} className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {activeTab && (
+              <Reorder.Group
+                axis="y"
+                values={items}
+                onReorder={(o) => reorderType(activeTab, o)}
+                className="space-y-2"
+              >
                 {items.map((r, i) => (
-                  <Reorder.Item
+                  <ResourceCard
                     key={r.id}
-                    value={r}
-                    className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border bg-secondary"
-                    onClick={() => setLightbox({ items, index: i })}
-                  >
-                    <img src={r.url || ''} alt={r.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="absolute bottom-0 left-0 right-0 p-2 text-xs font-medium text-white truncate">{r.name}</div>
-                    </div>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setLightbox({ items, index: i }); }}
-                      className="absolute right-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-black/70 transition-all"
-                      aria-label="Expand"
-                    >
-                      <Maximize2 size={12} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleDelete(r); }}
-                      className="absolute left-2 top-2 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-destructive transition-all"
-                      aria-label="Delete"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                  </Reorder.Item>
-                ))}
-              </Reorder.Group>
-            )}
-
-            {/* === VIDEO === */}
-            {activeTab === 'video' && (
-              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('video', o)} className="grid gap-3 sm:grid-cols-2">
-                {items.map(r => (
-                  <Reorder.Item key={r.id} value={r} className="cursor-grab active:cursor-grabbing">
-                    <VideoCard r={r} onFullscreen={() => setVideoFs(r)} onDelete={() => handleDelete(r)} />
-                  </Reorder.Item>
-                ))}
-              </Reorder.Group>
-            )}
-
-            {/* === CODE === */}
-            {activeTab === 'code' && (
-              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('code', o)} className="space-y-5">
-                {items.map(r => (
-                  <Reorder.Item key={r.id} value={r} className="group">
-                    <div className="mb-1 flex items-start justify-between gap-2">
-                      <div className="flex items-center gap-1.5 text-muted-foreground/40 cursor-grab active:cursor-grabbing">
-                        <GripVertical size={12} />
-                        {r.description && <p className="text-[11px] text-muted-foreground">{r.description}</p>}
-                      </div>
-                      <button onClick={() => handleDelete(r)} className="ml-auto rounded p-1 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-                    <CodeBlock code={r.code_content || ''} language={r.language || 'text'} fileName={r.name} />
-                  </Reorder.Item>
-                ))}
-              </Reorder.Group>
-            )}
-
-            {/* === LINK === */}
-            {activeTab === 'link' && (
-              <Reorder.Group axis="y" values={items} onReorder={(o) => reorderType('link', o)} className="space-y-1.5">
-                {items.map(r => (
-                  <Reorder.Item key={r.id} value={r} className="group flex items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 hover:border-primary/30 transition-colors cursor-grab active:cursor-grabbing">
-                    <GripVertical size={12} className="text-muted-foreground/40 shrink-0" />
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
-                    <span className="text-sm font-semibold text-foreground">{r.name}</span>
-                    <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">{r.url}</span>
-                    <a href={r.url || '#'} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-md p-1.5 text-muted-foreground hover:text-primary transition-colors" aria-label="Open in new tab">
-                      <ExternalLink size={13} />
-                    </a>
-                    <button onClick={() => handleDelete(r)} className="rounded-md p-1.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
-                      <Trash2 size={13} />
-                    </button>
-                  </Reorder.Item>
+                    resource={r}
+                    onDelete={() => handleDelete(r)}
+                    onFullscreenImage={r.type === 'image' ? () => setLightbox({ items: grouped.image, index: grouped.image.indexOf(r) }) : undefined}
+                  />
                 ))}
               </Reorder.Group>
             )}
@@ -261,24 +152,6 @@ export default function ResourceViewer({ lessonId }: Props) {
         onAdded={(r) => setResources(rs => [...rs, r])}
       />
 
-      {/* PDF preview modal */}
-      <Dialog open={!!pdfPreview} onOpenChange={(o) => !o && setPdfPreview(null)}>
-        <DialogContent className="h-[85vh] max-w-5xl p-0">
-          <div className="flex h-full flex-col">
-            <div className="flex items-center justify-between border-b border-border px-4 py-2">
-              <span className="text-sm font-medium text-foreground truncate">{pdfPreview?.name}</span>
-              <a href={pdfPreview?.url || '#'} download className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs hover:text-primary transition-colors">
-                <Download size={12} /> Download
-              </a>
-            </div>
-            {pdfPreview?.url && (
-              <iframe src={pdfPreview.url} className="h-full w-full flex-1 bg-secondary" title={pdfPreview.name} />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Image lightbox */}
       {lightbox && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 animate-in fade-in" onClick={() => setLightbox(null)}>
           <button onClick={() => setLightbox(null)} className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors">
@@ -310,92 +183,7 @@ export default function ResourceViewer({ lessonId }: Props) {
           </div>
         </div>
       )}
-
-      {/* Video fullscreen */}
-      <Dialog open={!!videoFs} onOpenChange={o => !o && setVideoFs(null)}>
-        <DialogContent className="h-[85vh] max-w-5xl p-0">
-          <div className="flex h-full flex-col">
-            <div className="border-b border-border px-4 py-2 text-sm font-medium text-foreground">{videoFs?.name}</div>
-            <div className="flex-1 bg-black">
-              {videoFs && <VideoPlayer url={videoFs.url || ''} fullscreen />}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
 
-// ===== Video sub-components =====
-
-function getYouTubeId(url: string): string | null {
-  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/);
-  return m ? m[1] : null;
-}
-
-function VideoPlayer({ url, fullscreen }: { url: string; fullscreen?: boolean }) {
-  const ytId = getYouTubeId(url);
-  if (ytId) {
-    return (
-      <iframe
-        className={fullscreen ? 'h-full w-full' : 'aspect-video w-full'}
-        src={`https://www.youtube.com/embed/${ytId}`}
-        title="YouTube video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    );
-  }
-  return (
-    <video
-      controls
-      className={fullscreen ? 'h-full w-full bg-black' : 'aspect-video w-full bg-black rounded-lg'}
-      src={url}
-    />
-  );
-}
-
-function VideoCard({ r, onFullscreen, onDelete }: { r: LessonResource; onFullscreen: () => void; onDelete: () => void }) {
-  const [playing, setPlaying] = useState(false);
-  const ytId = r.url ? getYouTubeId(r.url) : null;
-  const thumbnail = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null;
-
-  return (
-    <div className="group overflow-hidden rounded-xl border border-border bg-card">
-      <div className="relative aspect-video bg-black">
-        {playing ? (
-          <VideoPlayer url={r.url || ''} />
-        ) : (
-          <button onClick={() => setPlaying(true)} className="group/play absolute inset-0 flex items-center justify-center">
-            {thumbnail ? (
-              <img src={thumbnail} alt={r.name} className="h-full w-full object-cover" />
-            ) : (
-              <div className="h-full w-full bg-gradient-to-br from-secondary to-secondary/40" />
-            )}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover/play:bg-black/50 transition-colors">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg backdrop-blur-sm group-hover/play:scale-110 transition-transform">
-                <Play size={24} fill="currentColor" />
-              </div>
-            </div>
-          </button>
-        )}
-        <button
-          onClick={onFullscreen}
-          className="absolute right-2 top-2 z-10 rounded-md bg-black/50 p-1.5 text-white opacity-0 group-hover:opacity-100 hover:bg-black/70 transition-all"
-          aria-label="Fullscreen"
-        >
-          <Maximize2 size={13} />
-        </button>
-      </div>
-      <div className="flex items-center gap-2 p-3">
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-medium text-foreground">{r.name}</div>
-          {r.description && <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{r.description}</div>}
-        </div>
-        <button onClick={onDelete} className="rounded p-1 text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-destructive transition-all">
-          <Trash2 size={13} />
-        </button>
-      </div>
-    </div>
-  );
-}
