@@ -155,44 +155,81 @@ export default function TagsPage() {
             })}
           </div>
 
-          {/* Selected Tag Details - Show ALL items */}
-          {selectedTagInfo && (
-            <div className="animate-fade-in">
-              <h2 className="mb-3 text-lg font-semibold text-foreground">
-                Items tagged "{selectedTagInfo.tag}" <span className="text-muted-foreground">({selectedTagInfo.count})</span>
-              </h2>
-
-              {/* Group items by topic */}
-              {selectedTagInfo.topics.map(topic => {
-                const topicItems = selectedTagInfo.items.filter(item => item.topicId === topic.id);
-                return (
-                  <div key={topic.id} className="mb-4">
-                    <div className="mb-2 flex items-center gap-2">
-                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: topic.color }} />
-                      <Link to={`/topic?topic=${topic.id}`} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                        {topic.name}
-                      </Link>
-                      <span className="text-xs text-muted-foreground">({topicItems.length})</span>
-                    </div>
-                    <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden">
-                      {topicItems.map((item, i) => (
-                        <Link
-                          key={`${item.id}-${i}`}
-                          to={`/topic?topic=${item.topicId}`}
-                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-secondary/50"
-                        >
-                          <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
-                          <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{item.type}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </>
       )}
+
+      {/* Slide-over panel */}
+      <div
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${selectedTagInfo ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setSelectedTag('')}
+        aria-hidden={!selectedTagInfo}
+      >
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+        <aside
+          onClick={e => e.stopPropagation()}
+          className={`absolute right-0 top-0 h-full w-full sm:w-[420px] bg-[#1a1b2e] border-l border-white/[0.08] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${selectedTagInfo ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          {selectedTagInfo && (
+            <>
+              <div className="flex items-start justify-between gap-3 p-6 border-b border-white/[0.06]">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className="h-3 w-3 rounded-full shrink-0"
+                      style={{ backgroundColor: `hsl(${tagHue(selectedTagInfo.tag)}, 60%, 55%)` }}
+                    />
+                    <h2 className="truncate text-xl font-bold text-foreground">{selectedTagInfo.tag}</h2>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {selectedTagInfo.count} item{selectedTagInfo.count !== 1 ? 's' : ''} · {selectedTagInfo.topics.length} topic{selectedTagInfo.topics.length !== 1 ? 's' : ''}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSelectedTag('')}
+                  className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors"
+                  aria-label="Close"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {selectedTagInfo.topics.map(topic => {
+                  const topicItems = selectedTagInfo.items.filter(item => item.topicId === topic.id);
+                  return (
+                    <div key={topic.id}>
+                      <div className="mb-2 flex items-center gap-2 px-1">
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: topic.color }} />
+                        <Link
+                          to={`/topic?topic=${topic.id}`}
+                          onClick={() => setSelectedTag('')}
+                          className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                        >
+                          {topic.name}
+                        </Link>
+                        <span className="text-xs text-muted-foreground">({topicItems.length})</span>
+                      </div>
+                      <div className="divide-y divide-white/[0.04] rounded-xl border border-white/[0.06] bg-[#1a1b2e] overflow-hidden">
+                        {topicItems.map((item, i) => (
+                          <Link
+                            key={`${item.id}-${i}`}
+                            to={`/topic?topic=${item.topicId}`}
+                            onClick={() => setSelectedTag('')}
+                            className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/[0.03]"
+                          >
+                            <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
+                            <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{item.type}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </aside>
+      </div>
     </div>
   );
 }
