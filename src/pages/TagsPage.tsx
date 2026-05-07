@@ -24,6 +24,14 @@ export default function TagsPage() {
     loadTags();
   }, []);
 
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setSelectedTag('');
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   async function loadTags() {
     setLoading(true);
     try {
