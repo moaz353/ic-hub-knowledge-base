@@ -33,7 +33,7 @@
     --destructive: 3 92% 63%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 100%;               /* used with /6 opacity via rgba below */
+    --border: 232 20% 20%;             /* subtle on dark navy */
     --input: 232 20% 20%;
     --ring: 212 92% 58%;
 
