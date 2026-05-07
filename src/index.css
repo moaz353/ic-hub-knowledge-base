@@ -8,14 +8,14 @@
 
 @layer base {
   :root {
-    /* GitHub Dark Default (default) */
-    --background: 215 28% 7%;          /* #0d1117 */
+    /* Unified dark theme — matches sidebar */
+    --background: 230 22% 8%;          /* #0f1117 */
     --foreground: 213 14% 83%;         /* #c9d1d9 */
 
-    --card: 215 21% 11%;               /* #161b22 */
+    --card: 232 28% 14%;               /* #1a1b2e */
     --card-foreground: 213 14% 83%;
 
-    --popover: 215 21% 11%;
+    --popover: 232 28% 14%;
     --popover-foreground: 213 14% 83%;
 
     --primary: 212 92% 58%;            /* #2f81f7 */
