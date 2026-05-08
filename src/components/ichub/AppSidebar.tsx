@@ -1,4 +1,4 @@
-import { Home, BarChart3, Tags, Clock, GraduationCap, StickyNote, ListTodo, PanelLeftClose, PanelLeft } from 'lucide-react';
+import { Home, BarChart3, Tags, Clock, GraduationCap, StickyNote, ListTodo, PanelLeftClose, PanelLeft, LogOut, User as UserIcon } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from './AuthProvider';
@@ -29,7 +29,7 @@ const navItems = [
 export default function AppSidebar() {
   const { state, toggleSidebar } = useSidebar();
   const collapsed = state === 'collapsed';
-  const { hasToken, logout } = useAuth();
+  const { username, logout } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
@@ -137,20 +137,20 @@ export default function AppSidebar() {
 
       <SidebarFooter className="border-t border-sidebar-border p-3 space-y-2">
         <ThemeToggle collapsed={collapsed} />
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => hasToken && logout()}
-            className={`flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors w-full justify-center ${
-              hasToken
-                ? 'border-sidebar-primary/30 bg-sidebar-primary/10 text-sidebar-primary'
-                : 'border-sidebar-border bg-sidebar-accent text-sidebar-foreground/60'
-            }`}
-            title={hasToken ? 'Click to clear token' : 'Browse mode'}
-          >
-            <span>{hasToken ? '⚿' : '⊘'}</span>
-            {!collapsed && <span>{hasToken ? 'Edit' : 'Browse'}</span>}
-          </button>
-        </div>
+        {!collapsed && username && (
+          <div className="flex items-center gap-2 rounded-md bg-sidebar-accent/40 px-2.5 py-1.5 text-xs text-sidebar-foreground/80">
+            <UserIcon size={14} className="shrink-0" />
+            <span className="truncate">{username}</span>
+          </div>
+        )}
+        <button
+          onClick={logout}
+          className="flex items-center gap-1.5 rounded-md border border-sidebar-border bg-sidebar-accent/30 px-2.5 py-1.5 text-xs font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground w-full justify-center"
+          title="Sign out"
+        >
+          <LogOut size={14} />
+          {!collapsed && <span>Sign out</span>}
+        </button>
       </SidebarFooter>
     </Sidebar>
   );
