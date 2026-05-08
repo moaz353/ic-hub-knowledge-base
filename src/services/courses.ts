@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface Course {
   id: string;
@@ -77,9 +78,10 @@ export async function fetchCourse(id: string): Promise<Course | null> {
 }
 
 export async function createCourse(course: Partial<Course>): Promise<Course> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('courses')
-    .insert(course as any)
+    .insert({ ...course, user_id } as any)
     .select()
     .single();
   if (error) throw error;
@@ -116,9 +118,10 @@ export async function addLesson(
   sectionId: string | null = null,
   kind: 'lesson' | 'lab' = 'lesson',
 ): Promise<CourseLesson> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('course_lessons')
-    .insert({ course_id: courseId, title, sort_order: sortOrder, section_id: sectionId, kind } as any)
+    .insert({ course_id: courseId, title, sort_order: sortOrder, section_id: sectionId, kind, user_id } as any)
     .select()
     .single();
   if (error) throw error;
@@ -149,9 +152,10 @@ export async function fetchSessions(courseId: string): Promise<CourseSession[]> 
 }
 
 export async function logSession(courseId: string, durationMinutes: number): Promise<void> {
+  const user_id = await currentUserId();
   const { error } = await supabase
     .from('course_sessions')
-    .insert({ course_id: courseId, duration_minutes: durationMinutes } as any);
+    .insert({ course_id: courseId, duration_minutes: durationMinutes, user_id } as any);
   if (error) throw error;
 }
 
@@ -177,9 +181,10 @@ export async function fetchSections(courseId: string): Promise<CourseSection[]> 
 }
 
 export async function addSection(courseId: string, name: string, sortOrder: number): Promise<CourseSection> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('course_sections' as any)
-    .insert({ course_id: courseId, name, sort_order: sortOrder } as any)
+    .insert({ course_id: courseId, name, sort_order: sortOrder, user_id } as any)
     .select()
     .single();
   if (error) throw error;
@@ -205,9 +210,10 @@ export async function fetchCourseLinks(courseId: string): Promise<CourseLink[]> 
 }
 
 export async function addCourseLink(courseId: string, name: string, url: string, sortOrder: number): Promise<CourseLink> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('course_links' as any)
-    .insert({ course_id: courseId, name, url, sort_order: sortOrder } as any)
+    .insert({ course_id: courseId, name, url, sort_order: sortOrder, user_id } as any)
     .select()
     .single();
   if (error) throw error;
