@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface Note {
   id: string;
@@ -19,9 +20,10 @@ export async function fetchNotes(): Promise<Note[]> {
 }
 
 export async function createNote(note: Partial<Note>): Promise<Note> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('notes' as any)
-    .insert(note as any)
+    .insert({ ...note, user_id } as any)
     .select()
     .single();
   if (error) throw error;

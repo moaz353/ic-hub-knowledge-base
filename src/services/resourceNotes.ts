@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface ResourceNote {
   id: string;
@@ -23,9 +24,10 @@ export async function fetchResourceNotes(resourceId: string): Promise<ResourceNo
 }
 
 export async function addResourceNote(resourceId: string, sort_order: number): Promise<ResourceNote> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('resource_notes' as any)
-    .insert({ resource_id: resourceId, title: 'New note', body: '', rating: 0, sort_order } as any)
+    .insert({ resource_id: resourceId, title: 'New note', body: '', rating: 0, sort_order, user_id } as any)
     .select()
     .single();
   if (error) throw error;

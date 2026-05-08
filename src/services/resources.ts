@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export type ResourceType = 'pdf' | 'image' | 'video' | 'code' | 'link';
 export type CodeLanguage = 'verilog' | 'systemverilog' | 'tcl' | 'python';
@@ -35,9 +36,10 @@ export async function addResource(
   lessonId: string,
   payload: Partial<LessonResource> & { type: ResourceType; name: string },
 ): Promise<LessonResource> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('lesson_resources' as any)
-    .insert({ lesson_id: lessonId, ...payload } as any)
+    .insert({ lesson_id: lessonId, ...payload, user_id } as any)
     .select()
     .single();
   if (error) throw error;

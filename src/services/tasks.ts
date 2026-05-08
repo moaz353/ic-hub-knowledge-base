@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
 export type TaskCadence = 'once' | 'daily' | 'weekly';
@@ -26,9 +27,10 @@ export async function fetchTasks(): Promise<Task[]> {
 }
 
 export async function createTask(task: Partial<Task>): Promise<Task> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('tasks' as any)
-    .insert(task as any)
+    .insert({ ...task, user_id } as any)
     .select()
     .single();
   if (error) throw error;
