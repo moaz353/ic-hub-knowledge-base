@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface RichNote {
   id: string;
@@ -25,8 +26,9 @@ export async function saveNote(itemId: string, content: string): Promise<void> {
       .update({ content })
       .eq('item_id', itemId);
   } else {
+    const user_id = await currentUserId();
     await supabase
       .from('rich_notes')
-      .insert({ item_id: itemId, content, format: 'markdown' });
+      .insert({ user_id, item_id: itemId, content, format: 'markdown' });
   }
 }

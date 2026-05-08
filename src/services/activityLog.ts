@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { tryCurrentUserId } from './currentUser';
 
 export type ActionType = 'review' | 'add_item' | 'edit_item' | 'open_item' | 'note_saved';
 
@@ -7,7 +8,10 @@ export async function logActivity(
   itemId?: string,
   topicId?: string
 ): Promise<void> {
+  const user_id = await tryCurrentUserId();
+  if (!user_id) return;
   await supabase.from('activity_log').insert({
+    user_id,
     action_type: actionType,
     item_id: itemId || null,
     topic_id: topicId || null,

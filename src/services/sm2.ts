@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface ReviewCard {
   id: string;
@@ -62,7 +63,9 @@ export async function getOrCreateCard(itemId: string, topicId: string): Promise<
 
   if (data) return data as ReviewCard;
 
+  const user_id = await currentUserId();
   const newCard = {
+    user_id,
     item_id: itemId,
     topic_id: topicId,
     ease_factor: 2.5,
