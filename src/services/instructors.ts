@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { currentUserId } from './currentUser';
 
 export interface Instructor {
   id: string;
@@ -40,9 +41,10 @@ export async function fetchInstructors(): Promise<Instructor[]> {
 }
 
 export async function createInstructor(payload: Partial<Instructor>): Promise<Instructor> {
+  const user_id = await currentUserId();
   const { data, error } = await supabase
     .from('instructors' as any)
-    .insert(payload as any)
+    .insert({ ...payload, user_id } as any)
     .select()
     .single();
   if (error) throw error;

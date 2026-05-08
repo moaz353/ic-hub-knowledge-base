@@ -117,7 +117,10 @@ export default function CourseDetailPage() {
       if (data) {
         await supabase.from('rich_notes').update({ content: notes } as any).eq('id', data.id);
       } else if (notes.trim()) {
-        await supabase.from('rich_notes').insert({ item_id: `course-${id}`, content: notes } as any);
+        const { data: u } = await supabase.auth.getUser();
+        if (u.user) {
+          await supabase.from('rich_notes').insert({ item_id: `course-${id}`, content: notes, user_id: u.user.id } as any);
+        }
       }
       setNotesSaved(true);
     }, 1500);
