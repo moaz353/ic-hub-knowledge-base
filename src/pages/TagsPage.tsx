@@ -1,14 +1,22 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { readAllTopics } from '@/services/github';
-import { Search, ArrowUpAZ, TrendingUp, Hash, X } from 'lucide-react';
+import { Search, ArrowUpAZ, TrendingUp, Hash, X, ArrowLeft } from 'lucide-react';
+import type { ICItem } from '@/types/ichub';
+import ItemCard from '@/components/ichub/ItemCard';
 
+interface TagItem {
+  item: ICItem;
+  topicId: string;
+  topicName: string;
+  topicColor: string;
+}
 
 interface TagInfo {
   tag: string;
   count: number;
   topics: { id: string; name: string; color: string }[];
-  items: { id: string; title: string; topicId: string; topicColor: string; type: string }[];
+  items: TagItem[];
 }
 
 type SortMode = 'count' | 'az';
@@ -17,20 +25,22 @@ export default function TagsPage() {
   const [tags, setTags] = useState<TagInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState('');
+  const [selectedItem, setSelectedItem] = useState<TagItem | null>(null);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortMode>('count');
 
-  useEffect(() => {
-    loadTags();
-  }, []);
+  useEffect(() => { loadTags(); }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setSelectedTag('');
+      if (e.key === 'Escape') {
+        if (selectedItem) setSelectedItem(null);
+        else setSelectedTag('');
+      }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [selectedItem]);
 
   async function loadTags() {
     setLoading(true);
@@ -49,7 +59,7 @@ export default function TagsPage() {
             if (!info.topics.some(tp => tp.id === t.id)) {
               info.topics.push({ id: t.id, name: t.name, color: t.color });
             }
-            info.items.push({ id: item.id, title: item.title, topicId: t.id, topicColor: t.color, type: item.type });
+            info.items.push({ item, topicId: t.id, topicName: t.name, topicColor: t.color });
           });
         });
       });
@@ -76,6 +86,11 @@ export default function TagsPage() {
     let hash = 0;
     for (let i = 0; i < tag.length; i++) hash = tag.charCodeAt(i) + ((hash << 5) - hash);
     return Math.abs(hash) % 360;
+  }
+
+  function closePanel() {
+    setSelectedTag('');
+    setSelectedItem(null);
   }
 
   if (loading) {
@@ -124,76 +139,87 @@ export default function TagsPage() {
           <p className="text-sm text-muted-foreground">No tags found. Add items with tags to see them here.</p>
         </div>
       ) : (
-        <>
-          {/* Tag Pills Grid */}
-          <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {filteredTags.map(t => {
-              const hue = tagHue(t.tag);
-              const isActive = selectedTag.toLowerCase() === t.tag.toLowerCase();
-              const intensity = Math.min(1, t.count / maxCount);
-              return (
-                <button
-                  key={t.tag}
-                  onClick={() => setSelectedTag(isActive ? '' : t.tag)}
-                  className={`group relative overflow-hidden rounded-xl border p-4 text-left transition-all duration-200 ${
-                    isActive
-                      ? 'border-primary bg-primary/10 shadow-lg shadow-primary/10'
-                      : 'border-border bg-card hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5'
-                  }`}
-                >
-                  <div
-                    className="absolute inset-0 opacity-[0.06] transition-opacity group-hover:opacity-[0.1]"
-                    style={{ background: `linear-gradient(135deg, hsl(${hue}, 70%, 60%), transparent)` }}
-                  />
-                  <div className="relative">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span
-                        className="h-2 w-2 rounded-full"
-                        style={{ backgroundColor: `hsl(${hue}, 60%, 55%)`, opacity: 0.4 + intensity * 0.6 }}
-                      />
-                      <span className={`font-medium text-sm truncate ${isActive ? 'text-primary' : 'text-foreground'}`}>{t.tag}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground">{t.count} item{t.count !== 1 ? 's' : ''}</span>
-                      <span className="text-xs text-muted-foreground">{t.topics.length} topic{t.topics.length !== 1 ? 's' : ''}</span>
-                    </div>
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {filteredTags.map(t => {
+            const hue = tagHue(t.tag);
+            const isActive = selectedTag.toLowerCase() === t.tag.toLowerCase();
+            const intensity = Math.min(1, t.count / maxCount);
+            return (
+              <button
+                key={t.tag}
+                onClick={() => { setSelectedItem(null); setSelectedTag(isActive ? '' : t.tag); }}
+                className={`group relative overflow-hidden rounded-xl border p-4 text-left transition-all duration-200 ${
+                  isActive
+                    ? 'border-primary bg-primary/10 shadow-lg shadow-primary/10'
+                    : 'border-border bg-card hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5'
+                }`}
+              >
+                <div
+                  className="absolute inset-0 opacity-[0.06] transition-opacity group-hover:opacity-[0.1]"
+                  style={{ background: `linear-gradient(135deg, hsl(${hue}, 70%, 60%), transparent)` }}
+                />
+                <div className="relative">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: `hsl(${hue}, 60%, 55%)`, opacity: 0.4 + intensity * 0.6 }}
+                    />
+                    <span className={`font-medium text-sm truncate ${isActive ? 'text-primary' : 'text-foreground'}`}>{t.tag}</span>
                   </div>
-                </button>
-              );
-            })}
-          </div>
-
-        </>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">{t.count} item{t.count !== 1 ? 's' : ''}</span>
+                    <span className="text-xs text-muted-foreground">{t.topics.length} topic{t.topics.length !== 1 ? 's' : ''}</span>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       )}
 
       {/* Slide-over panel */}
       <div
         className={`fixed inset-0 z-50 transition-opacity duration-300 ${selectedTagInfo ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setSelectedTag('')}
+        onClick={closePanel}
         aria-hidden={!selectedTagInfo}
       >
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
         <aside
           onClick={e => e.stopPropagation()}
-          className={`absolute right-0 top-0 h-full w-full sm:w-[420px] bg-[#1a1b2e] border-l border-white/[0.08] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${selectedTagInfo ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute right-0 top-0 h-full w-full sm:w-[460px] bg-[#1a1b2e] border-l border-white/[0.08] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${selectedTagInfo ? 'translate-x-0' : 'translate-x-full'}`}
         >
           {selectedTagInfo && (
             <>
               <div className="flex items-start justify-between gap-3 p-6 border-b border-white/[0.06]">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className="h-3 w-3 rounded-full shrink-0"
-                      style={{ backgroundColor: `hsl(${tagHue(selectedTagInfo.tag)}, 60%, 55%)` }}
-                    />
-                    <h2 className="truncate text-xl font-bold text-foreground">{selectedTagInfo.tag}</h2>
+                <div className="min-w-0 flex items-center gap-2">
+                  {selectedItem && (
+                    <button
+                      onClick={() => setSelectedItem(null)}
+                      className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors"
+                      aria-label="Back"
+                    >
+                      <ArrowLeft size={18} />
+                    </button>
+                  )}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className="h-3 w-3 rounded-full shrink-0"
+                        style={{ backgroundColor: `hsl(${tagHue(selectedTagInfo.tag)}, 60%, 55%)` }}
+                      />
+                      <h2 className="truncate text-xl font-bold text-foreground">
+                        {selectedItem ? selectedItem.item.title : selectedTagInfo.tag}
+                      </h2>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {selectedItem
+                        ? `in ${selectedItem.topicName}`
+                        : `${selectedTagInfo.count} item${selectedTagInfo.count !== 1 ? 's' : ''} · ${selectedTagInfo.topics.length} topic${selectedTagInfo.topics.length !== 1 ? 's' : ''}`}
+                    </p>
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {selectedTagInfo.count} item{selectedTagInfo.count !== 1 ? 's' : ''} · {selectedTagInfo.topics.length} topic{selectedTagInfo.topics.length !== 1 ? 's' : ''}
-                  </p>
                 </div>
                 <button
-                  onClick={() => setSelectedTag('')}
+                  onClick={closePanel}
                   className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors"
                   aria-label="Close"
                 >
@@ -201,38 +227,59 @@ export default function TagsPage() {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {selectedTagInfo.topics.map(topic => {
-                  const topicItems = selectedTagInfo.items.filter(item => item.topicId === topic.id);
-                  return (
-                    <div key={topic.id}>
-                      <div className="mb-2 flex items-center gap-2 px-1">
-                        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: topic.color }} />
-                        <Link
-                          to={`/topic?topic=${topic.id}`}
-                          onClick={() => setSelectedTag('')}
-                          className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                        >
-                          {topic.name}
-                        </Link>
-                        <span className="text-xs text-muted-foreground">({topicItems.length})</span>
+              {/* Sliding container: list <-> detail */}
+              <div className="flex-1 overflow-hidden relative">
+                {/* Items list */}
+                <div
+                  className={`absolute inset-0 overflow-y-auto p-4 space-y-4 transition-all duration-300 ease-out ${selectedItem ? '-translate-x-4 opacity-0 pointer-events-none' : 'translate-x-0 opacity-100'}`}
+                >
+                  {selectedTagInfo.topics.map(topic => {
+                    const topicItems = selectedTagInfo.items.filter(ti => ti.topicId === topic.id);
+                    return (
+                      <div key={topic.id}>
+                        <div className="mb-2 flex items-center gap-2 px-1">
+                          <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: topic.color }} />
+                          <span className="text-sm font-medium text-foreground">{topic.name}</span>
+                          <span className="text-xs text-muted-foreground">({topicItems.length})</span>
+                        </div>
+                        <div className="divide-y divide-white/[0.04] rounded-xl border border-white/[0.06] bg-[#1a1b2e] overflow-hidden">
+                          {topicItems.map((ti, i) => (
+                            <button
+                              key={`${ti.item.id}-${i}`}
+                              onClick={() => setSelectedItem(ti)}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                            >
+                              <span className="flex-1 truncate text-sm text-foreground">{ti.item.title}</span>
+                              <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{ti.item.type}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                      <div className="divide-y divide-white/[0.04] rounded-xl border border-white/[0.06] bg-[#1a1b2e] overflow-hidden">
-                        {topicItems.map((item, i) => (
-                          <Link
-                            key={`${item.id}-${i}`}
-                            to={`/topic?topic=${item.topicId}`}
-                            onClick={() => setSelectedTag('')}
-                            className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/[0.03]"
-                          >
-                            <span className="flex-1 truncate text-sm text-foreground">{item.title}</span>
-                            <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground capitalize">{item.type}</span>
-                          </Link>
-                        ))}
-                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Item detail */}
+                <div
+                  className={`absolute inset-0 overflow-y-auto p-4 transition-all duration-300 ease-out ${selectedItem ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0 pointer-events-none'}`}
+                >
+                  {selectedItem && (
+                    <div className="space-y-3 animate-fade-in">
+                      <ItemCard
+                        item={selectedItem.item}
+                        topicColor={selectedItem.topicColor}
+                        topicId={selectedItem.topicId}
+                      />
+                      <Link
+                        to={`/topic?topic=${selectedItem.topicId}`}
+                        onClick={closePanel}
+                        className="block w-full rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors"
+                      >
+                        Go to {selectedItem.topicName} topic page →
+                      </Link>
                     </div>
-                  );
-                })}
+                  )}
+                </div>
               </div>
             </>
           )}
