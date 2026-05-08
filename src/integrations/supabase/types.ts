@@ -22,6 +22,7 @@ export type Database = {
           id: string
           item_id: string | null
           topic_id: string | null
+          user_id: string
         }
         Insert: {
           action_type: string
@@ -30,6 +31,7 @@ export type Database = {
           id?: string
           item_id?: string | null
           topic_id?: string | null
+          user_id: string
         }
         Update: {
           action_type?: string
@@ -38,6 +40,7 @@ export type Database = {
           id?: string
           item_id?: string | null
           topic_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -54,6 +57,7 @@ export type Database = {
           sort_order: number
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           bookmarked?: boolean
@@ -67,6 +71,7 @@ export type Database = {
           sort_order?: number
           title: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           bookmarked?: boolean
@@ -80,6 +85,7 @@ export type Database = {
           sort_order?: number
           title?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: [
           {
@@ -99,6 +105,7 @@ export type Database = {
           name: string
           sort_order: number
           url: string
+          user_id: string
         }
         Insert: {
           course_id: string
@@ -107,6 +114,7 @@ export type Database = {
           name: string
           sort_order?: number
           url: string
+          user_id: string
         }
         Update: {
           course_id?: string
@@ -115,6 +123,7 @@ export type Database = {
           name?: string
           sort_order?: number
           url?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -126,6 +135,7 @@ export type Database = {
           name: string
           sort_order: number
           updated_at: string
+          user_id: string
         }
         Insert: {
           course_id: string
@@ -134,6 +144,7 @@ export type Database = {
           name: string
           sort_order?: number
           updated_at?: string
+          user_id: string
         }
         Update: {
           course_id?: string
@@ -142,6 +153,7 @@ export type Database = {
           name?: string
           sort_order?: number
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -152,6 +164,7 @@ export type Database = {
           duration_minutes: number
           id: string
           session_date: string
+          user_id: string
         }
         Insert: {
           course_id: string
@@ -159,6 +172,7 @@ export type Database = {
           duration_minutes?: number
           id?: string
           session_date?: string
+          user_id: string
         }
         Update: {
           course_id?: string
@@ -166,6 +180,7 @@ export type Database = {
           duration_minutes?: number
           id?: string
           session_date?: string
+          user_id?: string
         }
         Relationships: [
           {
@@ -193,6 +208,7 @@ export type Database = {
           status: string
           thumbnail: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           created_at?: string
@@ -209,6 +225,7 @@ export type Database = {
           status?: string
           thumbnail?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           created_at?: string
@@ -225,6 +242,7 @@ export type Database = {
           status?: string
           thumbnail?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -236,6 +254,7 @@ export type Database = {
           name: string
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           color?: string
@@ -244,6 +263,7 @@ export type Database = {
           name: string
           title?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           color?: string
@@ -252,8 +272,77 @@ export type Database = {
           name?: string
           title?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
+      }
+      items: {
+        Row: {
+          annotation: string
+          created_at: string
+          date: string | null
+          description: string
+          favorite: boolean
+          file: string
+          id: string
+          pinned: boolean
+          rating: number
+          source: string
+          tags: string[]
+          thumbnail: string
+          title: string
+          topic_id: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          annotation?: string
+          created_at?: string
+          date?: string | null
+          description?: string
+          favorite?: boolean
+          file?: string
+          id: string
+          pinned?: boolean
+          rating?: number
+          source?: string
+          tags?: string[]
+          thumbnail?: string
+          title: string
+          topic_id: string
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          annotation?: string
+          created_at?: string
+          date?: string | null
+          description?: string
+          favorite?: boolean
+          file?: string
+          id?: string
+          pinned?: boolean
+          rating?: number
+          source?: string
+          tags?: string[]
+          thumbnail?: string
+          title?: string
+          topic_id?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "items_user_id_topic_id_fkey"
+            columns: ["user_id", "topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["user_id", "id"]
+          },
+        ]
       }
       lesson_resources: {
         Row: {
@@ -271,6 +360,7 @@ export type Database = {
           type: string
           updated_at: string
           url: string | null
+          user_id: string
         }
         Insert: {
           code_content?: string | null
@@ -287,6 +377,7 @@ export type Database = {
           type: string
           updated_at?: string
           url?: string | null
+          user_id: string
         }
         Update: {
           code_content?: string | null
@@ -303,6 +394,7 @@ export type Database = {
           type?: string
           updated_at?: string
           url?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -314,6 +406,7 @@ export type Database = {
           id: string
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           color?: string
@@ -322,6 +415,7 @@ export type Database = {
           id?: string
           title?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           color?: string
@@ -330,6 +424,28 @@ export type Database = {
           id?: string
           title?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string
         }
         Relationships: []
       }
@@ -343,6 +459,7 @@ export type Database = {
           sort_order: number
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           body?: string
@@ -353,6 +470,7 @@ export type Database = {
           sort_order?: number
           title?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           body?: string
@@ -363,6 +481,7 @@ export type Database = {
           sort_order?: number
           title?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -379,6 +498,7 @@ export type Database = {
           repetitions: number
           topic_id: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           created_at?: string
@@ -392,6 +512,7 @@ export type Database = {
           repetitions?: number
           topic_id: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           created_at?: string
@@ -405,6 +526,7 @@ export type Database = {
           repetitions?: number
           topic_id?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -416,6 +538,7 @@ export type Database = {
           id: string
           item_id: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           content?: string
@@ -424,6 +547,7 @@ export type Database = {
           id?: string
           item_id: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           content?: string
@@ -432,6 +556,7 @@ export type Database = {
           id?: string
           item_id?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -447,6 +572,7 @@ export type Database = {
           progress: number
           status: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           cadence?: string
@@ -459,6 +585,7 @@ export type Database = {
           progress?: number
           status?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           cadence?: string
@@ -471,6 +598,67 @@ export type Database = {
           progress?: number
           status?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      topics: {
+        Row: {
+          color: string
+          created_at: string
+          description: string
+          full_name: string
+          icon: string
+          id: string
+          name: string
+          sort_order: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          description?: string
+          full_name?: string
+          icon?: string
+          id: string
+          name: string
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string
+          full_name?: string
+          icon?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -479,10 +667,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -609,6 +803,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
